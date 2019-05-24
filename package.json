@@ -1,0 +1,26 @@
+{
+  "name": "csc400",
+  "version": "1.0.0",
+  "description": "capstone project csc400",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anricoj1/CSC400.git"
+  },
+  "keywords": [
+    "csc"
+  ],
+  "author": "Jason Anrico",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anricoj1/CSC400/issues"
+  },
+  "homepage": "https://github.com/anricoj1/CSC400#readme",
+  "dependencies": {
+    "jsdom": "^15.1.0",
+    "request-promise": "^4.2.4"
+  }
+}
