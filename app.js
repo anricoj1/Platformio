@@ -29,6 +29,12 @@ app.listen(8080, hostname, function() {
 
 
 
-app.get('/', function (req, res) {
-  res.send('Jasons CSC App');
+app.get('/', (req, res) => {
+  let purl = url.parse(req.url, true);
+  let pathname = 'pages' + purl.pathname;
+
+  if ((pathname)[pathname.length - 1] === '/') {
+    pathname += 'index';
+  }
+  res.render(pathname, purl.query);
 });

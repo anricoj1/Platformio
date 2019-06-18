@@ -15,7 +15,11 @@
       - Github API v3
 
 
-
+# Recent Changes
+  - Created Base css files
+  - Fonts
+  - static files
+  - logging in (next)
 # Necessary Items
   - Github repos are stored in a DB
   - CREATE DATABASE Project
