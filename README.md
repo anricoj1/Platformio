@@ -1,6 +1,6 @@
-#<h1> CSC400 Project </h1>
+<h1> CSC400 Project </h1>
 
-#Dependencies
+# Dependencies
   - install npm
   - npm install express
   - npm install request-promise
@@ -9,7 +9,7 @@
 
 
 
-#We are making a social app using Nodejs
+# We are making a social app using Nodejs
   - This will use:
       - Google/Youtube API Authentication For sign In
       - Github API v3
