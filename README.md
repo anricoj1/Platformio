@@ -1,4 +1,4 @@
-<h1> CSC400 Project </h1>
+# CSC400 Project
 
 # Dependencies
   - install npm
@@ -14,12 +14,25 @@
       - Google/Youtube API Authentication For sign In
       - Github API v3
 
+# New Idea
+  - Platform
+    - Check your social media status/stats
+    - This can include:
+      - Facebook API
+      - Twitter API
+      - Instagram API
+      - Google / Youtube API
+      - Github API
+      - Twitch API
+    - Track Your Linked Accounts!
+
 
 # Recent Changes
   - Created Base css files
   - Fonts
   - static files
   - logging in (next)
+
 # Necessary Items
   - Github repos are stored in a DB
   - CREATE DATABASE Project
