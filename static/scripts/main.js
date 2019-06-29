@@ -34,7 +34,7 @@ function textShift() {
 }
 
 $(document).ready(function() {
-    let channel = 'UCDrekHmOnkptxq3gUU0IyfA';
+    let channel = 'UCQeDkRGZZLIcCuNFph6aHqA';
     let key = 'AIzaSyBroKwS1hxt8GHatnfHMaDsTxTHH611gzU';
     let totalSubs = 0, totalViews = 0;
     loadChannel(channel, key);
