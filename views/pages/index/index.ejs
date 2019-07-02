@@ -1,11 +1,12 @@
+<% var rootPath = '../../'; %>
 <!DOCTYPE html>
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="css/page.css"/>
-    <% include ../partials/includes %>
+    <%- include(rootPath + 'partials/includes') %>
   </head>
   <body>
-    <% include ../partials/nav %>
+    <%- include(rootPath + 'partials/nav') %>
     <div class="homeImg">
         <div class="homeDiv center">
             <h1 class="titleMain" style="color:#000000">Jason Anrico</h1>
@@ -110,7 +111,7 @@
         </div>
     </div>
 
-    <% include ../partials/footer %>
+    <%- include(rootPath + 'partials/footer') %>
     <script src="includes/jquery.min.js"></script>
     <!-- Odometr includes -->
     <link rel="stylesheet" href="includes/odometer-theme-default.css"/>

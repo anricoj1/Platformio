@@ -7,7 +7,9 @@
   - npm install ejs
   - npm install jsdom
 
-
+# To Do
+  - Index Page (Think Twitter / Facebook)
+  
 
 # We are making a social app using Nodejs
   - This will use:
@@ -26,12 +28,6 @@
       - Twitch API
     - Track Your Linked Accounts!
 
-
-# Recent Changes
-  - Created Base css files
-  - Fonts
-  - static files
-  - logging in (next)
 
 # Necessary Items
   - Github repos are stored in a DB

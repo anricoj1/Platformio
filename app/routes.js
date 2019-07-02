@@ -1,11 +1,11 @@
 var User = require('./models/user');
 module.exports = function(app, passport){
 	app.get('/', function(req, res){
-		res.render('/home/jasonanrico/Desktop/CSC400/views/pages/index.ejs');
+		res.render('../views/pages/index/index.ejs');
 	});
 
 	app.get('/login', function(req, res){
-		res.render('/home/jasonanrico/Desktop/CSC400/views/pages/login.ejs', { message: req.flash('loginMessage') });
+		res.render('../views/pages/user/login/login.ejs', { message: req.flash('loginMessage') });
 	});
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/profile',
@@ -14,7 +14,7 @@ module.exports = function(app, passport){
 	}));
 
 	app.get('/signup', function(req, res){
-		res.render('/home/jasonanrico/Desktop/CSC400/views/pages/signup.ejs', { message: req.flash('signupMessage') });
+		res.render('../views/pages/login/signup.ejs', { message: req.flash('signupMessage') });
 	});
 
 
