@@ -23,6 +23,38 @@ body .scrollN, body .scrollN:hover {
     background-color: rgba(220,220,220,0.15);
 }
 
+.navbar-nav .login-container {
+  float: right;
+}
+
+.navbar-nav input[type=text] {
+  padding: 1px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+  width: 200px;
+}
+
+.navbar-nav .login-container button {
+  float: right;
+  padding: 6px 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background-color: blue;
+  color: white;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-nav .login-container
+button:hover {
+  background-color: blue;
+}
+
 /* Medium devices and smaller (tablets, 991px and lower width)
     For the navbar toggle mode */
     @media (max-width: 991px) {

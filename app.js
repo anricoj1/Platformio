@@ -39,9 +39,7 @@ app.get('/', (req, res) => {
   res.render(pathname, purl.query);
 });
 
-app.get('/auth/google', passport.authenticate('google', {scope: ['email']}));
 
-
-app.get('/auth/google/callback',
-  passport.authenticate('google', {successRedirect: '/',
-                                    failureRedirect: '/'}));
+app.get('/index', (req, res) => {
+  res.render('../views/pages/index.ejs')
+})

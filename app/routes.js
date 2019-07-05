@@ -1,7 +1,7 @@
 var User = require('./models/user');
 module.exports = function(app, passport){
 	app.get('/', function(req, res){
-		res.render('../views/pages/index/index.ejs');
+		res.render('../views/pages/index.ejs');
 	});
 
 	app.get('/login', function(req, res){
@@ -14,7 +14,7 @@ module.exports = function(app, passport){
 	}));
 
 	app.get('/signup', function(req, res){
-		res.render('../views/pages/login/signup.ejs', { message: req.flash('signupMessage') });
+		res.render('../views/pages/user/login/signup.ejs', { message: req.flash('signupMessage') });
 	});
 
 
@@ -24,9 +24,18 @@ module.exports = function(app, passport){
 		failureFlash: true
 	}));
 
-	app.get('/profile', isLoggedIn, function(req, res){
+	app.get('/profile', function(req, res){
+		res.render('../views/pages/index/index.ejs')
+	});
+
+	app.get('/profile-google', isLoggedIn, function(req, res){
 		res.render('profile.ejs', { user: req.user });
 	});
+
+	app.get('/contact', function(req, res){
+		res.render('../views/pages/contact/contact.ejs')
+	})
+
 
 	app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
 

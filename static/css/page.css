@@ -15,6 +15,19 @@ body, html {
     background-size: cover;
 }
 
+.indexImg {
+  background-image: url("../images/images.jpg");
+  background-image: url("../images/images.jpg");
+  background-image: url("../images/images.jpg");
+  background-image: url("../images/images.jpg");
+
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+}
+
 .center-v {
     position: absolute;
     top: 50%;
