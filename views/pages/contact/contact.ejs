@@ -1,21 +1,20 @@
 <% var rootPath = '../../'; %>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/css/page.css"/>
-        <%- include(rootPath + 'partials/includes'); %>
+      <title>Contact</title>
+      <link rel="stylesheet" type="text/css" href="/css/page.css"/>
+      <%- include(rootPath + 'partials/includes') %>
 
     </head>
     <body>
-        <%- include(rootPath + 'partials/lnav'); %>
+        <%- include(rootPath + 'partials/lnav') %>
         <div class="container-fluid softwareImg">
           <div class="container softwareDiv">
-            <h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px">Contact</h1>
-            <h3 class="regTitle padB40" style="color:#ffffff">anricojason@gmail.com</h3>
-            <p style="color:#ffffff">(...in progess)</p>
+            <h1 class="leftTitle subTitle white" style="padding-top: 50px; margin-left: 400px; margin-right: 400px"><strong>Contact</strong></h1>
+            <h3 class="regTitle padB40" style="color:#ffffff; margin: 10px; margin-left: 370px">anricojason@gmail.com</h3>
 
             <h4 class="regTitle pad820" style="color:#ffffff">Send Me an email here</h4>
-            <img style="color:#ffffff">anricojason@gmail.com</img>
             <form ation="get" id="contact_form">
               <div class="form-group row">
                 <label for="name" class="col-2 col-form-label" style="color:#ffffff">Name</label>
@@ -49,8 +48,10 @@
 
 
 
-        <%- include(rootPath + 'partials/footer'); %>
+        <%- include(rootPath + 'partials/footer') %>
         <script src="scripts/mobile.js" type="text/javascript"></script>
+        <script src="includes/jquery.min.js"></script>
+        <script src="text/javascript" src="scripts/main.js"></script>
         <script src="/contact/scripts/send.php" type="text/javascript"></script>
     </body>
 </html>
