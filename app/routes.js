@@ -1,4 +1,3 @@
-var User = require('./models/user');
 module.exports = function(app, passport){
 	app.get('/', function(req, res){
 		res.render('../views/pages/index.ejs');
@@ -11,7 +10,17 @@ module.exports = function(app, passport){
 		successRedirect: '/profile',
 		failureRedirect: '/login',
 		failureFlash: true
-	}));
+	}),
+	function(req, res) {
+		console.log("Welcome!");
+
+		if (req.body.remember){
+			req.session.cookie.maxAge = 1000 * 60 *3;
+		} else {
+			req.session.cookie.expires = false;
+		}
+		res.redirect('/');
+	});
 
 	app.get('/signup', function(req, res){
 		res.render('../views/pages/user/login/signup.ejs', { message: req.flash('signupMessage') });
@@ -19,12 +28,19 @@ module.exports = function(app, passport){
 
 
 	app.post('/signup', passport.authenticate('local-signup', {
-		successRedirect: '/',
+		successRedirect: '/profile',
 		failureRedirect: '/signup',
 		failureFlash: true
 	}));
 
-	app.get('/profile', function(req, res){
+
+	app.get('/profile', isLoggedIn, function(req, res) {
+		res.render('../views/pages/user/profile/profile.ejs', {
+			user : req.user
+		});
+	});
+
+	app.get('/my_profile', function(req, res){
 		res.render('../views/pages/index/index.ejs')
 	});
 

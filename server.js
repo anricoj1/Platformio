@@ -20,12 +20,6 @@ var http = require('http');
 var jsdom = require("jsdom");
 var {JSOM} = jsdom;
 
-var c = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: "password"
-});
-
 require('./config/passport')(passport);
 
 app.use(morgan('dev'));
@@ -57,9 +51,3 @@ require('./app/routes.js')(app, passport);
 
 app.listen(port);
 console.log('Server running on port: ' + port);
-
-
-c.connect(function(err) {
-	if(err) throw err;
-	console.log('Conencted!');
-});

@@ -35,7 +35,7 @@ function textShift() {
 
 $(document).ready(function() {
     let channel = 'UCQeDkRGZZLIcCuNFph6aHqA';
-    let key = 'AIzaSyBroKwS1hxt8GHatnfHMaDsTxTHH611gzU';
+    let key = 'AIzaSyCGpGeTBh75gxAHyxT7rrLT673bVfGe0bQ';
     let totalSubs = 0, totalViews = 0;
     loadChannel(channel, key);
 

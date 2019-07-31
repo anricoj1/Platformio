@@ -9,7 +9,11 @@
 
 # To Do
   - Index Page (Think Twitter / Facebook)
-  
+
+
+# Recent Changes
+  - Local Logins with Passport-Local
+  - (>>) Mysql with Google oAuth
 
 # We are making a social app using Nodejs
   - This will use:
