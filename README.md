@@ -12,8 +12,7 @@
 
 
 # Recent Changes
-  - Local Logins with Passport-Local
-  - (>>) Mysql with Google oAuth
+  - Local / Google Login Complete (MySQL)
 
 # We are making a social app using Nodejs
   - This will use:

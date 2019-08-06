@@ -1,15 +1,16 @@
-npm install express
-npm install ejs
-npm install cookie-parser
-npm install express-session
-npm install request-promise
-npm install morgan
-npm install mongoose
-npm install mysql
-npm install body-parser
-npm install passport
-npm install connect-flash
-npm install passport-google-oauth
-npm install passport-local
-npm install passport-facebook
-npm install bcrypt
+npm install express --save
+npm install ejs --save
+npm install cookie-parser --save
+npm install express-session --save
+npm install request --save
+npm install request-promise --save
+npm install morgan --save
+npm install mysql --save
+npm install body-parser --save
+npm install passport --save
+npm install connect-flash --save
+npm install passport-google-oauth --save
+npm install passport-local --save
+npm install passport-facebook --save
+npm install uuid --save
+npm install bcrypt --save

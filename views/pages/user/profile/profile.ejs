@@ -1,40 +1,34 @@
-<!-- views/profile.ejs -->
-<!doctype html>
+<% var rootPath = '../../../'; %>
+<!DOCTYPE html>
 <html>
-<head>
-	<title>Node Authentication</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-	<style>
-		body 		{ padding-top:80px; word-wrap:break-word; }
-	</style>
-</head>
-<body>
-<div class="container">
+	<head>
+		<title>Node Authentication</title>
+		<link rel="stylesheet" type="text/css" href="/css/page.css">
+			<%- include(rootPath + 'partials/includes') %>
+	</head>
+	<body>
+		<%- include(rootPath + 'partials/lnav') %>
+		<div class="container-fluid softwareImg">
+			<div class="container softwareDiv">
+				<h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b><span class="fa fa-anchor">Profile Page</span></b></h1>
+				<a href="/logout" style="float: right" class="btn btn-danger btn-sm"><span class="fa fa-lock"> Logout</span></a>
 
-	<div class="page-header text-center">
-		<h1><span class="fa fa-anchor"></span> Profile Page</h1>
-		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
-	</div>
-
-	<div class="row">
-
-		<!-- LOCAL INFORMATION -->
-		<div class="col-sm-6">
-			<div class="well">
-				<h3><span class="fa fa-user"></span> Local</h3>
-
-					<p>
-						<strong>id</strong>: <%= user.id %><br>
-						<strong>email</strong>: <%= user.email %><br>
-						<strong>password</strong>: <%= user.password %>
-					</p>
-
+			<div class="row">
+				<!-- LOCAL INFORMATION -->
+				<div class="col-sm-6">
+					<div class="well">
+						<h3 style="color:#ffffff"><span class="fa fa-user"></span> Local</h3>
+						<p style="color:#ffffff">
+							<strong>id</strong>: <%= user.id %><br>
+							<strong>username</strong>: <%= user.email %><br>
+							<strong>name</strong>: <%= user.name %><br>
+							<strong>password</strong>: <%= user.password %>
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
-
 	</div>
-
-</div>
+	<%- include(rootPath + 'partials/footer') %>
 </body>
 </html>
