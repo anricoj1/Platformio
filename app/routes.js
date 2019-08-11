@@ -1,10 +1,10 @@
 module.exports = function(app, passport){
 	app.get('/', function(req, res){
-		res.render('../views/pages/index.ejs');
+		res.render('../views/pages/index.ejs', {user: req.user});
 	});
 
 	app.get('/login', function(req, res){
-		res.render('../views/pages/user/login/login.ejs', { message: req.flash('loginMessage') });
+		res.render('../views/pages/user/login/login.ejs', { message: req.flash('loginMessage'), user: req.user});
 	});
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/profile',
@@ -23,7 +23,7 @@ module.exports = function(app, passport){
 	});
 
 	app.get('/signup', function(req, res){
-		res.render('../views/pages/user/login/signup.ejs', { message: req.flash('signupMessage') });
+		res.render('../views/pages/user/login/register.ejs', { message: req.flash('signupMessage'), user: req.user });
 	});
 
 
@@ -41,7 +41,7 @@ module.exports = function(app, passport){
 	});
 
 	app.get('/my_profile', function(req, res){
-		res.render('../views/pages/index/index.ejs')
+		res.render('../views/pages/index/index.ejs', {user: req.user});
 	});
 
 	app.get('/profile-google', isLoggedIn, function(req, res){

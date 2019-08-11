@@ -3,31 +3,41 @@
 <html>
 	<head>
 		<title>Node Authentication</title>
-		<link rel="stylesheet" type="text/css" href="css/page.css"/>
+		<link rel="stylesheet" type="text/css" href="css/page.css">
 		<%- include(rootPath + 'partials/includes') %>
 
 	</head>
 	<body>
 		<%- include(rootPath + 'partials/lnav') %>
 		<div class="container-fluid softwareImg">
-		<div class="container softwareDiv">
-			<h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b>Login</b></h1>
-			<form action="/login" method="post">
-					<div class="form-group">
-						<label style="color:#ffffff">Email</label>
-						<input type="text" class="form-control" name="username">
-					</div>
-					<div class="form-group">
-						<label style="color:#ffffff">Password</label>
-						<input type="password" class="form-control" name="password">
-					</div>
-					<button type="submit" class="btn btn-primary btn-lg"><span class="fa fa-user"></span> Login</button>
-				</form>
+			<div class="container softwareDiv">
+				<div class="login">
+					<div class="container">
+						<div class="login-row">
+							<div class="login-column">
+								<div class="login-box container center-block">
+									<form class="login-form" action="/login" method="post">
+										<h3 class="text-center"><b>Login</b></h3>
+										<div class="form-group">
+											<label class="text"><b>Email</b></label>
+											<input type="text" class="form-control" name="username">
+										</div>
+										<div class="form-group">
+											<label class="text"><b>Password</b></label>
+											<input type="password" class="form-control" name="password">
+										</div>
+										<button type="submit" class="btn btn-primary btn-lg"><span class="fa fa-user"></span> Login</button>
+									</form>
 
-				<hr>
-				<p style="color:#ffffff">Login With  <a href="/auth/google" class="btn btn-danger btn-xs"><span class="fa fa-google-plus"></span> Google</a></p>
-				<p style=color:#ffffff>Need an account? <a href="/signup">Signup</a></p>
-				<p style=color:#ffffff>Or go <a href="/">home</a>.</p>
+									<hr>
+									<p><b>Login With  <a href="/auth/google" class="btn btn-danger btn-xs"><span class="fa fa-google-plus"></span> Google</a></b></p>
+									<p><b>Need an account? <a href="/signup">Signup</a></b></p>
+									<p><b>Or go <a href="/">home</a>.</b></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 

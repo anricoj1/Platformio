@@ -1,6 +1,7 @@
 body, html {
     height: 100%;
     margin: 0;
+    font-family: "Avenir Next" !important;
 }
 
 .homeImg {
@@ -26,6 +27,33 @@ body, html {
   background-repeat: no-repeat;
   background-size: cover;
 }
+}
+
+.text-group {
+  padding-top: 10px;
+  padding-bottom: 30px;
+}
+
+.login .container .login-row .login-column .login-box {
+  margin-top: 150px;
+  max-width: 500px;
+  height: 500px;
+  border: 1px solid #979797;
+  background-color: #F5F5F5;
+}
+
+.login .container .login-row .login-column .login-box .login-form {
+  padding: 20px;
+}
+
+.sign-up {
+  text-align: left;
+}
+
+.box {
+  background-color: black;
+  width: 800px;
+  height: 450px;
 }
 
 .center-v {

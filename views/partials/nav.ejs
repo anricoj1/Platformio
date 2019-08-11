@@ -7,17 +7,24 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <% if (user) { %>
+        <ul class="navbar-nav mr-auto">
+          <li></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li><a class="nav-link scrollN" href="/logout">Logout</a></li>
+        </ul>
+    <%  } else { %>
       <ul class="navbar-nav mr-auto">
         <li> <a class="nav-link scrollN" href="/login">Login</a></li>
         <li> <a class="nav-link scrollN" href="/signup/">Register</a></li>
         <li><a class="nav-link scrollN" href="//"></a></li>
-        <li><a class="nav-link scrollN" href="/photography/"></a></li>
       </ul>
       <ul class="navbar-nav">
-          <li><a class="nav-link scrollN" href="/profile">Profile</a></li>
-      </ul>
+        <li></li>
+  <%  } %>
     </div>
-     </div>
+  </div>
  </nav>
  <script type="text/javascript" src="/scripts/nav.js"></script>
 

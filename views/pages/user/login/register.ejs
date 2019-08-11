@@ -1,0 +1,49 @@
+<% var rootPath = '../../../'; %>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Node Authentication</title>
+    <link rel="stylesheet" type="text/css" href="/css/page.css">
+		<%- include(rootPath + 'partials/includes') %>
+
+	</head>
+	<body>
+    <%- include(rootPath + 'partials/lnav') %>
+		<div class="container-fluid softwareImg">
+			<div class="container softwareDiv">
+				<div class="login">
+					<div class="container">
+						<div class="login-row">
+							<div class="login-column">
+								<div class="login-box container center-block">
+									<form class="login-form" action="/signup" method="post">
+										<h3 class="text-center"><b>Register</b></h3>
+										<div class="form-group">
+											<label class="text"><b>Email</b></label><br>
+											<input type="text" class="form-control" name="username">
+										</div>
+										<div class="form-group">
+											<label class="text"><b>Name</b></label><br>
+											<input type="text" class="form-control" name="fullname">
+										</div>
+										<div class="form-group">
+											<label class="text"><b>Password</b></label><br>
+											<input type="password" class="form-control" name="password">
+										</div>
+										<button type="submit" class="btn btn-md center-block btn-primary"><span class="fa fa-user"></span> Register</button>
+									</form>
+									<hr>
+									<p><b>Or Register With <a href="/auth/google" class="btn btn-danger btn-xs"><span class="fa fa-google-plus"></span> Google</a></b></p>
+									<p><b>Go <a href="/">Home</a>.</b></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    <%- include(rootPath + 'partials/footer') %>
+    <script src="/includes/jquery.min.js"></script>
+    <script type="text/javascript" src="/scripts/main.js"></script>
+  </body>
+  </html>

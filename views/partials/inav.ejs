@@ -1,27 +1,35 @@
 <link rel="stylesheet" type="text/css" href="/css/nav.css"/>
 <nav class="navbar fixed-top navbar-expand-lg toggle-height" id="global-nav">
-     <div class="container">
+  <div class="container">
     <b><a class="navbar-brand scrollN" href="/">Platform</a></b>
     <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon custom-toggler"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li><b><a class="nav-link scrollN" href="/login">Login</a></b></li>
-        <li><b><a class="nav-link scrollN" href="/signup/">Register</a></b></li>
-        <li><b><a class="nav-link scrollN" href="/"></a></b></li>
-        <li><b><a class="nav-link scrollN" href="/photography/"></a></b></li>
+      <% if (user) { %>
+        <ul class="navbar-nav mr-auto">
+          <li></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li><a class="nav-link scrollN" href="/logout"><b>Logout</b></a></li>
+        </ul>
+    <% } else { %>
+       <ul class="navbar-nav mr-auto">
+         <li><b><a class="nav-link scrollN" href="/login">Login</a></b></li>
+         <li><b><a class="nav-link scrollN" href="/signup/">Register</a></b></li>
+         <li><b><a class="nav-link scrollN" href="/"></a></b></li>
       </ul>
       <ul class="navbar-nav">
         <div class="login-container">
           <form action="/login" method="post">
-            <input type="text" placeholder="Email" name="email">
-            <input type="text" placeholder="Password" name="psw">
+            <input type="text" placeholder="Email" name="username">
+            <input type="password" placeholder="Password" name="password">
             <button type="submit">Login</button>
           </form>
         </div>
       </ul>
+  <%  } %>
     </div>
      </div>
  </nav>
