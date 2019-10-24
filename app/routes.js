@@ -69,7 +69,7 @@ module.exports = function(app, passport) {
     app.get('/auth/twitter/callback', passport.authenticate('twitter'));
 
     app.get('/userAtt', function(req, res) {
-        connection.query("SELECT * FROM User u INNER JOIN Twitter t ON u.id=t.user_id WHERE email = ?",[req.user.email], function(err, rows) {
+        connection.query("SELECT * FROM User WHERE email = ?",[req.user.email], function(err, rows) {
             var queryUser = {
                 'id' : rows[0].id,
                 'email' : rows[0].email,
@@ -81,17 +81,25 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.get('/twitterTimeline', function(req, res) {
+    app.get('/twitterTimeline', isLoggedIn, function(req, res) {
       connection.query("SELECT * FROM User u INNER JOIN Twitter t ON u.id=t.user_id WHERE email = ?",[req.user.email], function(err, rows) {
-        var params = rows[0].screen_name;
-
-        twitterClient.get('statuses/user_timeline', params, function(err, tweets, response) {
-          res.json({
-            twitter : tweets
+        if (err)
+          return err;
+        if (rows.length) {
+          var params = {screen_name : rows[0].screen_name};
+          twitterClient.get('statuses/user_timeline', params, function(err, tweets, response) {
+            res.json({
+              twitter : tweets
+            });
           });
-        });
+        } else {
+          res.json({
+            twitter : null
+          });
+        }
       });
     });
+
 
 };
 

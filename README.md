@@ -18,6 +18,14 @@
 
   - Profile Page Updates
 
+# Extra Notes
+  - Avoid undefined error!!
+    - if rows.length
+        - do stuff with api
+    - else (this user has not linked this account yet)
+        - send it as null
+
+
 # Needed Functions
 
 function followUser(id, user) {
