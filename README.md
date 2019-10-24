@@ -1,46 +1,53 @@
 # CSC400 Project
 
 # Dependencies
-  - install npm
-  - npm install express
-  - npm install request-promise
-  - npm install ejs
-  - npm install jsdom
+  - chmod u+x node-packs.sh
+  - ./node-packs.sh
 
 # To Do
-  - Index Page (Think Twitter / Facebook)
+  - Partial Views for API's
+  - Notifications
+  - Following User
+  - Messages TBA..
 
 
 # Recent Changes
-  - Local / Google Login Complete (MySQL)
+  - Linking API Accounts Work!
+  - Using Continuation Local Storage:
+      - We can export req (request) using Namespaces
 
-# We are making a social app using Nodejs
-  - This will use:
-      - Google/Youtube API Authentication For sign In
-      - Github API v3
+  - Profile Page Updates
 
-# New Idea
-  - Platform
-    - Check your social media status/stats
-    - This can include:
-      - Facebook API
-      - Twitter API
-      - Instagram API
-      - Google / Youtube API
-      - Github API
-      - Twitch API
-    - Track Your Linked Accounts!
+# Needed Functions
 
+function followUser(id, user) {
 
-# Necessary Items
-  - Github repos are stored in a DB
-  - CREATE DATABASE Project
+}
 
-  - CREATE TABLE Git(id INT(11) PRIMARY KEY AUTO_INCREMENT, repoName VARCHAR(100), creator VARCHAR(100));
+function wasFollower(user_id) {
 
+}
 
-# We shouldnt need to create a User DB. The api should handle log ins since it will be through google.
+function unfollowUser(id, user) {
 
-#If we do need a User DB:
-  - Look into my basic google info and see what is needed
-  - From there If needed, I could write User Att to the User DB values
+}
+
+function makePost() {
+
+}
+
+function likePost(post_id) {
+
+}
+
+function commentPost(post_id, user) {
+
+}
+
+function goPrivate(id) {
+
+}
+
+function goPublic(id) {
+
+}

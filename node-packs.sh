@@ -12,5 +12,11 @@ npm install connect-flash --save
 npm install passport-google-oauth --save
 npm install passport-local --save
 npm install passport-facebook --save
+npm install passport-twitter --save
+npm install passport-twitch-new --save
+npm install continuation-local-storage --save
+npm install twitter --save
 npm install uuid --save
 npm install bcrypt --save
+
+echo 'Done Installing Dependencies';

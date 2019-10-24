@@ -1,0 +1,34 @@
+<% var rootPath = '../../../'; %>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Node Authentication</title>
+		<link rel="stylesheet" type="text/css" href="/css/page.css">
+			<%- include(rootPath + 'partials/includes') %>
+	</head>
+	<body>
+		<%- include(rootPath + 'partials/lnav') %>
+		<div class="container-fluid softwareImg">
+			<div class="container softwareDiv">
+				<h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b><span class="fa fa-anchor"><a style="color:#ffffff" href="/my_profile">Profile Page</span></a></b></h1>
+				<a href="/logout" style="float: right" class="btn btn-danger btn-sm"><span class="fa fa-lock"> Logout</span></a>
+
+			<div class="row">
+				<!-- LOCAL INFORMATION -->
+				<div class="col-sm-6">
+					<div class="well">
+						<h3 style="color:#ffffff"><span class="fa fa-user"></span> Local</h3>
+						<p style="color:#ffffff">
+							<strong>id</strong>: <%= user.id %><br>
+							<strong>username</strong>: <%= user.email %><br>
+							<strong>name</strong>: <%= user.name %><br>
+							<strong>password</strong>: <%= user.password %>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%- include(rootPath + 'partials/footer') %>
+</body>
+</html>
