@@ -64,9 +64,16 @@ module.exports = function(app, passport) {
         res.render('../views/pages/user/profile/profile.ejs', {user: req.user})
     });
 
+    app.get('/profile/:id', function(req, res) {
+      connection.query("SELECT * FROM User u INNER JOIN Twitter t ON u.id=t.user_id WHERE id = ?",[req.params.id], function(err, rows) {
+        res.render('../views/pages/accounts/profile.ejs', {user : req.user, account : rows[0]})
+      });
+    });
+
     app.get('/auth/twitter', isLoggedIn, passport.authenticate('twitter'));
 
     app.get('/auth/twitter/callback', passport.authenticate('twitter'));
+
 
     app.get('/userAtt', function(req, res) {
         connection.query("SELECT * FROM User WHERE email = ?",[req.user.email], function(err, rows) {
@@ -100,7 +107,7 @@ module.exports = function(app, passport) {
       });
     });
 
-
+    
 };
 
 function isLoggedIn(req, res, next) {

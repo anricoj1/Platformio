@@ -1,0 +1,118 @@
+<% var rootPath = '../../'; %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/page.css"/>
+    <%- include(rootPath + 'partials/includes') %>
+  </head>
+  <body>
+    <%- include(rootPath + 'partials/nav') %>
+    <div class="homeImg">
+        <div class="homeDiv center">
+            <h1 class="titleMain" style="color:#000000"><%= account.name %></h1>
+            <div class="container padY60 padX0">
+              <div class="row">
+                <div class="col-lg-4 tilePadMin">
+                  <div class="centerDiv">
+                    <h3 class="odometer tileTitle odoSubs whiteText" id="odometer" style="display:block">0</h3>
+                    <h5 class="tileDesc whiteText">Subscribers</h5>
+                  </div>
+                </div>
+                <div class="col-lg-4 tilePadMin">
+                  <div class="centerDiv">
+                    <h3 class="odometer tileTitle odoViews whiteText" style="display:block">0</h3>
+                    <h5 class="tileDesc whiteText">Views</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="homeSouth">
+            <h4><a class="stealthLink subPmin padX0" href="#">Read More</a></h4>
+            <button class="smoothScrollBtn" type="button"><img src="images/Down-Arrow-White.png" width="30"/></button>
+        </div>
+        <% include(rootPath + 'partials/subnav/subnav') %>
+    </div>
+
+    <div class="container-fluid aboutMe" style="background-color:#29C9FF">
+        <div class="container aboutMe">
+            <div class="row rowPad" >
+                <div class="col-md-4">
+                    <img src="images/jason.jpg" class="circleImg"></img>
+                </div>
+                <div class="col-md-8">
+                    <p class="pad20"></p>
+                </div>
+                <%- include(rootPath + 'partials/twitter/twitter') %>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid softwareImg">
+        <div class="container softwareDiv">
+            <h1 class="leftTitle subTitle white" style="padding-top: 0px">About Me</h1>
+            <div class="row">
+                <div class="col-md-6 tilePadWide softTileBack col1Pad">
+                    <h3 class="white regTitle cenX">JAVA</h3>
+                    <h5 class="tileDesc subPmin white">3 years object oriented design of
+                        multimedia tools, data structures, and user interfaces</h5>
+                    <ul class="centerLinks">
+                        <li style="display:inline-block;">
+                            <a href="software/timelapse-auto-ramp"><p style="border-width:0px" id="PSDPlug">CSC 229</p></a>
+                        </li>
+                        <li class="brText"><p>|</p></li>
+                        <li style="display:inline-block;">
+                            <a href="/software#top"><p>View all projects</p></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6 tilePadWide softTileBack col2Pad">
+                    <h3 class="white regTitle cenX">Python</h3>
+                    <h5 class="tileDesc subPmin white">Client and Server side web sockets, file transfer,
+                      along with data analysis</h5>
+                    <ul class="centerLinks">
+                        <li style="display:inline-block;">
+                            <a href="software/pathfinding"><p style="border-width:0px" id="pathLink">Artificial Intellegence</p></a>
+                        </li>
+                        <li class="brText"><p>|</p></li>
+                        <li style="display:inline-block;">
+                            <a href="software#top"><p>View all projects</p></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 tilePadWide softTileBack col1Pad">
+                    <h3 class="white regTitle cenX">MySQL</h3>
+                    <h5 class="tileDesc subPmin white">2 years of creating Schemas and making
+                      advanced queries</h5>
+                    <ul class="centerLinks">
+                        <li style="display:inline-block;">
+                            <a href="electronics/air-conditioner-DIY"><p style="border-width:0px">Database Systems</p></a>
+                        </li>
+                        <li class="brText"><p>|</p></li>
+                        <li style="display:inline-block;">
+                            <a href="electronics#top"><p>View all projects</p></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6 tilePadWide softTileBack col2Pad">
+                    <h3 class="white regTitle cenX">WEB</h3>
+                    <h5 class="tileDesc subPmin white">Current Webstacks: Nodejs and Flask
+                      Experience with HTML, CSS, Javascript and bootstrap</h5>
+                </div>
+                <a class="btn btn-outline-secondary btn-lg centerBtn" href="software" role="button">Learn More</a>
+            </div>
+        </div>
+    </div>
+
+    <%- include(rootPath + 'partials/footer') %>
+    <script src="includes/jquery.min.js"></script>
+    <!-- Odometr includes -->
+    <link rel="stylesheet" href="includes/odometer-theme-default.css"/>
+    <script src="includes/odometer.js"></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="text/javascript" src="scripts/user.js"></script>
+  </body>
+</html>

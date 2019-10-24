@@ -6,6 +6,7 @@ $(document).ready(function() {
       if (data.hasOwnProperty('username')) {
         $('.name').html(data.username.name);
         $('.email').html(data.username.email);
+        $('.id').html(data.username.id);
       }
     });
   }
