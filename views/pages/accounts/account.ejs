@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/page.css"/>
     <%- include(rootPath + 'partials/includes') %>
   </head>
   <body>
@@ -30,21 +30,21 @@
         </div>
         <div class="homeSouth">
             <h4><a class="stealthLink subPmin padX0" href="#">Read More</a></h4>
-            <button class="smoothScrollBtn" type="button"><img src="images/Down-Arrow-White.png" width="30"/></button>
+            <button class="smoothScrollBtn" type="button"><img src="../images/Down-Arrow-White.png" width="30"/></button>
         </div>
-        <% include(rootPath + 'partials/subnav/subnav') %>
+        <%- include(rootPath + 'partials/subnav/subnav') %>
     </div>
 
     <div class="container-fluid aboutMe" style="background-color:#29C9FF">
         <div class="container aboutMe">
             <div class="row rowPad" >
                 <div class="col-md-4">
-                    <img src="images/jason.jpg" class="circleImg"></img>
+                    <img src="../images/jason.jpg" class="circleImg"></img>
                 </div>
                 <div class="col-md-8">
                     <p class="pad20"></p>
                 </div>
-                <%- include(rootPath + 'partials/twitter/twitter') %>
+                <%- include(rootPath + 'pages/accounts/partial/twitter/twitter') %>
             </div>
         </div>
     </div>
@@ -108,11 +108,11 @@
     </div>
 
     <%- include(rootPath + 'partials/footer') %>
-    <script src="includes/jquery.min.js"></script>
+    <script src="../includes/jquery.min.js"></script>
     <!-- Odometr includes -->
-    <link rel="stylesheet" href="includes/odometer-theme-default.css"/>
-    <script src="includes/odometer.js"></script>
-    <script type="text/javascript" src="scripts/main.js"></script>
-    <script type="text/javascript" src="scripts/user.js"></script>
+    <link rel="stylesheet" href="../includes/odometer-theme-default.css"/>
+    <script src="../includes/odometer.js"></script>
+    <script type="text/javascript" src="../scripts/main.js"></script>
+    <script type="text/javascript" src="../scripts/api/script.js"></script>
   </body>
 </html>

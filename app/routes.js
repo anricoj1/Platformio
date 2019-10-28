@@ -66,7 +66,7 @@ module.exports = function(app, passport) {
 
     app.get('/profile/:id', function(req, res) {
       connection.query("SELECT * FROM User u INNER JOIN Twitter t ON u.id=t.user_id WHERE id = ?",[req.params.id], function(err, rows) {
-        res.render('../views/pages/accounts/profile.ejs', {user : req.user, account : rows[0]})
+        res.render('../views/pages/accounts/acc.ejs', {user : req.user, account : rows[0]})
       });
     });
 
@@ -90,6 +90,25 @@ module.exports = function(app, passport) {
 
     app.get('/twitterTimeline', isLoggedIn, function(req, res) {
       connection.query("SELECT * FROM User u INNER JOIN Twitter t ON u.id=t.user_id WHERE email = ?",[req.user.email], function(err, rows) {
+        if (err)
+          return err;
+        if (rows.length) {
+          var params = {screen_name : rows[0].screen_name};
+          twitterClient.get('statuses/user_timeline', params, function(err, tweets, response) {
+            res.json({
+              twitter : tweets
+            });
+          });
+        } else {
+          res.json({
+            twitter : null
+          });
+        }
+      });
+    });
+
+    app.get('/twitterTimeline/:id', isLoggedIn, function(req, res) {
+      connection.query("SELECT * FROM User u INNER JOIN Twitter t ON u.id=t.user_id WHERE id = ?",[req.params.id], function(err, rows) {
         if (err)
           return err;
         if (rows.length) {
