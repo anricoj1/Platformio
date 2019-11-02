@@ -21,5 +21,10 @@ module.exports = {
       'clientID' : '1835070033305750',
       'clientSecret' : 'd62add012498ef3ff89b3115081ef752',
       'callbackURL' : 'http://localhost:8080/auth/facebook/callback'
+    },
+    'webpush' : {
+      'mail' : 'mailto:anricojason@gmail.com',
+      'publicVapidKey' : 'BIhZ6GWPPi1LXo6EtnoGLS4UI622Hs7wGY4PQxsCQTxEZcBxLYLatmAi8Qrizc8NukFPoe2YkjZTllVXFjPlAt4',
+      'privateVapidKey' : 'gooP_mvAACNDrjqxPEwI4a0K0SruLpECwuspt40xR58'
     }
   }

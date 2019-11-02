@@ -21,3 +21,26 @@ $(document).ready(function() {
         });
     }
 });
+
+$(document).ready(function() {
+  loadFollows();
+
+  function loadFollows() {
+    $.getJSON('/userFollowers/' + filename, function(data) {
+      if (data.hasOwnProperty('followers')) {
+        $('.fCount').html(countFollowers(data));
+
+        function countFollowers(data) {
+          var arr = [];
+          if (data.followers.name) {
+            arr.push(data.followers.name)
+            return arr.length;
+          } else {
+            var arrlen = 0;
+            return arrlen;
+          }
+        }
+      }
+    })
+  }
+});

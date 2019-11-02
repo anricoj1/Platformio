@@ -2,6 +2,9 @@ module.exports = function(app, passport) {
     var connection = require('../config/connect');
     var twitterClient = require('../config/twitter/twitter');
 
+    var webpush = require('web-push');
+    var vapidKeys = require('../config/webpush/webpush');
+
     const { createNamespace } = require('continuation-local-storage');
     const User = createNamespace('request');
 
@@ -61,12 +64,19 @@ module.exports = function(app, passport) {
     }));
 
     app.get('/profile', isLoggedIn, function(req, res) {
-        res.render('../views/pages/user/profile/profile.ejs', {user: req.user})
+      res.render('../views/pages/user/profile/profile.ejs', {user: req.user})
     });
 
-    app.get('/profile/:id', function(req, res) {
+
+    app.get('/profile/:id', isLoggedIn, function(req, res) {
       connection.query("SELECT * FROM User u INNER JOIN Twitter t ON u.id=t.user_id WHERE id = ?",[req.params.id], function(err, rows) {
-        res.render('../views/pages/accounts/acc.ejs', {user : req.user, account : rows[0]})
+        if (err)
+          return err;
+        if (rows.length) {
+          connection.query("SELECT following FROM Followers WHERE userID = ? and paramID = ?",[req.user.id, req.params.id], function(err, result) {
+            res.render('../views/pages/accounts/acc.ejs', {user : req.user, account : rows[0], follow : result[0]})
+          });
+        }
       });
     });
 
@@ -87,6 +97,7 @@ module.exports = function(app, passport) {
             });
         });
     });
+
 
     app.get('/twitterTimeline', isLoggedIn, function(req, res) {
       connection.query("SELECT * FROM User u INNER JOIN Twitter t ON u.id=t.user_id WHERE email = ?",[req.user.email], function(err, rows) {
@@ -126,7 +137,67 @@ module.exports = function(app, passport) {
       });
     });
 
-    
+    app.get('/userFollowers/:id', function(req, res) {
+      connection.query("SELECT * FROM Followers WHERE paramID = ? AND following = 1",[req.params.id], function(err, rows) {
+        if (err)
+          return err;
+        if (rows.length) {
+          connection.query("SELECT name FROM User WHERE id = ?",[rows[0].userID], function(err, result) {
+            res.json({
+              followers : result[0]
+            })
+          })
+        } else {
+          res.json({
+            followers : 0
+          });
+        }
+      });
+    });
+
+    app.post('/follow/:id', function(req, res) {
+      connection.query("SELECT following, userID, paramID FROM Followers WHERE userID = ? AND paramID = ?",[req.user.id, req.params.id], function(err, rows) {
+        if (err)
+          return err;
+        if (rows[0].following === 1) {
+          connection.query("UPDATE Followers SET following=0 WHERE paramID = ? AND userID = ?",[req.params.id, req.user.id], function(err, rows) {
+
+            res.redirect('/profile/' + req.params.id)
+          });
+        } else if (rows[0].following === 0) {
+          connection.query("UPDATE Followers SET following=1 WHERE paramID = ? AND userID = ?",[req.params.id, req.user.id], function(err, rows) {
+            res.redirect('/profile/' + req.params.id)
+
+          });
+        } else {
+          connection.query("INSERT INTO Followers (following, userID, paramID) VALUES (?,?,?)",[1, req.user.id, req.params.id], function(err, rows) {
+            req.user.id = rows.insertId;
+
+            res.redirect('/profile/' + req.params.id)
+          });
+        }
+      });
+    });
+
+
+    app.post('/notifications', function(req, res) {
+      var subscription = req.body
+      connection.query("SELECT * FROM Followers f INNER JOIN User u ON u.id=f.userID WHERE userID = ? AND following = 1",[req.user.id], function(err, rows) {
+        if (rows.length) {
+          var payload = JSON.stringify({
+            title : 'Notifications!',
+            body : rows[0].name + ' Followed You!'
+          });
+          webpush.sendNotification(subscription, payload).catch(err => console.log(err))
+        } else {
+          var payload = JSON.stringify({
+            title : 'Welcome! ' + req.user.name
+          });
+          webpush.sendNotification(subscription, payload).catch(err => console.log(err));
+        }
+      });
+    });
+
 };
 
 function isLoggedIn(req, res, next) {

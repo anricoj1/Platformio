@@ -6,10 +6,14 @@
 
 # To Do
   - Partial Views for API's
-  - Notifications
-  - Following User
+  - Photo Upload
   - Messages TBA..
 
+# Notifications
+    - Make Notification Route
+    - $.getJSON of that data
+    - make script to send as
+    - Web-Push / Pusher
 
 # Recent Changes
   - Linking API Accounts Work!
@@ -17,6 +21,8 @@
       - We can export req (request) using Namespaces
 
   - Profile Page Updates
+  - Following Users
+  - Notifications w/ Web-Push
 
 # Extra Notes
   - Avoid undefined error!!
