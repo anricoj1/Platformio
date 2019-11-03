@@ -74,7 +74,11 @@ module.exports = function(app, passport) {
           return err;
         if (rows.length) {
           connection.query("SELECT following FROM Followers WHERE userID = ? and paramID = ?",[req.user.id, req.params.id], function(err, result) {
-            res.render('../views/pages/accounts/acc.ejs', {user : req.user, account : rows[0], follow : result[0]})
+            if (result.length) {
+              res.render('../views/pages/accounts/acc.ejs', {user : req.user, account : rows[0], follow : result[0]})
+            } else {
+              res.render('../views/pages/accounts/acc.ejs', {user : req.user, account : rows[0], follow : 0})
+            }
           });
         }
       });
@@ -157,22 +161,19 @@ module.exports = function(app, passport) {
 
     app.post('/follow/:id', function(req, res) {
       connection.query("SELECT following, userID, paramID FROM Followers WHERE userID = ? AND paramID = ?",[req.user.id, req.params.id], function(err, rows) {
-        if (err)
-          return err;
-        if (rows[0].following === 1) {
-          connection.query("UPDATE Followers SET following=0 WHERE paramID = ? AND userID = ?",[req.params.id, req.user.id], function(err, rows) {
-
-            res.redirect('/profile/' + req.params.id)
-          });
-        } else if (rows[0].following === 0) {
-          connection.query("UPDATE Followers SET following=1 WHERE paramID = ? AND userID = ?",[req.params.id, req.user.id], function(err, rows) {
-            res.redirect('/profile/' + req.params.id)
-
-          });
+        if (rows.length) {
+          if (rows[0].following === 1) {
+            connection.query("UPDATE Followers SET following = 0 WHERE paramID = ? AND userID = ?",[req.params.id, req.user.id], function(err, rows) {
+              res.redirect('/profile/' + req.params.id)
+            });
+          } else if (rows[0].following === 0) {
+            connection.query("UPDATE Followers SET following = 1 WHERE paramID = ? AND userID = ?",[req.params.id, req.user.id], function(err, rows) {
+              res.redirect('/profile/' + req.params.id)
+            });
+          }
         } else {
           connection.query("INSERT INTO Followers (following, userID, paramID) VALUES (?,?,?)",[1, req.user.id, req.params.id], function(err, rows) {
             req.user.id = rows.insertId;
-
             res.redirect('/profile/' + req.params.id)
           });
         }
