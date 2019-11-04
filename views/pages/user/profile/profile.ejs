@@ -7,7 +7,7 @@
   </head>
   <body>
     <%- include(rootPath + 'partials/nav') %>
-    <div class="homeImg">
+    <div style="background-image:url('public/<%= user.banner %>'); height: 100%; background-position: center; background-repeat:no-repeat; background-size: cover">
         <div class="homeDiv center">
             <h1 class="titleMain name" style="color:#000000"></h1>
             <div class="container padY60 padX0">
@@ -39,7 +39,8 @@
         <div class="container aboutMe">
             <div class="row rowPad" >
                 <div class="col-md-4">
-                    <img src="images/jason.jpg" class="circleImg"></img>
+                    <img src="public/<%= user.banner %>" class="circleImg"></img>
+                    <a href="/account_setup" class="btn btn-primary btn-sm">Account Setup</a>
                 </div>
                 <div class="col-md-8">
                     <p class="pad20"></p>

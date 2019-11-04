@@ -7,7 +7,7 @@
   </head>
   <body>
     <%- include(rootPath + 'partials/nav') %>
-    <div class="homeImg">
+    <div style="background-image: url('../public/<%= account.banner %>'); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover">
         <div class="homeDiv center">
             <h1 class="titleMain" style="color:#000000"><%= account.name %></h1>
             <div class="container padY60 padX0">
@@ -39,7 +39,7 @@
       <div class="row aboutMe">
         <div class="col-md-4">
           <div class="row rowPad">
-            <img src="../images/jason.jpg" class="circleImg"></img>
+            <img src="../public/<%= account.banner %>" class="circleImg"></img>
             <div class="column">
               <% if (follow.following === 1) { %>
                 <form action='/follow/<%= account.id %>' method="post">

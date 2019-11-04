@@ -1,6 +1,7 @@
 module.exports = function(app, passport) {
     var connection = require('../config/connect');
     var twitterClient = require('../config/twitter/twitter');
+    var multer = require('multer');
 
     var webpush = require('web-push');
     var vapidKeys = require('../config/webpush/webpush');
@@ -53,7 +54,7 @@ module.exports = function(app, passport) {
     }));
 
     app.get('/account_setup', function(req, res) {
-        res.render('../views/pages/setup.ejs')
+        res.render('../views/pages/user/profile/setup.ejs', {user : req.user});
     });
 
     app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email']}));
@@ -90,16 +91,17 @@ module.exports = function(app, passport) {
 
 
     app.get('/userAtt', function(req, res) {
-        connection.query("SELECT * FROM User WHERE email = ?",[req.user.email], function(err, rows) {
-            var queryUser = {
-                'id' : rows[0].id,
-                'email' : rows[0].email,
-                'name' : rows[0].name,
-            }
-            res.json({
-              username: queryUser
-            });
-        });
+      connection.query("SELECT * FROM User WHERE email = ?",[req.user.email], function(err, rows) {
+        if (rows.length) {
+          res.json({
+            username: rows[0]
+          });
+        } else {
+          res.json({
+            username: null
+          });
+        }
+      });
     });
 
 
@@ -198,6 +200,37 @@ module.exports = function(app, passport) {
         }
       });
     });
+
+    var storage = multer.diskStorage({
+      destination: function(req, file, cb) {
+        cb(null, './static/public')
+      },
+      filename: function(req, file, cb) {
+        cb(null, file.fieldname + req.user.id + '.png');
+      }
+    });
+
+    var upload = multer({
+      storage: storage
+    });
+
+    app.post('/uploadHeader', upload.single('imgUploader'), function(req, res) {
+      connection.query("SELECT banner FROM User WHERE id = ?",[req.user.id], function(err, rows) {
+        if (rows.length) {
+          connection.query("UPDATE User SET banner = ? WHERE id = ?",[req.file.filename, req.user.id], function(err, rows) {
+            res.send('Updated Header Photo!')
+          });
+        } else {
+          res.send('There was an error. Try Again.');
+        }
+      });
+    });
+
+    app.get('/logout', function(req, res) {
+      req.logout();
+      res.redirect('/');
+    });
+    
 
 };
 

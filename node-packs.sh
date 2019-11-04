@@ -17,6 +17,7 @@ npm install passport-twitch-new --save
 npm install continuation-local-storage --save
 npm install twitter --save
 npm install web-push --save
+npm install multer --save
 npm install uuid --save
 npm install bcrypt --save
 

@@ -5,10 +5,7 @@ body, html {
 }
 
 .homeImg {
-    background-image: url("../images/jason.jpg");
-    background-image: url("../images/jason.jpg");
-    background-image: url("../images/jason.jpg");
-    background-image: url("../images/jason.jpg");
+    background-image: url(public/<%= user.banner %>);
 
     height: 100%;
     background-position: center;

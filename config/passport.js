@@ -9,6 +9,8 @@ var bcrypt = require('bcrypt');
 var uuidv3 = require('uuid')
 var connection = require('./connect');
 
+var back = ['blue.png', 'color.jpeg', 'mix.jpeg', 'pink.jpeg'];
+
 var cls = require('continuation-local-storage');
 
 
@@ -19,6 +21,9 @@ function getUserNamespace() {
     return [sessionUser, response];
 }
 
+function random_item(back) {
+  return back[Math.floor(Math.random()*back.length)];
+}
 
 module.exports = function(passport) {
 
@@ -50,11 +55,13 @@ module.exports = function(passport) {
             token : uuidv3(),
             email : email,
             fullname : req.body.fullname,
-            password : bcrypt.hashSync(password, 10)
+            password : bcrypt.hashSync(password, 10),
+            banner : random_item(back),
+            avi : 'avi.png'
           };
 
-          var insertQuery = "INSERT INTO User (id, token, name, email, password) VALUES (?,?,?,?,?)";
-          connection.query(insertQuery,[newUser.id,newUser.token,newUser.fullname,newUser.email,newUser.password], function(err, rows) {
+          var insertQuery = "INSERT INTO User (id, token, name, email, password, banner, avi) VALUES (?,?,?,?,?,?,?)";
+          connection.query(insertQuery,[newUser.id,newUser.token,newUser.fullname,newUser.email,newUser.password,newUser.banner,newUser.avi], function(err, rows) {
             newUser.id = rows.insertId;
 
             return done(null, newUser);
@@ -102,12 +109,13 @@ module.exports = function(passport) {
                         token : accessToken,
                         name : profile.displayName,
                         email : profile.emails[0].value,
-                        password : profile.password
+                        password : profile.password,
+                        banner : profile.photos[0].value
                     };
 
-                    var insertGoogle = "INSERT INTO User (id, token, name, email, password) VALUES (?,?,?,?,?)";
+                    var insertGoogle = "INSERT INTO User (id, token, name, email, password, banner) VALUES (?,?,?,?,?,?)";
 
-                    connection.query(insertGoogle,[newUser.id,newUser.token,newUser.name,newUser.email,newUser.password], function(err, rows) {
+                    connection.query(insertGoogle,[newUser.id,newUser.token,newUser.name,newUser.email,newUser.password,newUser.banner], function(err, rows) {
                         newUser.id = rows.insertId;
 
                         return done(null, newUser);
