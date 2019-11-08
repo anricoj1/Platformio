@@ -106,11 +106,11 @@ body, html {
 
 .circleImg {
     border-radius: 50%;
-    height: 200px;
-    position: relative;
-    top: 50%;
+    height: 100px;
+    position: absolute;
+    top: 10%;
     transform: translateY(-50%);
-    float: right;
+    float: left;
 }
 
 .pad20 {

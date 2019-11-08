@@ -1,28 +1,38 @@
-# CSC400 Project
+# Welcome To Platform.io (v1.1)
 
 # Dependencies
   - chmod u+x node-packs.sh
   - ./node-packs.sh
 
-# To Do
-  - Partial Views for API's
-  - Photo Upload
-  - Messages TBA..
+# Recent Changes
+  - User Sidebar
+  - Notifications (Webpush)
+  - Upload Photos (multer)
+  - Follow Users
+
+# In Progress
+  - Realtime Feed (Pusher)
+  - Profile Page Completion
+  - Account Setup / Dashboard
+
+# Due Nov 23, 2019
+  - For this date:
+    - Deployed on GCP
+  - Features Needed For Launch:
+    - Link Accounts (IP)
+    - Upload Photos (Complete)
+    - Follow User (Complete)
+    - Push Notifications (Complete)
+    - Realtime Feed
+
+Once realtime feed is done, focus on fetching more data and completing
+user profile. The deploy the site and write documentation.    
 
 # Notifications
-    - Make Notification Route
-    - $.getJSON of that data
-    - make script to send as
-    - Web-Push / Pusher
-
-# Recent Changes
-  - Linking API Accounts Work!
-  - Using Continuation Local Storage:
-      - We can export req (request) using Namespaces
-
-  - Profile Page Updates
-  - Following Users
-  - Notifications w/ Web-Push
+  - Make Notification Route
+  - $.getJSON of that data
+  - make script to send as
+  - Web-Push / Pusher
 
 # Extra Notes
   - Avoid undefined error!!

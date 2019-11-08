@@ -2,6 +2,7 @@ module.exports = function(app, passport) {
     var connection = require('../config/connect');
     var twitterClient = require('../config/twitter/twitter');
     var multer = require('multer');
+    var uuidv3 = require('uuid');
 
     var webpush = require('web-push');
     var vapidKeys = require('../config/webpush/webpush');
@@ -20,7 +21,7 @@ module.exports = function(app, passport) {
       });
 
     app.get('/', function(req, res) {
-        res.render('../views/pages/index.ejs', {user : req.user})
+      res.render('../views/pages/index.ejs', {user : req.user})
     });
 
     app.get('/login', function(req, res) {
@@ -54,7 +55,7 @@ module.exports = function(app, passport) {
     }));
 
     app.get('/account_setup', function(req, res) {
-        res.render('../views/pages/user/profile/setup.ejs', {user : req.user});
+        res.render('../views/pages/user/profile/dash.ejs', {user : req.user});
     });
 
     app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email']}));
@@ -65,7 +66,19 @@ module.exports = function(app, passport) {
     }));
 
     app.get('/profile', isLoggedIn, function(req, res) {
-      res.render('../views/pages/user/profile/profile.ejs', {user: req.user})
+      res.render('../views/pages/user/profile/prof.ejs', {user: req.user})
+    });
+
+    app.post('/pusherTest', function(req, res) {
+      var post_id = uuidv3();
+      connection.query("INSERT INTO Posts (postID, user_id, user_name, status, date_time) VALUES(?,?,?,?,?)",[post_id,req.user.id,req.user.name,req.body.status,Date(Date.now())], function(err, rows) {
+        post_id = rows.insertId;
+        channels_client.trigger('my-channel', 'my-event', {
+          status: req.body.status
+        });
+
+        res.json({ success: true, message: 'Post Sent!'})
+      });
     });
 
 
@@ -226,11 +239,23 @@ module.exports = function(app, passport) {
       });
     });
 
+    app.get('/uploadAvi', upload.single(''), function(req, res) {
+      connection.query("SELECT avi FROM User WHERE id = ?",[req.user.id], function(err, rows) {
+        if (rows.length) {
+          connection.query("UPDATE User SET banner = ? WHERE id = ?",[req.file.filename, req.user.id], function(err, rows) {
+            res.send('Updated Header Photo!');
+          });
+        } else {
+          res.send('There was an error. Try Again.');
+        }
+      });
+    });
+
     app.get('/logout', function(req, res) {
       req.logout();
       res.redirect('/');
     });
-    
+
 
 };
 
