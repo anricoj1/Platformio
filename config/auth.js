@@ -26,5 +26,10 @@ module.exports = {
       'mail' : 'mailto:anricojason@gmail.com',
       'publicVapidKey' : 'BIhZ6GWPPi1LXo6EtnoGLS4UI622Hs7wGY4PQxsCQTxEZcBxLYLatmAi8Qrizc8NukFPoe2YkjZTllVXFjPlAt4',
       'privateVapidKey' : 'gooP_mvAACNDrjqxPEwI4a0K0SruLpECwuspt40xR58'
+    },
+    'githubAuth' : {
+      'clientID' : 'Iv1.a0f3bc54a1f0c9f8',
+      'clientSecret' : 'd0894faf1b7a4bd9aa6f67db436b8c79b6321fea',
+      'callbackURL' : 'http://localhost:8080/auth/github/callback'
     }
   }

@@ -1,0 +1,19 @@
+<div class="container-fluid" style="background-color:#24292E">
+    <div class="container" style="background-color:#24292e">
+        <h2 style="color:#ffffff"><%= user.name %>'s <span style="color:#28A745" class="fa fa-github"></span> Repositories</h3>
+        <p id="githubUser"></p>
+        <div style="color:#ffffff" id="repos" class="container"></div>
+    </div>
+</div>
+<style>
+    @media (max-width: 500px) {
+        #repos {
+            font-size: x-small;
+        }
+        #repos th td tr a {
+            font-size: x-small;
+            max-width: 50px;
+            resize: vertical;
+        }
+    }
+</style>

@@ -16,6 +16,7 @@ npm install passport-twitter --save
 npm install passport-twitch-new --save
 npm install continuation-local-storage --save
 npm install twitter --save
+npm install twitch-api-v5 --save
 npm install web-push --save
 npm install pusher --save
 npm install multer --save

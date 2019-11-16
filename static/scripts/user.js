@@ -17,6 +17,7 @@ $(document).ready(function() {
 
   function loadTwitter() {
     $.getJSON('/twitterTimeline', function(data) {
+      console.log(data);
       if (data.hasOwnProperty('twitter')) {
         $('.twitter_name').html(data.twitter[0].user.name);
         $('.screen_name').html(data.twitter[0].user.screen_name);
@@ -29,5 +30,37 @@ $(document).ready(function() {
         $('.tweets').html(data.twitter[0].user.statuses_count);
       }
     });
+  }
+});
+
+
+$(document).ready(function() {
+  loadGithub();
+
+  function loadGithub() {
+    $.getJSON('/sessionRepos', function(data) {
+      console.log(data);
+      data.forEach(getRepos);
+      var gitUrl = 'https://github.com/' + data[0].owner.login; 
+      document.getElementById("githubUser").innerHTML += 
+      '<h4 style="color:#ffffff"><a href=' + gitUrl + '>' + "Git Username: " + data[0].owner.login + '</h4>';
+    });
+  }
+  function getRepos(item, index) {
+    document.getElementById("repos").innerHTML +=
+    '<table class="table table-hover">' + 
+      '<tr>' +
+        '<th>' + item.name + ' ' + '|' + ' ' + item.description + '</th>' +
+        '<th></th>' +
+        '<th></th>' +
+        '<th></th>' + 
+      '</tr>' +
+      '<tr>' +
+        '<td>' + 'Forks: ' + item.forks_count + '</td>' +
+        '<td>' + 'Watchers: ' + item.watchers + '</td>' +
+        '<td>' + 'Language: ' + item.language + '</td>' +
+        '<td>' + '<a style="float: right; overflow: none" class="btn btn-success btn-sm" href=' + item.html_url + '>'+ '<span class="fa fa-github">' + " url" + '</a>' + '</td>' +
+      '</tr>' +
+    '</table>'; 
   }
 });

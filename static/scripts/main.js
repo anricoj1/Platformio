@@ -42,16 +42,12 @@ $(document).ready(function() {
     function loadChannel(channel, key) {
         var url = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + channel + '&key=' + key;
         $.getJSON(url, function(data) {
-            console.log(data);
             totalSubs = parseInt(data.items[0].statistics.subscriberCount, 10);
             totalViews = parseInt(data.items[0].statistics.viewCount, 10);
             $('.odoSubs').html(totalSubs);
             $('.odoViews').html(totalViews);
         });
     }
-    window.setInterval(function(){
-      loadChannel(channel, key);
-  }, 5000);
 });
 
 var mouseOverToggle = 1;

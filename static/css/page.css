@@ -107,10 +107,9 @@ body, html {
 .circleImg {
     border-radius: 50%;
     height: 100px;
-    position: absolute;
+    position: fixed;
     top: 10%;
     transform: translateY(-50%);
-    float: left;
 }
 
 .pad20 {

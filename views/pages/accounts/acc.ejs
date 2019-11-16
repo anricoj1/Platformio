@@ -1,12 +1,12 @@
-<% var rootPath = '../../'; %>
+<% var rootPath = '../../partials/'; %>
 <!DOCTYPE html>
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="../css/page.css"/>
-    <%- include(rootPath + 'partials/includes') %>
+    <%- include(rootPath + 'includes') %>
   </head>
   <body>
-    <%- include(rootPath + 'partials/nav') %>
+    <%- include(rootPath + 'nav') %>
     <div style="background-image: url('../public/<%= account.banner %>'); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover">
         <div class="homeDiv center">
             <h1 class="titleMain" style="color:#000000"><%= account.name %></h1>
@@ -32,39 +32,9 @@
             <h4><a class="stealthLink subPmin padX0" href="#">Read More</a></h4>
             <button class="smoothScrollBtn" type="button"><img src="../images/Down-Arrow-White.png" width="30"/></button>
         </div>
-        <%- include(rootPath + 'partials/subnav/subnav') %>
+        <%- include(rootPath + 'subnav/sidebar') %>
     </div>
-
-    <div class="container-fluid aboutMe" style="background-color:#29C9FF">
-      <div class="row aboutMe">
-        <div class="col-md-4">
-          <div class="row rowPad">
-            <img src="../public/<%= account.banner %>" class="circleImg"></img>
-            <div class="column">
-              <% if (follow.following === 1) { %>
-                <form action='/follow/<%= account.id %>' method="post">
-                  <input type="hidden" name="_method" value="Unfollow">
-                  <input type="submit" value="Unfollow" class="btn btn-primary">
-            <%  } else if (follow.following === 0) { %>
-              <form action='/follow/<%= account.id %>' method="post">
-                <input type="hidden" name="_method" value="Follow">
-                <input type="submit" value="Follow" class="btn btn-primary">
-              </form>
-            <%  } else { %>
-              <form action='/follow/<%= account.id %>' method="post">
-                <input type="hidden" name="_method" value="Follow">
-                <input type="submit" value="Follow" class="btn btn-primary">
-              </form>
-          <%  } %>
-            </div>
-            <strong>Followers:  </strong> <b class="fCount"></b><br>
-          </div>
-        </div>
-      </div>
-      <%- include(rootPath + 'pages/accounts/partial/twitter/twitter') %>
-    </div>
-
-
+    
     <div class="container-fluid softwareImg">
         <div class="container softwareDiv">
             <h1 class="leftTitle subTitle white" style="padding-top: 0px">About Me</h1>
@@ -123,7 +93,7 @@
         </div>
     </div>
 
-    <%- include(rootPath + 'partials/footer') %>
+    <%- include(rootPath + 'footer') %>
     <script src="../includes/jquery.min.js"></script>
     <!-- Odometr includes -->
     <link rel="stylesheet" href="../includes/odometer-theme-default.css"/>

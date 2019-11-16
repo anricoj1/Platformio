@@ -32,23 +32,8 @@
             <h4><a class="stealthLink subPmin padX0" href="#">Read More</a></h4>
             <button class="smoothScrollBtn" type="button"><img src="images/Down-Arrow-White.png" width="30"/></button>
         </div>
-        <%- include(rootPath + 'partials/subnav/subnav') %>
     </div>
-
-    <div class="container-fluid aboutMe" style="background-color:#29C9FF">
-        <div class="container aboutMe">
-            <div class="row rowPad" >
-                <div class="col-md-4">
-                    <img src="public/<%= user.banner %>" class="circleImg"></img>
-                    <a href="/account_setup" class="btn btn-primary btn-sm">Account Setup</a>
-                </div>
-                <div class="col-md-8">
-                    <p class="pad20"></p>
-                </div>
-                <%- include(rootPath + 'partials/twitter/twitter') %>
-            </div>
-        </div>
-    </div>
+    <%- include(rootPath + 'partials/subnav/tabs') %>
 
     <div class="container-fluid softwareImg">
         <div class="container softwareDiv">

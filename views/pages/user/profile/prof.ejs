@@ -34,22 +34,8 @@
         </div>
         <%- include(rootPath + 'partials/subnav/tabs') %>
     </div>
-    <div class="container-fluid aboutMe" style="background-color:#29C9FF">
-        <div class="container aboutMe">
-            <div class="row rowPad" >
-                <div class="col-md-4">
-                    <img src="public/<%= user.banner %>" class="circleImg"></img>
-                    <a href="/account_setup" class="btn btn-primary btn-sm">Account Setup</a>
-                </div>
-                <div class="col-md-8">
-                    <p class="pad20"></p>
-                </div>
-                <%- include(rootPath + 'partials/twitter/twitter') %>
-            </div>
-        </div>
-    </div>
 
-    <div class="container-fluid softwareImg">
+    <div id="aboutME" class="container-fluid softwareImg">
         <div class="container softwareDiv">
             <h1 class="leftTitle subTitle white" style="padding-top: 0px">About Me</h1>
             <div class="row">

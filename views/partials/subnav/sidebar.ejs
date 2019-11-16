@@ -1,9 +1,24 @@
 <% var rootPath = '../../partials/'; %>
-<link rel="stylesheet" href="css/sidebar.css">
+<% var sidePath = '../../pages/accounts/partial/'; %>
+<link rel="stylesheet" href="../css/sidebar.css">
 <div class="wrapper">
   <nav id="sidebar">
     <div class="sidebar-header">
-      <h3><%= user.name %></h3>
+      <h3><%= user.name %></h3><br>
+      <% if (follow.following === 1) { %>
+        <form action='/follow/<%= account.id %>' method="post">
+          <input type="hidden" name="_method" value="Unfollow">
+          <input type="submit" value="Unfollow" class="btn btn-secondary">
+        </form>
+     <% } else { %>
+        <form action='/follow/<%= account.id %>' method="post">
+          <input type="hidden" name="_method" value="Follow">
+          <input type="submit" value="Follow" class="btn btn-primary">
+        </form>
+     <% } %>
+     <br>
+     <strong>Following:</strong><b class="fCount"></b>
+     <strong>Followers:</strong><b class="fCount"></b>
     </div>
 
     <ul class="list-unstyled components">
@@ -22,7 +37,7 @@
         </ul>
       </li>
       <li>
-        <a class="smoothScrollBtn" href="#aboutME">About Me</a>
+        <a href="#">About</a>
       </li>
       <li>
         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Accounts</a>
@@ -30,14 +45,14 @@
           <li class="active">
             <a style="color:#00ffff" data-toggle="tab" href="#twitter"><span class="fa fa-twitter fa-lg"></span></a>
           </li>
-          <li class="active">
-            <a style="color:#CC0000" data-toggle="tab" href="#youtube"><span class="fa fa-youtube fa-lg"></span></a>
+          <li>
+            <a href="#youtube"><span class="fa fa-youtube fa-lg"></span></a>
           </li>
-          <li class="active">
-            <a style="color:#BF94FF" data-toggle="tab" href="#twitch"><span class="fa fa-twitch fa-lg"></span></a>
+          <li>
+            <a href="#twitch"><span class="fa fa-twitch fa-lg"></span></a>
           </li>
-          <li class="active">
-            <a style="color:#28A745" data-toggle="tab" href="#github"><span class="fa fa-github fa-lg"></span></a>
+          <li>
+            <a href="#github"><span class="fa fa-github fa-lg"></span></a>
           </li>
         </ul>
       </li>
@@ -46,7 +61,6 @@
       </li>
       <li>
         <a href="#">Contact</a>
-        <a href="/account_setup">Setup</a>
       </li>
     </ul>
   </nav>
@@ -83,7 +97,7 @@
     </nav>
 
     <form id="postForm" action="pusherTest" method="post">
-      <h3 class="text">Status Update</h3>
+      <h3 class="text">Post To Wall</h3>
       <div class="form-group">
         <textarea type="text" class="form-control" name="status"></textarea>
       </div>
@@ -93,16 +107,7 @@
     <div class="line"></div>
     <div class="tab-content">
       <div id="twitter" class="tab-pane fade in active">
-        <%- include(rootPath + 'twitter/twitter') %>
-      </div>
-      <div id="youtube" class="tab-pane fade in">
-        <%- include(rootPath + 'youtube/youtube') %>
-      </div>
-      <div id="twitch" class="tab-pane fade in">
-        <%- include(rootPath + 'twitch/twitch') %>
-      </div>
-      <div id="github" class="tab-pane fade in">
-        <%- include(rootPath + 'github/github') %>
+        <%- include(sidePath + 'twitter/twitter') %>
       </div>
     </div>
     
@@ -128,13 +133,8 @@
       $('#sidebar').toggleClass('active');
       $(this).toggleClass('active');
     });
-
-    if ($('.tab-pane fade in active') === $('#twitter')) {
-      document.querySelector('.wrapper').setAttribute('style', 'background-color:#000000')
-      $('.wrapper').toggleStyle('background-color:#000000')
-    }
-    if ($('.tab-pane fade in') === $('#youtube')) {
-      $('.wrapper').toggleStyle('background-color:#000000')
-    }
+    $("a").click(function() {
+      $("b").toggleClass("odometer")
+    });
   });
 </script>
