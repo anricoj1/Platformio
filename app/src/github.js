@@ -14,8 +14,14 @@ function getRes() {
 exports.sessionRepos = async function(user) {
     var res = getRes();
     connection.query("SELECT user_id, reposURL FROM Github WHERE user_id = ?",[user.id], function(err, rows) {
-        fetch(rows[0].reposURL)
-        .then(res => res.json())
-        .then(json => res.json(json))
+        if (rows.length) {
+            fetch(rows[0].reposURL)
+            .then(res => res.json())
+            .then(json => res.json(json));
+        } else {
+            res.json({
+                git : 0
+            });
+        }
     });
 }

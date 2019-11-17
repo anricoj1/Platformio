@@ -14,9 +14,13 @@ npm install passport-local --save
 npm install passport-facebook --save
 npm install passport-twitter --save
 npm install passport-twitch-new --save
+npm install passport-github --save
+npm install passport-youtube-v3 --save
 npm install continuation-local-storage --save
+npm install node-fetch --save
 npm install twitter --save
 npm install twitch-api-v5 --save
+npm install youtube-node --save
 npm install web-push --save
 npm install pusher --save
 npm install multer --save

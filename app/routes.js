@@ -3,6 +3,7 @@ module.exports = function(app, passport) {
   var main = require('./src/main');
   var twitch = require('./src/twitch');
   var twitter = require('./src/twitter');
+  var youtube = require('./src/youtube');
   var github = require('./src/github');
 
   // connection
@@ -99,6 +100,10 @@ module.exports = function(app, passport) {
   app.get('/auth/github', isLoggedIn, passport.authenticate('github'));
 
   app.get('/auth/github/callback', isLoggedIn, passport.authenticate('github'));
+
+  app.get('/auth/youtube', isLoggedIn, passport.authenticate('youtube'));
+
+  app.get('/auth/youtube/callback',isLoggedIn, passport.authenticate('youtube'));
   
   app.get('/userAtt', function(req, res) {
     return main.userAtt(req.user);
@@ -112,6 +117,10 @@ module.exports = function(app, passport) {
     return twitter.twitterTimelineId(req.params);
   });
 
+  app.get('/youtube', function(req, res) {
+    return youtube.youtubeRelated();
+  })
+
   app.get('/twitchTimeline', isLoggedIn, function(req, res) {
     return twitch.twitchTimeline(req.user);
   });
@@ -120,16 +129,16 @@ module.exports = function(app, passport) {
     return twitch.sessChannelFollowers(req.user);
   });
 
-  app.get('/twitchFollowing', isLoggedIn, function(req, res) {
-    return twitch.sessChannelFollowing(req.user);
+  app.get('/liveChannels', function(req, res) {
+    return twitch.liveChannels(req.user);
   })
 
   app.get('/twitchChannelVideos', isLoggedIn, function(req, res) {
     return twitch.channelVideos(req.user);
   });
 
-  app.get('/searchChannels', isLoggedIn, function(req, res) {
-    return twitch.searchChannels(req.user);
+  app.post('/searchChannels', isLoggedIn, function(req, res) {
+    return twitch.searchChannels(req.user, req.body);
   });
 
   app.get('/searchGames', isLoggedIn, function(req, res) {

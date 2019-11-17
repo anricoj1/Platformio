@@ -53,19 +53,25 @@ exports.sessChannelFollowers = function(user) {
     });
 }
 
-exports.sessChannelFollowing = function(user) {
+
+exports.liveChannels = function(user) {
     var res = getRes();
     connection.query("SELECT * FROM Twitch WHERE user_id = ?",[user.id], function(err, rows) {
         if (rows.length) {
-            twitch.get('https://api.twitch.tv/helix/games/top')
+            twitch.streams.live({ userID : rows[0].twitchID}, (err, response) => {
+                res.json({
+                    live : response
+                });
+            });
         } else {
-            res.json({
-                twitchFollowing : 0
+            twitch.streams.live({ userID : '1'}, (err, response) => {
+                res.json({
+                    streams : response
+                });
             });
         }
     });
 }
-
 
 
 exports.channelVideos = function(user) {
@@ -85,12 +91,10 @@ exports.channelVideos = function(user) {
     });
 }
 
-exports.searchChannels = function(user) {
+exports.searchChannels = function(user, body) {
     var res = getRes();
-    twitch.search.channels({query : 'DrLupo'}, (err, response) => {
-        res.json({
-            searchQuery : response
-        });
+    twitch.search.channels({query : body.channels}, (err, response) => {
+        res.render('../views/pages/twitch.ejs', {user : user, channel : response, body : body.channels})
     });
 }
 

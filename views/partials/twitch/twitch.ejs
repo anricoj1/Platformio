@@ -15,26 +15,74 @@
     </ul>
   </div>
 </nav>
-<div class="container">
-  
-</div>
-<div class="container-fluid" style="background-color:#24292E">
-    <div class="container" style="background-color:#24292E">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="well">
-                    <h3 style="color:#BF94FF"><span class="fa fa-twitch" style="color:#BF94FF"></span> Twitch</h3>
-                    <strong>Name: </strong><b class="twitter_name"></b><br>
-                    <strong>User @: </strong><b class="screen_name"></b><br>
-                    <strong>Location: </strong><b class="location"></b><br>
-                    <strong>Description: </strong><b class="description"></b><br>
-                    <strong>Followers: </strong><b class="odometer followers"></b><br>
-                    <strong>Following: </strong><b class="odometer following"></b><br>
-                    <strong>Created At: </strong><b class="created_at"></b><br>
-                    <strong>Likes: </strong><b class="odometer likes"></b><br>
-                        <strong>Tweets: </strong><b class="odometer tweets"></b>
-                </div>
-            </div>
-        </div>
+
+<div class="container-fluid" style="color:white; background-color:#24292E">
+  <div class="container twitchProfile">
+    <div class="container padY60 padX0">
+        <p id="twitchAvi"></p>
+        <b>Twitch Name: </b><strong class="display_name"></strong><br>
+        <b>Followers: </b><strong class="twitchFollowers"></strong><br>
+        <b>Views: </b><strong class="twitch_views"></strong><br>
+        <b>Last Seen Playing </b> <strong class="last_played"></strong><br>
+        <b>With Status </b><strong class="twitch_status"></strong>
     </div>
+  </div>
+  <br>
+  <form style="float: right" class="form-inline" action="searchChannels" method="post">
+    <h5 type="text">Search Twitch</h5>
+    <div class="form-group">
+      <input type="text" class="form-control" name="channels">
+      <input type="submit" class="btn btn-primary btn-sm" value="Search">
+    </div>
+  </form><br>
+  <hr>
+  <div class="container-fluid">
+    <h4>Live Channels</h4><br>
+    <p style="color:#BF94FF" id="streams"></p>
+  </div>
 </div>
+<style>
+  .twitchProfile {
+    height: 300px;
+    resize: horizontal;
+  }
+  b {
+    position: relative;
+  }
+
+  input {
+    max-width: 200px;
+    height : 27px
+  }
+  @media (max-width: 500px) {
+    #streams {
+      font-size: x-small;
+    }
+    #streams h5 p {
+      max-width: 50px;
+      resize: vertical;
+    }
+  }
+</style>
+<script>
+  $(document).ready(function() {
+    userTwitch();
+
+    function userTwitch() {
+      $.getJSON('/twitchTimeline', function(data) {
+        var list = data.twitch;
+        console.log(data);
+        document.getElementById("twitchAvi").innerHTML +=
+      '<img class="circleImg" src=' + list.logo + '>';
+      $('.created_twitch').html(list.created_at);
+      $('.display_name').html(list.display_name);
+      $('.twitchFollowers').html(list.followers);
+      $('.last_played').html(list.game);
+      $('.twitch_avi').html(list.logo);
+      $('.twitch_status').html(list.status);
+      $('.twitch_url').html(list.url);
+      $('.twitch_views').html(list.views);
+    })
+  }
+})
+</script>

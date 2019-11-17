@@ -27,16 +27,16 @@
       <li>
         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Accounts</a>
         <ul class="collapse list-unstyled" id="pageSubmenu">
-          <li class="active">
+          <li>
             <a style="color:#00ffff" data-toggle="tab" href="#twitter"><span class="fa fa-twitter fa-lg"></span></a>
           </li>
-          <li class="active">
+          <li>
             <a style="color:#CC0000" data-toggle="tab" href="#youtube"><span class="fa fa-youtube fa-lg"></span></a>
           </li>
-          <li class="active">
+          <li>
             <a style="color:#BF94FF" data-toggle="tab" href="#twitch"><span class="fa fa-twitch fa-lg"></span></a>
           </li>
-          <li class="active">
+          <li>
             <a style="color:#28A745" data-toggle="tab" href="#github"><span class="fa fa-github fa-lg"></span></a>
           </li>
         </ul>
@@ -92,7 +92,10 @@
 
     <div class="line"></div>
     <div class="tab-content">
-      <div id="twitter" class="tab-pane fade in active">
+      <div id="profile" class="tab-pane fade in active">
+        <h2>(this) is active</h2>
+      </div>
+      <div id="twitter" class="tab-pane fade in">
         <%- include(rootPath + 'twitter/twitter') %>
       </div>
       <div id="youtube" class="tab-pane fade in">
@@ -129,12 +132,5 @@
       $(this).toggleClass('active');
     });
 
-    if ($('.tab-pane fade in active') === $('#twitter')) {
-      document.querySelector('.wrapper').setAttribute('style', 'background-color:#000000')
-      $('.wrapper').toggleStyle('background-color:#000000')
-    }
-    if ($('.tab-pane fade in') === $('#youtube')) {
-      $('.wrapper').toggleStyle('background-color:#000000')
-    }
   });
 </script>

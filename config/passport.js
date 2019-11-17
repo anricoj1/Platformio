@@ -4,6 +4,7 @@ var twitterStrategy = require('passport-twitter').Strategy;
 var twitchStrategy = require('passport-twitch-new').Strategy;
 var facebookStrategy = require('passport-facebook').Strategy;
 var githubStrategy = require('passport-github').Strategy;
+var youtubeStrategy =  require('passport-youtube-v3').Strategy;
 
 var configAuth = require('./auth');
 var bcrypt = require('bcrypt');
@@ -214,14 +215,26 @@ module.exports = function(passport) {
         } else {
           var urls = [profile._json.followers_url, profile._json.following_url, profile._json.repos_url];
           var insertGit = "INSERT INTO Github (gitID, user_id, git_name, followersURL, followingURL, reposURL) VALUES(?,?,?,?,?,?)";
+
           connection.query(insertGit,[profile.id, session.id, profile.username, urls[0], urls[1], urls[2]], function(err, rows) {
             profile.id = rows.insertId;
 
             res.redirect('/profile');
           })
         }
-      })
-    })
+      });
+    });
+  }));
+
+  passport.use(new youtubeStrategy({
+    clientID : configAuth.youtubeAuth.clientID,
+    clientSecret : configAuth.youtubeAuth.clientSecret,
+    callbackURL : configAuth.youtubeAuth.callbackURL
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log(profile._json);
   }))
+
+  
 
 };

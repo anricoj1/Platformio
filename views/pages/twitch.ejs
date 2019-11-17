@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include ../partials/includes %>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="background-color: black">
+            <a class="navbar-brand" href="/profile">Twitch <span class="fa fa-twitch fa-lg"></span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav">
+                <li style="color:#BF94FF" class="nav-item active"><a class="nav-link" href="#">Feed</a></li>
+                <li class="nav-item active"><a class="nav-link" href="#">Posts</a></li>
+                <li class="nav-item active"><a class="nav-link" href="#"></a></li>
+                <li class="nav-item active"><a class="nav-link" href="#"></a></li>
+            </ul>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li style="color:#ffffff"></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid" style="background-color:#24292E">
+            <div class="container" style="background-color: #24292E">
+                <h1 style="color:white">Search Results For: <%= body %></h1>
+                <p style="color:white" id="channels"></p>
+            </div>
+                
+        </div>
+        <script>
+            $(document).ready(function() {
+                searchTwitch();
+
+                function searchTwitch() {
+                    var channels = <%- JSON.stringify(channel) %>;
+                    var arr = channels.channels;
+                    arr.forEach(getChannel);
+                }
+
+                function getChannel(item, index) {
+                    document.getElementById("channels").innerHTML +=
+                    '<div class="media">' +
+                        '<img class="mr-3" src=' + item.logo + '>' +
+                            '<div class="media-body"' +
+                                '<h5 class="mt-0">' + item.display_name + " Has " + item.followers + " Followers and " + item.views + " Views" + '</h5>' +
+                                '<p>' + 
+                                    "Description: " + item.description + '<br>' + 
+                                    "Last Seen Playing: " + item.game + '<br>' +
+                                    "With Status: " + item.status + '<br>' +
+                                    '<a class="btn btn-danger btn-sm" href=' + item.url + '>' + "Url" + '</a>' +
+                                '</p>' +
+                            '</div>' +
+                    '</div>';
+                } 
+            })
+        </script>
+        
+    </body>
+</html>

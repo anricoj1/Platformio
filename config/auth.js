@@ -31,5 +31,10 @@ module.exports = {
       'clientID' : 'Iv1.a0f3bc54a1f0c9f8',
       'clientSecret' : 'd0894faf1b7a4bd9aa6f67db436b8c79b6321fea',
       'callbackURL' : 'http://localhost:8080/auth/github/callback'
+    },
+    'youtubeAuth' : {
+      'clientID' : '265306583113-gdfjuom2agj0jfcrqb95ouajdocum8j6.apps.googleusercontent.com',
+      'clientSecret' : 'Vv3Njg0zupale3lkwgMvmVbC',
+      'callbackURL' : 'http://localhost:8080/auth/youtube/callback'
     }
   }
