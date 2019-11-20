@@ -7,10 +7,33 @@ var youtube = new youTube();
 
 youtube.setKey('AIzaSyBl-M5DeDu7LF5DZuNFHzp75aXoohnWEgM');
 
+var cls = require('continuation-local-storage');
+
+
+function getRes() {
+    var namespace = cls.getNamespace('request');
+    var response = namespace.get('res');
+    return response;
+}
 
 exports.youtubeRelated = function() {
     youtube.search('Faze', 20, function(err, result) {
         console.log(JSON.stringify(result, null, 20));
+    })
+}
+
+exports.youtubeData = function(user) {
+    var res = getRes();
+    connection.query("SELECT * FROM Youtube WHERE user_id = ?",[user.id], function(err, rows) {
+        if (rows.length) {
+            res.json({
+                channel : rows[0]
+            })
+        } else {
+            res.json({
+                channel : 0
+            })
+        }
     })
 }
 

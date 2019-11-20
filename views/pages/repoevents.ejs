@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../../../css/page.css">
+        <style>
+            .gitProfile {
+                height: 300px;
+                resize: horizontal;
+            }
+
+
+            @media (max-width: 700px) {
+                #repoContent {
+                    font-size: x-small;
+                    resize: horizontal;
+                }
+                #gitAssets {
+                    font-size: x-small;
+                    resize: horizontal;
+                }
+            }
+        </style>
+        <% include ../partials/includes %>
+    </head>
+    <body>
+        <% include ../partials/gitnav %>
+        <div class="container-fluid" style="color: white; background-color:#24292E">
+            <div class="container gitProfile" style="background-color: #24292E">
+                <div class="container padY60 padX0">
+                    <h2><a style="color:white" href="https://www.github.com/<%= param.user %>"><%= param.user %></a>/<a style="color: white" href="https://www.github.com/<%= param.user %>/<%= param.repo %>"><%= param.repo %></a></h2>
+                    <p id="repoContent"></p>
+                </div>
+            </div>
+            <br>
+            <div style="height: 300px"></div>
+            <div class="container-fluid">
+                <p id="events"></p>
+            </div>
+        <% include ../partials/footer %>
+        </div>
+        <script>
+        $(document).ready(function() {
+            let url = window.location.pathname;
+            let new_url = url.substring(7);
+            let repo_contents = (url.substring(7, url.length - 6));
+            let repo_url = (url.substring(7, url.length - 7));
+                
+            loadEvents();
+            repoContents();
+            repoData();
+            
+            function loadEvents () {
+                $.getJSON(new_url, function(data) {
+                    if (data.length == []) {
+                        document.getElementById("events").innerHTML +=
+                        '<h5>' + "This Repository Has No Recent Events" + '</h5>';
+                    } else {
+                        document.getElementById("events").innerHTML +=
+                        '<h5>' + "This Repository Has Events!" + '</h5>';
+                        data.forEach(writeHtml);
+                    }
+                })
+            }
+
+            function writeHtml(item, index) {
+                document.getElementById("events").innerHTML +=
+                '<div class="media">' +
+                    '<span class="mr-3 fa fa-github fa-lg">' + '</span>' +
+                    '<div class="media-body">' +
+                        '<p>' + '<h5 class="mt-0">' + "Actor: " + item.actor.login +  '<small>' + " Made A " + item.type + '</small>' + '</h5>' + '</p>' + '<br>'
+                            for (var i = 0; i < item.payload.commits.length; i++) {
+                                document.getElementById("events").innerHTML +=
+                                '<p>' + 
+                                    item.payload.commits[i].author.email + '<br>' +
+                                    item.payload.commits[i].message + '<br>' +
+                                '</p>';
+                            }
+                    '</div>' + 
+                '</div>';
+            }
+
+            function repoContents() {
+                $.getJSON('https://api.github.com/repos' + repo_contents + 'contents', function(data) {
+                    document.getElementById("repoContent").innerHTML +=
+                    '<div class="media">' +
+                        '<span class="mr-3 fa fa-github fa-lg">' + '</span>' +
+                        '<div class="media-body">' +
+                            '<p>' +
+                                '<h5 class="mt-0">' + '</h5>' +
+                                '<a class="btn btn-success btn-sm" href="#">' + "Clone" + '</a>' + 
+                            '</p>' + '<br>' +
+                            '<table class="table table-hover">' +
+                                '<tr>' +
+                                    '<th>' + '<span class="fa fa-code-fork forks">' + '</span>' + " Forks" + '</th>' +
+                                    '<th>' + '<p class="language">' + '</p>' + '</th>' +
+                                '</tr>'
+                                    for (var i = 0; i < data.length; i++) {
+                                        document.getElementById("repoContent").innerHTML +=
+                                        '<tr>' +
+                                            '<ul>' +
+                                                '<li>' +
+                                                    '<td>' + '<a style="color: white" href=' + data[i].html_url + '>' + data[i].name + '</a>' + '</td>' +
+                                                '</li>' +
+                                            '</ul>' +
+                                        '</tr>';
+                                    } 
+                                '</table>' +
+                        '</div>' +
+                    '</div>' + '<br>';
+                                
+                })
+            }
+
+            function repoData() {
+                $.getJSON('https://api.github.com/repos' + repo_url, function(data) {
+                    $('.forks').html(data.forks_count);
+                    $('.language').html(data.language)
+                })
+            }
+
+        });
+        </script>
+    </body>
+</html>
+    

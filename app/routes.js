@@ -119,7 +119,11 @@ module.exports = function(app, passport) {
 
   app.get('/youtube', function(req, res) {
     return youtube.youtubeRelated();
-  })
+  });
+
+  app.get('/youtubeData', isLoggedIn, function(req, res) {
+    return youtube.youtubeData(req.user);
+  });
 
   app.get('/twitchTimeline', isLoggedIn, function(req, res) {
     return twitch.twitchTimeline(req.user);
@@ -147,7 +151,19 @@ module.exports = function(app, passport) {
 
   app.get('/sessionRepos', isLoggedIn, function(req, res) {
     return github.sessionRepos(req.user);
-  })
+  });
+
+  app.get('/github', isLoggedIn, function(req, res) {
+    res.render('../views/pages/github.ejs', {user : req.user});
+  });
+
+  app.get('/github/:user/:repo/events', isLoggedIn, function(req, res) {
+    res.render('../views/pages/repoevents.ejs', {user : req.user, param : req.params})
+  });
+
+  app.get('/:user/:repo/events', isLoggedIn, function(req, res) {
+    return github.repoEvents(req.params.user, req.params.repo);
+  });
   
   app.get('/userFollowers/:id', isLoggedIn, function(req, res) {
     return main.paramFollowers(req.params.id);

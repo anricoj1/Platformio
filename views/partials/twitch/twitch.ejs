@@ -28,10 +28,17 @@
     </div>
   </div>
   <br>
+  <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Search</button>
+    <ul class="dropdown-menu">
+      <input class="form-control" id="myInput" type="text" placeholder="Search Twitch..">
+      <li><a href="#">Games</a></li>
+      <li><a href="#">Streams</a></li>
+    </ul>
+  </div>
   <form style="float: right" class="form-inline" action="searchChannels" method="post">
-    <h5 type="text">Search Twitch</h5>
     <div class="form-group">
-      <input type="text" class="form-control" name="channels">
+      <input type="text" class="form-control" placeholder="Search Twitch..." name="channels">
       <input type="submit" class="btn btn-primary btn-sm" value="Search">
     </div>
   </form><br>

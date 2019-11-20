@@ -17,11 +17,21 @@ exports.sessionRepos = async function(user) {
         if (rows.length) {
             fetch(rows[0].reposURL)
             .then(res => res.json())
-            .then(json => res.json(json));
+            .then(json => res.json(json))
+            .catch(err => console.log(err));
         } else {
             res.json({
                 git : 0
             });
         }
     });
+}
+
+exports.repoEvents = async function(user, repo) {
+    var res = getRes();
+    var url = "https://api.github.com/repos/" + user + "/" + repo + "/events";
+    fetch(url)
+    .then(res => res.json())
+    .then(json => res.json(json))
+    .catch(err => console.log(err))
 }

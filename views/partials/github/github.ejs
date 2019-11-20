@@ -1,19 +1,58 @@
-<div class="container-fluid" style="background-color:#24292E">
-    <div class="container" style="background-color:#24292e">
-        <h2 style="color:#ffffff"><%= user.name %>'s <span style="color:#28A745" class="fa fa-github"></span> Repositories</h2>
-        <p id="githubUser"></p>
-        <p style="color:#ffffff" id="repos" class="container"></p>
+<nav class="navbar navbar-expand-sm" style="color: white; background-color:#24292E">
+    <a class="navbar-brand" href="/github"><span class="fa fa-github fa-lg"></span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav">
+        <li style="margin-right: 200px" class="nav-item"><a class="nav-link" href="/github">Repos (Extended)</a></li>
+        <li style="width: 300px" class="nav-item"><a class="nav-link" href="/github"><%= user.name %>'s <span class="fa fa-github"></span> Repositories</a></li>
+    </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav navbar-nav ml-auto">
+            <li style="color:#ffffff"></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid" style="background-color:#31363F">
+    <div class="container gitProfile" style="color: white; background-color:#31363F">
+        <div class="container padY60 padX0">
+            <div id="gitAvi"></div>
+            <div id="githubUser"></div>
+            <div id="gitAssets"></div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div class="container-fluid" style="color: white">
+        <table id="repos" class="table table-hover">
+            <tr>
+                <th>Repo Name</th>
+                <th><span class="fa fa-code-fork"></span> Forks</th>
+                <th>Language</th>
+                <th>Watchers</th>
+                <th></th>
+            </tr>
+        </table>
     </div>
 </div>
 <style>
-    @media (max-width: 500px) {
+    .gitProfile {
+        height: 300px;
+        resize : horizontal;
+    }
+
+    @media (max-width: 770px) {
         #repos {
             font-size: x-small;
         }
         #repos th td tr a {
             font-size: x-small;
-            max-width: 50px;
-            resize: vertical;
+            resize: horizontal;
+        }
+        .gitProfile {
+            resize: horizontal;
+            font-size: x-small;
         }
     }
 </style>

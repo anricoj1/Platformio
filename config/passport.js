@@ -232,9 +232,25 @@ module.exports = function(passport) {
     callbackURL : configAuth.youtubeAuth.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile._json);
-  }))
+    process.nextTick(function() {
+      var nameSpaces = getUserNamespace();
+      var session = nameSpaces[0];
+      var res = nameSpaces[1];
+      connection.query("SELECT * FROM Youtube WHERE channelID = ?",[profile.id], function(err, rows) {
+        if (rows.length) {
+          connection.query("SELECT * FROM User WHERE id = ?",[session.id], function(err, rows) {
+            res.redirect('/profile');
+          });
+        } else {
+          var insertYoutube = "INSERT INTO Youtube (channelID, title, user_id) VALUES(?,?,?)";
+          connection.query(insertYoutube,[profile.id, profile.displayName, session.id], function(err, rows) {
+            profile.id = rows.insertId;
 
+            res.redirect('/profile');
+          });
+        }
+      });
+    });
+  }));
   
-
 };

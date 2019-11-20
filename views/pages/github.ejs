@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/page.css">
+        <style>
+            .gitProfile {
+                height: 300px;
+                resize: horizontal;
+            }
+
+            @media (max-width: 700px) {
+                #repoContents {
+                    font-size: x-small;
+                    resize: vertical;
+                }
+                #gitAssets {
+                    font-size: x-small;
+                    resize: horizontal;
+                }
+            }
+        </style>
+        <% include ../partials/includes %>
+    </head>
+    <body>
+        <% include ../partials/gitnav %>
+        <div class="container-fluid" style="color: white; background-color:#24292E">
+            <div class="container gitProfile" style="background-color: #24292E">
+                <div class="container padY60 padX0">
+                    <p id="gitAssets"></p>
+                </div>
+            </div>
+            <br>
+            <div style="height: 100px"></div>
+            <div class="container-fluid">
+                <p id="repoContents"></p>
+            </div>
+            <% include ../partials/footer %>
+        </div>
+       
+        <script>
+        $(document).ready(function() {
+            loadGithub();
+
+            function loadGithub() {
+                $.getJSON('/sessionRepos', function(data) {
+                    data.forEach(repoToArray);
+                    gitAssets(data);
+                    console.log(data);
+                });
+            }
+
+            function repoToArray(item, index) {
+                $.getJSON(item.contents_url.slice(0, item.contents_url.length - 8), function(content) {
+                    var repos = [];
+                    var repo = {
+                        "items" : item,
+                        "contents" : content
+                    }
+                    repos.push(repo)
+                    repos.forEach(writeHtml);
+                });
+            }
+
+            function writeHtml(item, index) {
+                var clone_url = 'https://github.com/' + item.items.owner.login + '/' + item.items.name + '/archive/master.zip';
+                var events_url = '/github/' + item.items.owner.login + '/' + item.items.name + '/events'; 
+                document.getElementById("repoContents").innerHTML +=
+                '<div class="media">' +
+                    '<span class="mr-3 fa fa-github fa-lg">' + '</span>' +
+                    '<div class="media-body">' +
+                        '<p>' + '<h5 class="mt-0">' + '<a style="color: white" href=' + item.items.html_url + '>' + item.items.name + '</a>' + '</h5>' + 
+                        '<a class="btn btn-success btn-sm" href=' + clone_url + '>' + "Clone This" + '</a>' + '</p>' + '<br>' +
+                            '<table class="table table-hover">' +
+                                '<tr>' +
+                                    '<th>' + '<span class="fa fa-code-fork">' + '</span>' + " Forks: " + item.items.forks_count + '</th>' +
+                                    '<th>' + "Language: " + item.items.language + '</th>' +
+                                    '<th>' + '<a class="btn btn-danger btn-sm" href=' + events_url + '>' + "This Events" + '</a>' + '</th>'
+                                '</tr>'
+                                    for (var i = 0; i < item.contents.length; i++) {
+                                        document.getElementById("repoContents").innerHTML +=
+                                        '<tr>' +
+                                            '<ul>' + 
+                                                '<li>' + 
+                                                    '<td>' + '<a style="color: white" href=' + item.contents[i].html_url + '>' + item.contents[i].name + '</a>' + '</td>' + 
+                                                '</li>' + 
+                                            '</ul>'
+                                        '</tr>';
+                                    } 
+                                '</tr>' +
+                            '</table>' + 
+                    '</div>' + 
+                '</div>' + '<br>' + '<hr>';
+            }
+
+            function gitAssets(data) {
+                $.getJSON('https://api.github.com/users/' + data[0].owner.login, function(asset) {
+                    console.log(asset);
+                    document.getElementById("gitAssets").innerHTML +=
+                    '<div class="container padY60 padX0">' +
+                        '<img class="circleImg" src=' + asset.avatar_url + '>' + '<br>' +
+                        '<b>' + asset.name + '</b>' + '<br>' +
+                        '<b>' + 'Company: ' + asset.company + '</b>' + '<br>' +
+                        '<b>' + 'Blog: ' + asset.blog + '</b>' + '<br>' +
+                        '<b>' + 'Bio: ' + asset.bio + '</b>' + '<br>' +
+                        '<b>' + 'Public Repos Count: ' + '<strong class="odometer">' + asset.public_repos + '</strong>' + '</b>' + '<br>' +
+                        '<b>' + 'Following: ' + asset.following + ' Followers: ' + asset.followers + '</b>' + '<br>' +
+                        '<br>' + '<hr>' +
+                    '</div>';
+                })
+            }
+
+        });
+        </script>
+        <script src="includes/jquery.min.js"></script>
+        <link rel="stylesheet" href="includes/odometer-theme-default.css"/>
+        <script src="includes/odometer.js"></script>
+    </body>
+</html>

@@ -56,7 +56,8 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   loadGithub();
-
+  repoContents();
+  
   function loadGithub() {
     $.getJSON('/sessionRepos', function(data) {
       console.log(data);
@@ -64,25 +65,39 @@ $(document).ready(function() {
       var gitUrl = 'https://github.com/' + data[0].owner.login; 
       document.getElementById("githubUser").innerHTML += 
       '<h4 style="color:#ffffff"><a href=' + gitUrl + '>' + "Git Username: " + data[0].owner.login + '</h4>';
+      document.getElementById("gitAvi").innerHTML += '<img class="circleImg" src=' + data[0].owner.avatar_url + '>';
+      $.getJSON('https://api.github.com/users/' + data[0].owner.login, function(stats) {
+        document.getElementById("gitAssets").innerHTML += 
+        '<div class="container">' +
+        '<b>' + stats.name + '</b>' + '<br>' +
+        '<b>' + 'Company: ' + stats.company + '</b>' + '<br>' +
+        '<b>' + 'Blog: ' + stats.blog + '</b>' + '<br>' +
+        '<b>' + 'Bio: ' + stats.bio + '</b>' + '<br>' +
+        '<b>' + 'Public Repos Count: ' + '<strong class="odometer">' + stats.public_repos + '</strong>' + '</b>' + '<br>' +
+        '<b>' + 'Following: ' + stats.following + ' Followers: ' + stats.followers + '</b>' + 
+        '</div>';
+      });
     });
   }
+
   function getRepos(item, index) {
     document.getElementById("repos").innerHTML +=
-    '<table class="table table-hover">' + 
       '<tr>' +
-        '<th>' + item.name + ' ' + '|' + ' ' + item.description + '</th>' +
-        '<th></th>' +
-        '<th></th>' +
-        '<th></th>' + 
-      '</tr>' +
-      '<tr>' +
-        '<td>' + 'Forks: ' + item.forks_count + '</td>' +
-        '<td>' + 'Watchers: ' + item.watchers + '</td>' +
-        '<td>' + 'Language: ' + item.language + '</td>' +
+        '<td>' + item.name + ': ' + item.description + '</td>' +
+        '<td>' + item.forks_count + '</td>' +
+        '<td>' + item.language + '</td>' +
+        '<td>' + item.watchers + '</td>' + 
         '<td>' + '<a style="float: right; overflow: none" class="btn btn-success btn-sm" href=' + item.html_url + '>'+ '<span class="fa fa-github">' + " url" + '</a>' + '</td>' +
-      '</tr>' +
-    '</table>'; 
+      '</tr>';
   }
+
+  function repoContents() {
+    var url = 'https://api.github.com/repos/anricoj1/Platformio/contents';
+    $.getJSON(url, function(data) {
+      console.log(data);
+    })
+  }
+
 });
 
 $(document).ready(function() {
@@ -110,5 +125,35 @@ $(document).ready(function() {
           '</p>' +
         '</div>' +
       '</div>' + '<hr>';
+  }
+});
+
+
+$(document).ready(function() {
+  loadYoutube();
+
+
+  function loadYoutube() {
+    $.getJSON('/youtubeData', function(data) {
+      $('.channelName').html(data.channel.title);
+      let channel = data.channel.channelID;
+      let key = 'AIzaSyBl-M5DeDu7LF5DZuNFHzp75aXoohnWEgM';
+      let totalSubs = 0, totalViews = 0, totalVideos = 0;
+      getData(channel, key)
+
+      function getData(channel, key) {
+        var url = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + channel + '&key=' + key;
+        $.getJSON(url, function(stats) {
+          totalSubs = parseInt(stats.items[0].statistics.subscriberCount, 10);
+          totalViews = parseInt(stats.items[0].statistics.viewCount, 10);
+          totalVideos = parseInt(stats.items[0].statistics.videoCount, 10);
+          $('.odoSubs').html(totalSubs);
+          $('.odoViews').html(totalViews);
+          $('.odoVideos').html(totalVideos);
+          $('.subs').html(stats.items[0].statistics.subscriberCount);
+          $('.views').html(stats.items[0].statistics.viewCount);
+        });
+      }
+    });
   }
 });
