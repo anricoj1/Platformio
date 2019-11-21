@@ -53,6 +53,23 @@ exports.sessChannelFollowers = function(user) {
     });
 }
 
+exports.paramTwitchTimeline = function(param) {
+    var res = getRes();
+    connection.query("SELECT * FROM Twitch WHERE user_id = ?",[param], function(err, rows) {
+        if (rows.length) {
+            twitch.channels.channelByID({ channelID : rows[0].twitchID}, (err, response) => {
+                res.json({
+                    twitchChannel : response
+                });
+            });
+        } else {
+            res.json({
+                twitchChannel : 0
+            });
+        }
+    });
+}
+
 
 exports.liveChannels = function(user) {
     var res = getRes();
@@ -93,9 +110,19 @@ exports.channelVideos = function(user) {
 
 exports.searchChannels = function(user, body) {
     var res = getRes();
-    twitch.search.channels({query : body.channels}, (err, response) => {
-        res.render('../views/pages/twitch.ejs', {user : user, channel : response, body : body.channels})
-    });
+    if (body.selection === "Games") {
+        twitch.search.games({ query : body.type}, (err, response) => {
+            res.render('../views/pages/search_twitch.ejs', {user : user, search_query : response, body : body.type, select : body.selection})
+        });
+    } else if (body.selection === "Streams") {
+        twitch.search.streams({ query : body.type}, (err, response) => {
+            res.render('../views/pages/search_twitch.ejs', {user : user, search_query : response, body : body.type, select : body.selection})
+        });
+    } else {
+        twitch.search.channels({query : body.type}, (err, response) => {
+            res.render('../views/pages/search_twitch.ejs', {user : user, search_query : response, body : body.type, select : body.selection})
+        });
+    }
 }
 
 

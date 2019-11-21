@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="css/page.css">
+        <link rel="stylesheet" type="text/css" href="../css/page.css">
         <style>
             .gitProfile {
                 height: 300px;
@@ -39,10 +39,12 @@
        
         <script>
         $(document).ready(function() {
+            var url = window.location.pathname;
+            var new_url = (url.substring(8, url.length))
             loadGithub();
 
             function loadGithub() {
-                $.getJSON('/sessionRepos', function(data) {
+                $.getJSON('/repos/' + new_url, function(data) {
                     data.forEach(repoToArray);
                     gitAssets(data);
                     console.log(data);
@@ -94,11 +96,11 @@
 
             function gitAssets(data) {
                 $.getJSON('https://api.github.com/users/' + data[0].owner.login, function(asset) {
-                    console.log(asset);
+                    var user_url = "https://github.com/" + data[0].owner.login;
                     document.getElementById("gitAssets").innerHTML +=
                     '<div class="container padY60 padX0">' +
                         '<img class="circleImg" src=' + asset.avatar_url + '>' + '<br>' +
-                        '<b>' + asset.name + '</b>' + '<br>' +
+                        '<b>' + '<a style="color: white" href=' + user_url + '>' + asset.name + '</a>' + " " + '</b>' + '<a class="btn btn-primary btn-sm" href="/git/events">' + "Events" + '</a>' + '<br>' +
                         '<b>' + 'Company: ' + asset.company + '</b>' + '<br>' +
                         '<b>' + 'Blog: ' + asset.blog + '</b>' + '<br>' +
                         '<b>' + 'Bio: ' + asset.bio + '</b>' + '<br>' +
@@ -111,8 +113,8 @@
 
         });
         </script>
-        <script src="includes/jquery.min.js"></script>
-        <link rel="stylesheet" href="includes/odometer-theme-default.css"/>
-        <script src="includes/odometer.js"></script>
+        <script src="../includes/jquery.min.js"></script>
+        <link rel="stylesheet" href="../includes/odometer-theme-default.css"/>
+        <script src="../includes/odometer.js"></script>
     </body>
 </html>

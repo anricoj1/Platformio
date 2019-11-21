@@ -11,12 +11,12 @@ $(document).ready(function() {
   });
 
   function showRequest(formData, jqForm, options) {
-    alert('Upload is Starting');
+    alert('Uploading..');
     return true;
   }
 
   function showResponse(responseText, statusText, xhr, $form) {
-    alert('status: ' + statusText + '\n\nresponseText: \n' + responseText);
+    alert(responseText);
     return true;   
   }
 });

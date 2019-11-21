@@ -76,6 +76,38 @@ exports.userNotification = function(user, body) {
 }
 
 
+exports.addBio = function(user, body) {
+    var res = getRes();
+    var bio_id = uuidv3();
+
+    if (!body) {
+        alert("Must Fill Fields!")
+        res.redirect('/add_bio')
+    } else {
+        connection.query("INSERT INTO Bio (bioID, title, text, user_id) VALUES (?,?,?,?)",[bio_id, body.title, body.bio, user.id], function(err, rows) {
+            bio_id = rows.insertId;
+
+            res.redirect('/profile')
+        });
+    }
+}
+
+exports.bioUrl = function(param) {
+    var res = getRes();
+    connection.query("SELECT * FROM Bio WHERE user_id = ?",[param], function(err, rows) {
+        if (rows.length) {
+            res.json({
+                about : rows
+            });
+        } else {
+            res.json({
+                about : 0
+            });
+        }
+    });
+}
+
+
 // follow  another user via stream
 exports.followUser = function(user, paramID) {
     var res = getRes();

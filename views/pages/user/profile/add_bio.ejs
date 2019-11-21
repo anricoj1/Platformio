@@ -1,0 +1,38 @@
+<% var rootPath = '../../../'; %>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Add Bio</title>
+		<link rel="stylesheet" type="text/css" href="/css/page.css">
+			<%- include(rootPath + 'partials/includes') %>
+	</head>
+	<body>
+		<%- include(rootPath + 'partials/lnav') %>
+		<div class="container-fluid softwareImg">
+			<div class="container softwareDiv">
+				<h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b>Add To Bio!</b></h1>
+				<a href="/logout" style="float: right" class="btn btn-danger btn-sm"><span class="fa fa-lock"> Logout</span></a>
+				<div class="row">
+					<div class="col-sm-6">
+						<p style="color: white; ">A bio element is put on your profile once it is posted. <br>
+						Dont worry you can always delete them if you make a mistake. <br>
+						Add as many as you want! Appears in About Me.</p>
+						<form id="bioForm" action="add_bio" method="post">
+							<div class="form-group">
+								<label style="color: white" for="title">Title</label>
+								<input type="text" class="form-control" id="title" placeholder="Title.." name="title">
+							</div>
+							<div class="form-group">
+								<label style="color: white" for="bio">Bio</label>
+								<textarea type="text" class="form-control" placeholder="Something about you..." name="bio"></textarea>
+							</div>
+							<button type="submit" style="max-width: 300px" class="btn btn-primary btn-block mx-auto">Post</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="scripts/ajax/submit.js"></script>
+		<%- include(rootPath + 'partials/footer') %>
+	</body>
+</html>

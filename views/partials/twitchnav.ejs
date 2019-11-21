@@ -1,0 +1,26 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/twitch/<%= user.id %>"><span style="color: blueviolet" class="fa fa-twitch fa-lg"></span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li style="width: 300px"><a style="color:white" class="nav-link" href="/twitch/<%= user.id %>"><%= user.name %>'s <span style="color:blueviolet" class="fa fa-twitch"></span> Twitch</a></li>
+        </ul>
+        <ul class="navbar-nav">
+            <form id="searchForm" class="form-inline" action="/searchChannels" method="post">
+                <select class="btn btn-dark" name="selection" form="searchForm">
+                    <option value="Games">Games</option>
+                    <option value="Streams">Stream</option>
+                    <option value="Channels">Channels</option>
+                </select>
+                <div class="form-group">
+                    <input type="text" style="width: 300px; height: 30px" class="form-control" placeholder="Search Twitch.." name="type">
+                    <button type="submit" class="btn btn-dark"><span style="color: blueviolet" class="fa fa-search fa-lg"></span></button>
+                </div>
+            </form>
+            <li style="float: right"><a style="color: white" class="nav-link" href="/profile">Profile</a></li>
+            <li ><a style="color: white" class="nav-link" href="/logout">Logout</a></li>
+        </ul>
+    </div>
+</nav>

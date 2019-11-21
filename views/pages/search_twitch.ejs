@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/css/page.css">
+        <style>
+            .extraPaddingTop {
+                height: 300px;
+                resize: horizontal;
+            }
+
+            @media (max-width: 700px) {
+                #channels {
+                    resize: horizontal;
+                    font-size : x-small;
+                }
+
+                #streams {
+                    resize: horizontal;
+                    font-size: x-small;
+                }
+            }
+        </style>
+        <% include ../partials/includes %>
+    </head>
+    <body>
+        <% include ../partials/twitchnav %>
+        <div class="container-fluid" style="background-color:#24292E">
+            <div class="container extraPaddingTop" style="background-color: #24292E">
+                <div class="container padY60 padX0">
+                    <h1 style="color:white">Search Results In <%= select %> For: <%= body %></h1>
+                </div>   
+            </div>
+            <br>
+            <hr>
+            <div style="height: 100px"></div>
+            <div class="container-fluid" style="color: white">
+                <p id="channels"></p>
+                <p id="streams"></p>
+                <p id="games"></p>
+            </div>
+            <% include ../partials/footer %>
+        </div>
+        <script>
+            $(document).ready(function() {
+                var getSelection = <%- JSON.stringify(select) %>;
+                if (getSelection === "Games") {
+                    searchGames();
+
+                } else if (getSelection === "Streams") {
+                    searchStreams();
+                    
+                } else {
+                    searchTwitch();
+                }
+                
+                function searchTwitch() {
+                    var channels = <%- JSON.stringify(search_query) %>;
+                    var arr = channels.channels;
+                    arr.forEach(getChannel);
+                }
+
+                function getChannel(item, index) {
+                    document.getElementById("channels").innerHTML +=
+                    '<div class="media">' +
+                        '<img class="mr-3" src=' + item.logo + '>' +
+                            '<div class="media-body">' +
+                                '<h5 style="color: #BF94FF" class="mt-0">' + item.display_name + " Has " + item.followers + " Followers and " + item.views + " Views" + '</h5>' +
+                                '<p>' + 
+                                    "Description: " + item.description + '<br>' + 
+                                    "Last Seen Playing: " + item.game + '<br>' +
+                                    "With Status: " + item.status + '<br>' +
+                                    '<a class="btn btn-danger btn-sm" href=' + item.url + '>' + "Url" + '</a>' +
+                                '</p>' +
+                            '</div>' +
+                    '</div>';
+                }
+                
+                function searchStreams() {
+                    var streams = <%- JSON.stringify(search_query) %>;
+                    var arr = streams.streams;
+                    arr.forEach(writeStreams)
+                }
+
+                function writeStreams(item, index) {
+                    var game_url = 'https://twitch.tv/directory/game/' + item.game;
+                    document.getElementById("streams").innerHTML +=
+                    '<div class="media">' +
+                        '<img class="mr-3" src=' + item.preview.small + '>' +
+                            '<div class="media-body">' +
+                                '<h5 style="color: #BF94FF" class"mt-0">' + '<a style="color: #BF94FF" href=' + item.channel.url + '>' + item.channel.display_name + '</a>' + " Is Live Playing " + '<a style="color: #BF94FF" href=' + encodeURI(game_url) + '>' + item.game + '</a>' + '<br>' + " With Status: " + item.channel.status + '</h5>' + 
+                                    '<h6>' + "This Streamer Has: " + item.channel.followers + " Followers and " + item.channel.views + " Views" + '</h6>' +
+                                    '<p>' +
+                                        "This Stream Has: " + item.viewers + " Viewers" + '<br>' +
+                                        "Average Frame Rate: " + item.average_fps + '<br>' +
+                                        "Quality: " + item.video_height + "p" + '<br>' + 
+                                        '<a class="btn btn-danger btn-sm" href=' + item.channel.url + '>' + "Live" + '</a>' +
+                                    '</p>' +
+                            '</div>' +
+                    '</div>' + '<br>';
+                }
+
+                function searchGames() {
+                    var games = <%- JSON.stringify(search_query) %>;
+                    var arr = games.games;
+                    arr.forEach(writeGames);
+                }
+
+                function writeGames(item, index) {
+                    var game_url = 'https://twitch.tv/directory/game/' + item.name;
+                    document.getElementById("games").innerHTML +=
+                    '<div class="media">' +
+                        '<img class="mr-3" src=' + item.box.medium + '>' +
+                            '<div class="media-body">' +
+                                '<h5 style="color: #BF94FF" class="mt-0">' + '<a style="color: #BF94FF" href=' + encodeURI(game_url) + '>' + item.name + '</a>' + '</h5>' +
+                                '<b>' + "Popularity: " + item.popularity + '</b>' +
+                            '</div>' +
+                    '</div>' + '<br>';
+                }
+            })
+        </script>
+        
+    </body>
+</html>

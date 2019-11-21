@@ -44,6 +44,7 @@
             let new_url = url.substring(7);
             let repo_contents = (url.substring(7, url.length - 6));
             let repo_url = (url.substring(7, url.length - 7));
+            let clone_url = 'https://github.com' + repo_url + '/archive/master.zip';
                 
             loadEvents();
             repoContents();
@@ -87,7 +88,7 @@
                         '<div class="media-body">' +
                             '<p>' +
                                 '<h5 class="mt-0">' + '</h5>' +
-                                '<a class="btn btn-success btn-sm" href="#">' + "Clone" + '</a>' + 
+                                '<a class="btn btn-success btn-sm" href=' + clone_url + '>' + "Clone" + '</a>' + 
                             '</p>' + '<br>' +
                             '<table class="table table-hover">' +
                                 '<tr>' +
@@ -113,8 +114,10 @@
 
             function repoData() {
                 $.getJSON('https://api.github.com/repos' + repo_url, function(data) {
+                    console.log(data);
+                    var clone_url = 'https://github.com/';
                     $('.forks').html(data.forks_count);
-                    $('.language').html(data.language)
+                    $('.language').html(data.language);
                 })
             }
 

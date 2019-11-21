@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../../../css/page.css">
+        <style>
+            .gitProfile {
+                height: 300px;
+                resize: horizontal;
+            }
+
+
+            @media (max-width: 700px) {
+                #repoContent {
+                    font-size: x-small;
+                    resize: horizontal;
+                }
+                #gitAssets {
+                    font-size: x-small;
+                    resize: horizontal;
+                }
+            }
+        </style>
+        <% include ../partials/includes %>
+    </head>
+    <body>
+        <% include ../partials/gitnav %>
+        <div class='container-fluid' style="color: white; background-color:#24292E">
+            <div class="container gitProfile">
+                <div class="container padY60 padX0">
+                    <h2>Only You Can See This: <small>Your Session is <%= user.name %></small></h2>
+                </div>
+            </div>
+            <br>
+            <div style="height: 300px"></div>
+            <div class="container-fluid">
+                <p id="userEvents"></p>
+            </div>
+            <% include ../partials/footer %>
+        </div>
+        <script>
+            $(document).ready(function() {
+                loadEvents();
+
+
+                function loadEvents() {
+                    $.getJSON('/github/events', function(data) {
+                        console.log(data);
+                        data.forEach(writeHtml);
+                    });
+                }
+
+                function writeHtml(item, index) {
+                    let repo_url = "https://github.com/" + item.repo.name;
+                    let user_url = "https://github.com/" + item.actor.login;
+                    document.getElementById("userEvents").innerHTML +=
+                    '<div class="media">' +
+                        '<img class="mr-3" style="height: 60px" src=' + item.actor.avatar_url + '>' +
+                            '<div class="media-body">' +
+                                '<h5 class="mt-0">' + " Username: " + '<a style="color: white" href=' + user_url + '>' + item.actor.login + '</a>' + '</h5>' + 
+                                '<p>' + 
+                                    " Type: " + item.type + '<br>' + 
+                                    " To Repository: " + '<a style="color: white" href=' + repo_url + '>' + item.repo.name + '</a>'
+                                '</p>'
+                                    if (!item.payload.commits) {
+                                        document.getElementById("userEvents").innerHTML +=
+                                        '<p>' + "No Commit Message or Payload" + '</p>';
+                                    } else {
+                                        document.getElementById("userEvents").innerHTML +=
+                                        '<p>' + "Commit Message: " + item.payload.commits[0].message + " From " + item.payload.commits[0].author.email + '</p>';
+                                    }
+                                '<br>' +
+                            '</div>' + '<br>' +
+                    '</div>';      
+                }
+            })
+        </script>
+    </body>
+</html>

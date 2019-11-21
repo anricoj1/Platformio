@@ -27,6 +27,22 @@ exports.sessionRepos = async function(user) {
     });
 }
 
+exports.paramRepos = async function(param) {
+    var res = getRes();
+    connection.query("SELECT user_id, reposURL FROM Github WHERE user_id = ?",[param], function(err, rows) {
+        if (rows.length) {
+            fetch(rows[0].reposURL)
+            .then(res => res.json())
+            .then(json => res.json(json))
+            .catch(err => console.log(err));
+        } else {
+            res.json({
+                git : 0
+            });
+        }
+    });
+}
+
 exports.repoEvents = async function(user, repo) {
     var res = getRes();
     var url = "https://api.github.com/repos/" + user + "/" + repo + "/events";
@@ -34,4 +50,21 @@ exports.repoEvents = async function(user, repo) {
     .then(res => res.json())
     .then(json => res.json(json))
     .catch(err => console.log(err))
+}
+
+
+exports.userEvents = async function(user) {
+    var res = getRes();
+    connection.query("SELECT user_id, git_name FROM Github WHERE user_id = ?",[user.id], function(err, rows) {
+        if (rows.length) {
+            fetch("https://api.github.com/users/" + rows[0].git_name + '/events')
+            .then(res => res.json())
+            .then(json => res.json(json))
+            .catch(err => console.log(err))
+        } else {
+            res.json({
+                git_events : 0
+            });
+        }
+    });
 }

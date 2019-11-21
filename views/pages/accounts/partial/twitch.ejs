@@ -1,0 +1,109 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">  
+    <a class="navbar-brand" href="/twitch/<%= account.id %>"><span style="color: blueviolet" class="fa fa-twitch fa-lg"></span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Twitch" aria-controls="Twitch" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="Twitch">
+        <ul class="navbar-nav mr-auto">
+            <li style="width: 300px"><a style="color: white" class="nav-link" href="/twitch/<%= user.id %>"><%= user.name %>'s <span style="color: blueviolet" class="fa fa-twitch"> Twitch</span></a></li>
+        </ul>
+        <ul class="navbar-nav">
+            <form id="searchForm" class="form-inline" action="/searchChannels" method="post">
+                <select class="btn btn-dark" name="selection" form="searchForm">
+                    <option value="Games">Games</option>
+                    <option value="Streams">Stream</option>
+                    <option value="Channels">Channels</option>
+                </select>
+                <div class="form-group">
+                    <input type="text" style="width: 300px; height: 30px" class="form-control" placeholder="Search Twitch.." name="type">
+                    <button type="submit" class="btn btn-dark"><span style="color: blueviolet" class="fa fa-search fa-lg"></span></button>
+                </div>
+            </form>    
+        </ul>
+    </div>
+</nav>
+
+<style>
+    .twitchProfile {
+        height: 300px;
+        resize: horizontal;
+    }
+    
+    @media (max-width: 700px) {
+        #twitchAssets {
+            font-size: x-small;
+            resize: horizontal;
+        }
+        
+        #streams {
+            font-size : x-small;
+            resize: horizontal;
+        }
+    }
+</style>
+
+<div class="container-fluid" style="color:white; background-color:#24292E">
+    <div class="container twitchProfile">
+        <div class="container padY60 padX0">
+            <p id="twitchAssets"></p>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div class="container-fluid">
+        <h4>Live Channels</h4>
+        <p id="streams"></p>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var url = window.location.pathname;
+        var new_url = (url.substring(9, url.length));
+
+        loadTwitch();
+        liveChannels();
+
+        function loadTwitch() {
+            $.getJSON('/twitchTimeline/' + new_url, function(data) {
+                var asset = data.twitchChannel;
+                twitchAssets(asset)
+            });
+        }
+
+        function twitchAssets(asset) {
+            document.getElementById("twitchAssets").innerHTML +=
+            '<div class="container">' +
+                '<img class="circleImg" src=' + asset.logo + '>' + '<br>' +
+                    '<b>' + "Twitch Name: " + '<a style="color: white" href=' + asset.url + '>' + asset.display_name + '</a>' + '</b>' + '<br>' +
+                    '<b>' + "Followers: " + asset.followers + '</b>' + '<br>' +
+                    '<b>' + "Views: " + asset.views + '</b>' + '<br>' +
+                    '<b>' + 
+                        "Last Seen Playing " + asset.game + '<br>' +
+                        "With Status " + asset.status + '</b>' + 
+            '</div>';
+        }
+
+        function liveChannels() {
+            $.getJSON('/liveChannels', function(data) {
+                var live = data.live.streams;
+                live.forEach(getStreams)
+            });
+        }
+
+        function getStreams(item, index) {
+            var game_url = 'https://twitch.tv/directory/game/' + item.game;
+            var profile_url = 'https://twitch.tv/' + item.channel.display_name;
+            document.getElementById("streams").innerHTML +=
+            '<div class="media">' + 
+                '<img class="mr-3" src=' + item.preview.small + '>' +
+                    '<div class="media-body">' +
+                        '<h5 style="color: #BF94FF" class="mt-0">' + '<a style="color: #BF94FF" href=' + profile_url + '>' + item.channel.display_name + '</a>' + " Is Playing " + '<a style="color: #BF94FF" href=' + encodeURI(game_url) + '>' + item.game + '</a>' + " To " + item.viewers + " Viewers" + '</h5>' +
+                        '<b>' + "Followers: " + item.channel.followers + '</b>' + '<br>' + 
+                        '<b>' + item.channel.display_name + " Averages About " + item.average_fps + " fps." + '</b>' + '<br>' +
+                        '<a class="btn btn-danger btn-sm" href=' + item.channel.url + '>' + "Live" + '</a>' +
+                    '</div>' +
+            '</div>' + '<hr>';  
+        }
+    });
+</script>

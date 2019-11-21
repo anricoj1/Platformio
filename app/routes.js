@@ -73,6 +73,18 @@ module.exports = function(app, passport) {
   app.get('/account_setup', isLoggedIn, function(req, res) {
     res.render(userRoot + 'profile/dash.ejs', {user : req.user});
   });
+
+  app.get('/add_bio', isLoggedIn, function(req, res) {
+    res.render(userRoot + 'profile/add_bio.ejs', {user : req.user})
+  });
+
+  app.post('/add_bio', isLoggedIn, function(req, res) {
+    return main.addBio(req.user, req.body)
+  });
+
+  app.get('/bios/:id', isLoggedIn, function(req, res) {
+    return main.bioUrl(req.params.id)
+  })
   
   app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email']}));
   
@@ -117,12 +129,24 @@ module.exports = function(app, passport) {
     return twitter.twitterTimelineId(req.params);
   });
 
+  app.get('/twitter/:id', isLoggedIn, function(req, res) {
+    res.render('../views/pages/twitter.ejs', {user : req.user});
+  });
+
   app.get('/youtube', function(req, res) {
     return youtube.youtubeRelated();
   });
 
   app.get('/youtubeData', isLoggedIn, function(req, res) {
     return youtube.youtubeData(req.user);
+  });
+
+  app.get('/twitch/:id', isLoggedIn, function(req, res) {
+    res.render('../views/pages/twitch.ejs', {user : req.user})
+  });
+
+  app.get('/twitchTimeline/:id', isLoggedIn, function(req, res) {
+    return twitch.paramTwitchTimeline(req.params.id);
   });
 
   app.get('/twitchTimeline', isLoggedIn, function(req, res) {
@@ -153,7 +177,11 @@ module.exports = function(app, passport) {
     return github.sessionRepos(req.user);
   });
 
-  app.get('/github', isLoggedIn, function(req, res) {
+  app.get('/repos/:id', isLoggedIn, function(req, res) {
+    return github.paramRepos(req.params.id);
+  });
+
+  app.get('/github/:id', isLoggedIn, function(req, res) {
     res.render('../views/pages/github.ejs', {user : req.user});
   });
 
@@ -163,6 +191,14 @@ module.exports = function(app, passport) {
 
   app.get('/:user/:repo/events', isLoggedIn, function(req, res) {
     return github.repoEvents(req.params.user, req.params.repo);
+  });
+
+  app.get('/github/events', isLoggedIn, function(req, res) {
+    return github.userEvents(req.user);
+  });
+
+  app.get('/git/events', isLoggedIn, function(req, res) {
+    res.render('../views/pages/gitevents.ejs', {user : req.user})
   });
   
   app.get('/userFollowers/:id', isLoggedIn, function(req, res) {
@@ -186,11 +222,15 @@ module.exports = function(app, passport) {
   app.post('/uploadHeader', isLoggedIn, upload.single('imgUploader'), function(req, res) {
     connection.query("SELECT banner FROM User WHERE id = ?",[req.user.id], function(err, rows) {
       if (rows.length) {
-        connection.query("UPDATE User SET banner = ? WHERE id = ?",[req.file.filename, req.user.id], function(err, rows) {
-          res.send('Updated Header Photo!');
-        });
+        if (!req.file) {
+          res.send('Choose a Photo First!');
+        } else {
+          connection.query("UPDATE User SET banner = ? WHERE id = ?",[req.file.filename, req.user.id], function(err, rows) {
+            res.send('Updated Header Photo!');
+          });
+        } 
       } else {
-        res.send('There was an error. Try Again.');
+        res.redirect('/profile')
       }
     });
   });

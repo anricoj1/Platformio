@@ -55,7 +55,7 @@ CREATE TABLE Twitter (twitterID VARCHAR(200) PRIMARY KEY, user_id VARCHAR(200), 
 
 CREATE TABLE Posts (postID VARCHAR(200) PRIMARY KEY, user_id VARCHAR(200), user_name VARCHAR(200), status VARCHAR(200), date_time VARCHAR(200));
 
-
+CREATE TABLE Bio (bioID VARCHAR(200) PRIMARY KEY, title VARCHAR(200), text VARCHAR(300), user_id VARCHAR(200));
 
 # Needed Functions
 function followUser(id, user) {

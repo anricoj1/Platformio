@@ -1,0 +1,103 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/github"><span class="fa fa-github fa-lg"></span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Github" aria-controls="Github" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="Github">
+        <ul class="navbar-nav mr-auto">
+            <li style="width: 300px" class="nav-item"><a style="color: white" class="nav-link" href="/github"><%= account.name %>'s <span class="fa fa-github"></span> Repositories</a></li>
+        </ul>
+        <ul class="navbar-nav">
+            <li></li>
+        </ul>
+    </div>
+</nav>
+
+<style>
+    .gitProfile {
+        height: 300px;
+        resize : horizontal;
+    }
+
+    @media (max-width: 770px) {
+        #repos {
+            font-size: x-small;
+        }
+        
+        #repos th td tr a {
+            font-size: x-small;
+            resize: horizontal;
+        }
+            
+        .gitProfile {
+            resize: horizontal;
+            font-size: x-small;
+        }
+    }
+</style>
+
+<div class="container-fluid" style="background-color:#31363F">
+    <div class="container gitProfile" style="color: white; background-color:#31363F">
+        <div class="container padY60 padX0">
+            <p id="gitAssets"></p>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div class="container-fluid" style="color: white">
+        <table id="repos" class="table table-hover">
+            <tr>
+                <th>Repo Name</th>
+                <th><span class="fa fa-code-fork"></span> Forks</th>
+                <th>Language</th>
+                <th>Watchers</th>
+                <th></th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var url = window.location.pathname;
+        var new_url = (url.substring(9, url.length));
+
+        loadGithub();
+
+        function loadGithub() {
+            $.getJSON('/repos/' + new_url, function(data) {
+                data.forEach(getRepos);
+                gitUser(data);
+
+            })
+        }
+
+        function gitUser(data) {
+            $.getJSON('https://api.github.com/users/' + data[0].owner.login, function(stats) {
+                console.log(stats)
+                document.getElementById("gitAssets").innerHTML +=
+                '<div class="container">' +
+                    '<img class="circleImg" src=' + stats.avatar_url + '>' + '<br>' +
+                        '<b>' + stats.name + '</b>' + '<br>' +
+                        '<b>' + 'Company: ' + stats.company + '</b>' + '<br>' +
+                        '<b>' + 'Blog: ' + stats.blog + '</b>' + '<br>' +
+                        '<b>' + 'Bio: ' + stats.bio + '</b>' + '<br>' +
+                        '<b>' + 'Public Repos Count: ' + '<strong class="odometer">' + stats.public_repos + '</strong>' + '</b>' + '<br>' +
+                        '<b>' + 'Following: ' + stats.following + ' Followers: ' + stats.followers + '</b>' + 
+                '</div>';
+            })
+        }
+
+        function getRepos(item, index) {
+            document.getElementById("repos").innerHTML +=
+            '<tr>' +
+                '<td>' + item.name + ' : ' + item.description + '</td>' +
+                '<td>' + item.forks_count + '</td>' +
+                '<td>' + item.language + '</td>' +
+                '<td>' + item.watchers + '</td>' + 
+                '<td>' + '<a style="float: right; overflow: none" class="btn btn-success btn-sm" href=' + item.html_url + '>'+ '<span class="fa fa-github">' + " url" + '</a>' + '</td>' +
+            '</tr>';
+        }
+
+    })
+</script>

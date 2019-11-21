@@ -4,7 +4,7 @@
 <div class="wrapper">
   <nav id="sidebar">
     <div class="sidebar-header">
-      <h3><%= user.name %></h3><br>
+      <h3><%= account.name %></h3><br>
       <% if (follow.following === 1) { %>
         <form action='/follow/<%= account.id %>' method="post">
           <input type="hidden" name="_method" value="Unfollow">
@@ -37,22 +37,22 @@
         </ul>
       </li>
       <li>
-        <a href="#">About</a>
+        <a class="smoothScrollBtn" href="#aboutMe">About Me</a>
       </li>
       <li>
         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Accounts</a>
         <ul class="collapse list-unstyled" id="pageSubmenu">
-          <li class="active">
+          <li>
             <a style="color:#00ffff" data-toggle="tab" href="#twitter"><span class="fa fa-twitter fa-lg"></span></a>
           </li>
           <li>
-            <a href="#youtube"><span class="fa fa-youtube fa-lg"></span></a>
+            <a style="color:#CC0000" data-toggle="tab" href="#youtube"><span class="fa fa-youtube fa-lg"></span></a>
           </li>
           <li>
-            <a href="#twitch"><span class="fa fa-twitch fa-lg"></span></a>
+            <a style="color:#BF94FF" data-toggle="tab" href="#twitch"><span class="fa fa-twitch fa-lg"></span></a>
           </li>
           <li>
-            <a href="#github"><span class="fa fa-github fa-lg"></span></a>
+            <a style="color:#28A745" data-toggle="tab" href="#github"><span class="fa fa-github fa-lg"></span></a>
           </li>
         </ul>
       </li>
@@ -60,7 +60,7 @@
         <a href="#">Portfolio</a>
       </li>
       <li>
-        <a href="#">Contact</a>
+        <a href="#"></a>
       </li>
     </ul>
   </nav>
@@ -106,8 +106,20 @@
 
     <div class="line"></div>
     <div class="tab-content">
-      <div id="twitter" class="tab-pane fade in active">
-        <%- include(sidePath + 'twitter/twitter') %>
+      <div id="profile" class="tab-pane fade in active">
+        <h2>Active</h2>
+      </div>
+      <div id="twitter" class="tab-pane fade in">
+        <%- include(sidePath + 'twitter') %>
+      </div>
+      <div id="youtube" class="tab-pane fade in">
+        <%- include(sidePath + 'youtube') %>
+      </div>
+      <div id="twitch" class="tab-pane fade in">
+        <%- include(sidePath + 'twitch') %>
+      </div>
+      <div id="github" class="tabe-pane fade in">
+        <%- include(sidePath + 'github') %>
       </div>
     </div>
     

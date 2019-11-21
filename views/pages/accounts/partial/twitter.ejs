@@ -1,0 +1,105 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-info">
+    <a class="navbar-brand" href="/twitter/<%= user.id %>"><span style="color: #15202B" class="fa fa-twitter fa-lg"></span></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Twitter" aria-controls="Twitter" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="Twitter">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a style="color: #15202B" class="nav-link" href="https://twitter.com"><span class="fa fa-home fa-lg"></span> Home</a></li>
+      <li class="nav-item"><a style="color: #15202B" class="nav-link" href="https://twitter.com/i/moments"><span class="fa fa-bolt fa-lg"></span> Moments</a></li>
+      <li class="nav-item"><a style="color: #15202B" class="nav-link" href="https://twitter.com/i/notifications"><span class="fa fa-bell fa-lg"></span> Notifications</a></li>
+      <li class="nav-item"><a style="color: #15202B" class="nav-link" href="https://twitter.com/messages"><span class="fa fa-envelope fa-lg"></span> Messages</a></li>
+    </ul>
+    <ul class="navbar-nav">
+      <li></li>
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .twitterProfile {
+    height: 300px;
+    resize: horizontal;
+  }
+  
+  @media (max-width: 600px) {
+    #tweets {
+      font-size: x-small;
+    }
+    
+    #tweets h4 p {
+      resize: vertical;
+      max-width: 50px;
+    }
+
+    .twitterProfile {
+      resize: horizontal;
+      font-size: small
+    }
+  }
+</style>
+
+<div class="container-fluid" style="color: white; background-color:#15202B">
+  <div class="container twitterProfile" style="color: white; background-color:#15202B">
+    <div class="container padY60 padX0">
+      <p id="profileAbout"></p>
+    </div>
+  </div>
+  <br>
+  <hr>
+  <div class="container-fluid" style="color: white">
+    <h4>20 Recent Tweets from @<small class="screen_name"></small></h4><br>
+    <p id="tweets"></p>
+  </div>  
+</div>
+
+<script>
+  $(document).ready(function() {
+    var url = window.location.pathname;
+    var new_url = (url.substring(9, url.length));
+
+    loadTwitter();
+
+    function loadTwitter() {
+      $.getJSON('/twitterTimeline/' + new_url, function(data) {
+        var tweets = data.twitter;
+        var assets = data.twitter[0].user;
+        tweets.forEach(writeHtml);
+        twitterAssets(assets);
+      });
+    }
+    
+    function twitterAssets(assets) {
+      document.getElementById("profileAbout").innerHTML +=
+      '<div class="container">' +
+        '<img src=' + assets.profile_image_url + '>' + '<br>' +
+          '<p style="color: white">' +
+            '<b>' + assets.name + '</b>' + '<br>' +
+            '<b>' + "Following: " + assets.friends_count + '</b>' + '<br>' +
+            '<b>' + "Followers: " + assets.followers_count + '</b>' + '<br>' +
+            '<b>' + "Tweets: " + assets.statuses_count + '</b>' + '<br>' +
+            '<b>' + "Likes: " + assets.favourites_count + '</b>' + '<br>' +
+            '<b>' + "Location: " + assets.location + '</b>' + '<br>' +
+            '<b>' + "Bio: " + assets.description + '</b>' + '<br>' +
+          '</p>' +
+      '</div>';
+    }
+    
+    function writeHtml(item, index) {
+      var profile_url = "https://twitter.com/" + item.user.screen_name;
+      document.getElementById("tweets").innerHTML +=
+      '<div class="media">' +
+        '<img class="mr-3" src=' + item.user.profile_image_url + '>' +
+          '<div class="media-body">' +
+            '<h5 class="mt-0">' + item.user.name + '</h5>' +
+              '<p>' + item.text + '<br>' +
+                    "Tweeted At: " + item.created_at + '<br>' +
+                    '<a class="btn btn-info btn-sm" href=' + profile_url + '>' + "Profile" + '</a>' +
+              '</p>' +
+          '</div>' + 
+      '</div>' + '<hr>';
+    }
+  });
+</script>
+
+   

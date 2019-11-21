@@ -6,9 +6,40 @@ $(document).ready(function() {
       if (data.hasOwnProperty('username')) {
         $('.name').html(data.username.name);
         $('.email').html(data.username.email);
-        $('.id').html(data.username.id);
+        var user_id = data.username.id;
+        AboutMe(user_id);
       }
     });
+  }
+
+  function AboutMe(user_id) {
+    $.getJSON('/bios/' + user_id, function(bios) {
+      var items = bios.about;
+      items.forEach(writeHtml);
+    })
+  }
+
+  function writeHtml(item, index) {
+    var indexs = [0, 2, 4, 6];
+    var in2 = [1, 3, 5, 7];
+    var col1Pad = '<div class="col-md-6 tilePadWide softTileBack col1Pad">' +
+                      '<h3 class="white regTitle cenX">' + item.title + '</h3>' +
+                      '<h5 class="tileDesc subPmin white">' + item.text + '</h5>' +
+                  '</div>';
+    var col2Pad = '<div class="col-md-6 tilePadWide softTileBack col2Pad">' +
+                      '<h3 class="white regTitle cenX">' + item.title + '</h3>' +
+                      '<h5 class="tileDesc subPmin white">' + item.text + '</h5>' +
+                  '</div>';
+
+    for (var i = 0; i < indexs.length; i++) {
+      if (index === indexs[i]) {
+        document.getElementById("bios").innerHTML +=
+        col1Pad;  
+      } else if (index == in2[i]) {
+        document.getElementById("bios").innerHTML +=
+        col2Pad;
+      }
+    }
   }
 });
 
@@ -135,24 +166,29 @@ $(document).ready(function() {
 
   function loadYoutube() {
     $.getJSON('/youtubeData', function(data) {
-      $('.channelName').html(data.channel.title);
-      let channel = data.channel.channelID;
-      let key = 'AIzaSyBl-M5DeDu7LF5DZuNFHzp75aXoohnWEgM';
-      let totalSubs = 0, totalViews = 0, totalVideos = 0;
-      getData(channel, key)
-
-      function getData(channel, key) {
-        var url = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + channel + '&key=' + key;
-        $.getJSON(url, function(stats) {
-          totalSubs = parseInt(stats.items[0].statistics.subscriberCount, 10);
-          totalViews = parseInt(stats.items[0].statistics.viewCount, 10);
-          totalVideos = parseInt(stats.items[0].statistics.videoCount, 10);
-          $('.odoSubs').html(totalSubs);
-          $('.odoViews').html(totalViews);
-          $('.odoVideos').html(totalVideos);
-          $('.subs').html(stats.items[0].statistics.subscriberCount);
-          $('.views').html(stats.items[0].statistics.viewCount);
-        });
+      if (data.channel === 0) {
+        $('.odoSubs').html("Not Linked");
+        $('.odoViews').html("Not Linked");
+      } else {
+        $('.channelName').html(data.channel.title);
+        let channel = data.channel.channelID;
+        let key = 'AIzaSyBl-M5DeDu7LF5DZuNFHzp75aXoohnWEgM';
+        let totalSubs = 0, totalViews = 0, totalVideos = 0;
+        getData(channel, key)
+        
+        function getData(channel, key) {
+          var url = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + channel + '&key=' + key;
+          $.getJSON(url, function(stats) {
+            totalSubs = parseInt(stats.items[0].statistics.subscriberCount, 10);
+            totalViews = parseInt(stats.items[0].statistics.viewCount, 10);
+            totalVideos = parseInt(stats.items[0].statistics.videoCount, 10);
+            $('.odoSubs').html(totalSubs);
+            $('.odoViews').html(totalViews);
+            $('.odoVideos').html(totalVideos);
+            $('.subs').html(stats.items[0].statistics.subscriberCount);
+            $('.views').html(stats.items[0].statistics.viewCount); 
+          });
+        }
       }
     });
   }
