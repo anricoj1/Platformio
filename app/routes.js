@@ -28,6 +28,7 @@ module.exports = function(app, passport) {
   //root path (render)
   var rootPath = '../views/pages/';
   var userRoot = '../views/pages/user/';
+  var paramRoot = '../views/pages/accounts/';
   
   // continuation local storage (request namespace)
   const { createNamespace } = require('continuation-local-storage');
@@ -73,19 +74,43 @@ module.exports = function(app, passport) {
   app.get('/account_setup', isLoggedIn, function(req, res) {
     res.render(userRoot + 'profile/dash.ejs', {user : req.user});
   });
-
+  
+  // adding bio
   app.get('/add_bio', isLoggedIn, function(req, res) {
     res.render(userRoot + 'profile/add_bio.ejs', {user : req.user})
   });
+  
 
   app.post('/add_bio', isLoggedIn, function(req, res) {
     return main.addBio(req.user, req.body)
   });
-
+  
+  // get parameter biography
   app.get('/bios/:id', isLoggedIn, function(req, res) {
     return main.bioUrl(req.params.id)
-  })
+  });
+
+  // absolute url for parameter biography (render)
+  app.get('/bio/:id', isLoggedIn, function(req, res) {
+    res.render(paramRoot + 'acc_bio.ejs', {user : req.user})
+  });
   
+  // list all user biographies no set limit
+  app.get('/bioextended/:id', isLoggedIn, function(req, res) {
+    return main.bioExtended(req.params.id)
+  });
+
+  // url for session biographies (delete them here)
+  app.get('/:id/bio', isLoggedIn, function(req, res) {
+    res.render(userRoot + 'profile/bio.ejs', {user : req.user})
+  });
+
+  // delete a bio post
+  app.post('/deleteBio/:id', isLoggedIn, function(req, res) {
+    return main.deleteBio(req.user, req.params.id)
+  });
+
+  // login with google (actually serializes user)
   app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email']}));
   
   app.get('/auth/google/callback', passport.authenticate('google', {
@@ -93,14 +118,7 @@ module.exports = function(app, passport) {
     failureRedirect : '/'
   }));
   
-  app.get('/profile', isLoggedIn, function(req, res) {
-    res.render(userRoot + 'profile/prof.ejs', {user: req.user});
-  });
-  
-  app.get('/profile/:id', isLoggedIn, function(req, res) {
-    return main.findProfile(req.user, req.params.id);
-  });
-  
+  // link these !! (not serializing a user )
   app.get('/auth/twitter', isLoggedIn, passport.authenticate('twitter'));
   
   app.get('/auth/twitter/callback', passport.authenticate('twitter'));
@@ -113,112 +131,156 @@ module.exports = function(app, passport) {
 
   app.get('/auth/github/callback', isLoggedIn, passport.authenticate('github'));
 
-  app.get('/auth/youtube', isLoggedIn, passport.authenticate('youtube'));
-
-  app.get('/auth/youtube/callback',isLoggedIn, passport.authenticate('youtube'));
   
+  // session profile
+  app.get('/profile', isLoggedIn, function(req, res) {
+    res.render(userRoot + 'profile/prof.ejs', {user: req.user});
+  });
+  
+  // parameter profile
+  app.get('/profile/:id', isLoggedIn, function(req, res) {
+    return main.findProfile(req.user, req.params.id);
+  });
+
+  // session user attributes (json)
   app.get('/userAtt', function(req, res) {
     return main.userAtt(req.user);
   });
+
+  // parameter user attributes (json)
+  app.get('/userAtt/:id', function(req, res) {
+    return main.paramAttributes(req.params.id)
+  });
   
+  // session twitter timeline (statuses / data)
   app.get('/twitterTimeline', isLoggedIn, function(req, res) {
     return twitter.twitterTimeline(req.user);
   });
   
+  // parameter of previous
   app.get('/twitterTimeline/:id', isLoggedIn, function(req, res) {
     return twitter.twitterTimelineId(req.params);
   });
 
+  // full twitter view
   app.get('/twitter/:id', isLoggedIn, function(req, res) {
     res.render('../views/pages/twitter.ejs', {user : req.user});
   });
-
-  app.get('/youtube', function(req, res) {
-    return youtube.youtubeRelated();
-  });
-
-  app.get('/youtubeData', isLoggedIn, function(req, res) {
-    return youtube.youtubeData(req.user);
-  });
-
+  
+  // full twitch view
   app.get('/twitch/:id', isLoggedIn, function(req, res) {
     res.render('../views/pages/twitch.ejs', {user : req.user})
   });
 
+  // parameter twitch timeline (data)
   app.get('/twitchTimeline/:id', isLoggedIn, function(req, res) {
     return twitch.paramTwitchTimeline(req.params.id);
   });
 
-  app.get('/twitchTimeline', isLoggedIn, function(req, res) {
+  // session twitch timeline (data)
+  app.get('/twitchUser', isLoggedIn, function(req, res) {
     return twitch.twitchTimeline(req.user);
   });
 
+  // session twitch followers (not used currently)
   app.get('/twitchFollowers', isLoggedIn, function(req, res) {
     return twitch.sessChannelFollowers(req.user);
   });
 
-  app.get('/liveChannels', function(req, res) {
+  // live channels relates to session
+  app.get('/liveChannels', isLoggedIn, function(req, res) {
     return twitch.liveChannels(req.user);
-  })
+  });
 
+  // live channels relates to parameter
+  app.get('/liveChannels/:id', isLoggedIn, function(req, res) {
+    return twitch.paramLiveChannels(req.params.id);
+  });
+
+  // channel videos twitch (not current but soon!!)
   app.get('/twitchChannelVideos', isLoggedIn, function(req, res) {
     return twitch.channelVideos(req.user);
   });
 
+  // search twitch channels
   app.post('/searchChannels', isLoggedIn, function(req, res) {
-    return twitch.searchChannels(req.user, req.body);
+    return twitch.searchTwitch(req.user, req.body);
   });
 
+  // search twitch games
   app.get('/searchGames', isLoggedIn, function(req, res) {
-    return twitch.searchGames(req.user);
+    return twitch.searchTwitch(req.user);
   });
-
+  
+  // session github repositories
   app.get('/sessionRepos', isLoggedIn, function(req, res) {
     return github.sessionRepos(req.user);
   });
-
+  
+  // parameter github repositories
   app.get('/repos/:id', isLoggedIn, function(req, res) {
     return github.paramRepos(req.params.id);
   });
 
+  // users full github view
   app.get('/github/:id', isLoggedIn, function(req, res) {
     res.render('../views/pages/github.ejs', {user : req.user});
   });
-
+  
+  // repository events (render)
   app.get('/github/:user/:repo/events', isLoggedIn, function(req, res) {
     res.render('../views/pages/repoevents.ejs', {user : req.user, param : req.params})
   });
-
+  
+  // events of a repository (json)
   app.get('/:user/:repo/events', isLoggedIn, function(req, res) {
     return github.repoEvents(req.params.user, req.params.repo);
   });
-
-  app.get('/github/events', isLoggedIn, function(req, res) {
-    return github.userEvents(req.user);
+  
+  // users github recent events (all)
+  app.get('/events/:id', isLoggedIn, function(req, res) {
+    return github.userEvents(req.params.id);
   });
 
-  app.get('/git/events', isLoggedIn, function(req, res) {
+  // render for previous
+  app.get('/:id/events', isLoggedIn, function(req, res) {
     res.render('../views/pages/gitevents.ejs', {user : req.user})
   });
   
+  // get parameter followers
   app.get('/userFollowers/:id', isLoggedIn, function(req, res) {
     return main.paramFollowers(req.params.id);
   });
+
+  app.get('/following', isLoggedIn, function(req, res) {
+    return main.sessionFollowing(req.user)
+  });
+
+  app.get('/user_list', isLoggedIn, function(req, res) {
+    return main.allUsers();
+  });
+
+
+  app.get('/users_all', isLoggedIn, function(req, res) {
+    res.render('../views/pages/users.ejs', {user : req.user})
+  });
   
+  // follow a user
   app.post('/follow/:id', isLoggedIn, function(req, res) {
     return main.followUser(req.user, req.params.id);
   });
-  
+
+  // webpush service worker notification
   app.post('/notifications', isLoggedIn, function(req, res) {
     return main.userNotification(req.user, req.body);
   });
 
-  
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
   });
 
+  // upload header photo ajax submission (multer)
   app.post('/uploadHeader', isLoggedIn, upload.single('imgUploader'), function(req, res) {
     connection.query("SELECT banner FROM User WHERE id = ?",[req.user.id], function(err, rows) {
       if (rows.length) {

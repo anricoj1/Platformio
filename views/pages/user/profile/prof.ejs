@@ -2,7 +2,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="css/page.css">
+    <style>
+        .twitchBtn {
+          background-color: blueviolet;
+          color: white;
+        }
+        .twitchBtn:hover {
+          background-color: white;
+          color: blueviolet;
+        }
+      </style>
     <%- include(rootPath + 'partials/includes') %>
   </head>
   <body>
@@ -10,75 +20,25 @@
     <div style="background-image:url('public/<%= user.banner %>'); height: 100%; background-position: center; background-repeat:no-repeat; background-size: cover">
         <div class="homeDiv center">
             <h1 class="titleMain name" style="color:#000000"></h1>
-            <div class="container padY60 padX0">
-              <div class="row">
-                <div class="col-lg-4 tilePadMin">
-                  <div class="col-lg-4 centerDiv">
-                    <h3 class="odometer tileTitle odoSubs whiteText" id="odometer" style="display:block">0</h3>
-                    <h5 class="tileDesc whiteText">Subscribers</h5>
-                  </div>
-                </div>
-                <div class="col-lg-4 tilePadMin">
-                  <div class="centerDiv">
-                    <h3 class="odometer tileTitle odoViews whiteText" style="display:block">0</h3>
-                    <h5 class="tileDesc whiteText">Views</h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            <div class="container padY60 padX0"></div>    
         </div>
-        <div class="homeSouth">
-            <h4><a class="stealthLink subPmin padX0" href="#">Read More</a></h4>
-            <button class="smoothScrollBtn" type="button"><img src="images/Down-Arrow-White.png" width="30"/></button>
-        </div>
-        <%- include(rootPath + 'partials/subnav/tabs') %>
+    </div>
+    <div class="homeSouth">
+      <h4><a class="stealthLink subPmin padX0" href="#">Read More</a></h4>
+      <button class="smoothScrollBtn" type="button"><img src="images/Down-Arrow-White.png" width="30"/></button>
+    </div>
+      <%- include(rootPath + 'partials/subnav/tabs') %>
     </div>
 
-    <div id="aboutME" class="container-fluid softwareImg">
+    <div style="color: white" id="aboutME" class="container-fluid softwareImg">
         <div class="container softwareDiv">
             <h1 class="leftTitle subTitle white" style="padding-top: 0px">About Me</h1>
             <div class="row">
-              <p id="bios"></p>
-                <div class="col-md-6 tilePadWide softTileBack col2Pad">
-                    <h3 class="white regTitle cenX">Python</h3>
-                    <h5 class="tileDesc subPmin white">Client and Server side web sockets, file transfer,
-                      along with data analysis</h5>
-                    <ul class="centerLinks">
-                        <li style="display:inline-block;">
-                            <a href="software/pathfinding"><p style="border-width:0px" id="pathLink">Artificial Intellegence</p></a>
-                        </li>
-                        <li class="brText"><p>|</p></li>
-                        <li style="display:inline-block;">
-                            <a href="software#top"><p>View all projects</p></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 tilePadWide softTileBack col1Pad">
-                    <h3 class="white regTitle cenX">MySQL</h3>
-                    <h5 class="tileDesc subPmin white">2 years of creating Schemas and making
-                      advanced queries</h5>
-                    <ul class="centerLinks">
-                        <li style="display:inline-block;">
-                            <a href="electronics/air-conditioner-DIY"><p style="border-width:0px">Database Systems</p></a>
-                        </li>
-                        <li class="brText"><p>|</p></li>
-                        <li style="display:inline-block;">
-                            <a href="electronics#top"><p>View all projects</p></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-6 tilePadWide softTileBack col2Pad">
-                    <h3 class="white regTitle cenX">WEB</h3>
-                    <h5 class="tileDesc subPmin white">Current Webstacks: Nodejs and Flask
-                      Experience with HTML, CSS, Javascript and bootstrap</h5>
-                </div>
-                <a class="btn btn-outline-secondary btn-lg centerBtn" href="software" role="button">Learn More</a>
-            </div>
+              <div id="bios"></div>
+            </div>    
+          </div>
         </div>
-    </div>
+      </div>
 
     <%- include(rootPath + 'partials/footer') %>
     <script src="includes/jquery.min.js"></script>

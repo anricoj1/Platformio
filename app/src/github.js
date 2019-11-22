@@ -53,9 +53,9 @@ exports.repoEvents = async function(user, repo) {
 }
 
 
-exports.userEvents = async function(user) {
+exports.userEvents = async function(param) {
     var res = getRes();
-    connection.query("SELECT user_id, git_name FROM Github WHERE user_id = ?",[user.id], function(err, rows) {
+    connection.query("SELECT user_id, git_name FROM Github WHERE user_id = ?",[param], function(err, rows) {
         if (rows.length) {
             fetch("https://api.github.com/users/" + rows[0].git_name + '/events')
             .then(res => res.json())

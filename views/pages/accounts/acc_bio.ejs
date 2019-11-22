@@ -1,0 +1,61 @@
+<% var rootPath = '../../'; %>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Bios</title>
+		<link rel="stylesheet" type="text/css" href="../css/page.css">
+			<%- include(rootPath + 'partials/includes') %>
+	</head>
+	<body>
+		<%- include(rootPath + 'partials/lnav') %>
+		<div class="container-fluid softwareImg">
+			<div class="container softwareDiv">
+				<h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b>Bios</b></h1>
+				<a href="/logout" style="float: right" class="btn btn-danger btn-sm"><span class="fa fa-lock"> Logout</span></a>
+				<div class="row">
+					<div class="col-sm-6">
+						<p style="color: white" id="bios"></p>
+					</div>
+				</div>
+			</div>
+        </div>
+        <%- include(rootPath + 'partials/footer') %>
+        <script>
+            $(document).ready(function() {
+                var url = window.location.pathname;
+                var new_url = url.substring(4, url.length)
+
+                loadBio();
+
+                function loadBio() {
+                    $.getJSON('/bioextended' + new_url, function(data) {
+                        var items = data.about;
+                        if (items == 0) {
+                            noBio(items)
+                        } else {
+                            items.forEach(writeBio)
+                        }
+                    })
+                }
+                
+                function noBio(items) {
+                    document.getElementById("bios").innerHTML +=
+                    '<div class="container">' +
+                        '<h3>' + "Its a Ghostown This User Has No Bios" + '</h3>' +
+                    '</div>';
+                }
+
+                function writeBio(item, index) {
+                    document.getElementById("bios").innerHTML +=
+                    '<div class="media">' +
+                        '<span class="mr-3 fa fa-book">' + '</span>' +
+                            '<div class="media-body">' +
+                                '<h5 class="mt-0">' + item.title + '</h5>' +
+                                    '<p>' + item.text + '<br>' + '</p>' +
+                            '</div>' + 
+                    '</div>' + '<hr>';
+                }
+            });
+        </script>
+	</body>
+</html>

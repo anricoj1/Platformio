@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Add Bio</title>
+		<link rel="stylesheet" type="text/css" href="/css/page.css">
+			<% include ../partials/includes %>
+	</head>
+	<body>
+		<% include ../partials/lnav %>
+		<div class="container-fluid softwareImg">
+			<div class="container softwareDiv">
+				<h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b>Find Users!</b></h1>
+				<div class="row">
+					<div class="col-sm-6">
+						<p style="color: white; ">All Users On Platform.io</p>
+						<form id="bioForm" action="add_bio" method="post">
+							<div class="form-inline">
+                                <input style="width: 400px; height: 31px" type="text" class="form-control" id="title" placeholder="" name="usernames">
+                                <input type="submit" class="btn btn-primary btn-sm" value="Search">
+							</div>
+						</form>
+					</div>
+				</div>
+            </div>
+        </div>
+            <% include ../partials/footer %>
+	</body>
+</html>

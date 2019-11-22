@@ -52,6 +52,7 @@
             
             function loadEvents () {
                 $.getJSON(new_url, function(data) {
+                    console.log(data);
                     if (data.length == []) {
                         document.getElementById("events").innerHTML +=
                         '<h5>' + "This Repository Has No Recent Events" + '</h5>';
@@ -69,12 +70,17 @@
                     '<span class="mr-3 fa fa-github fa-lg">' + '</span>' +
                     '<div class="media-body">' +
                         '<p>' + '<h5 class="mt-0">' + "Actor: " + item.actor.login +  '<small>' + " Made A " + item.type + '</small>' + '</h5>' + '</p>' + '<br>'
-                            for (var i = 0; i < item.payload.commits.length; i++) {
+                            if (!item.payload.commits) {
                                 document.getElementById("events").innerHTML +=
-                                '<p>' + 
-                                    item.payload.commits[i].author.email + '<br>' +
-                                    item.payload.commits[i].message + '<br>' +
-                                '</p>';
+                                '<p>' + "No Commit Payload On This Index" + '</p>';
+                            } else {
+                                for (var i = 0; i < item.payload.commits.length; i++) {
+                                    document.getElementById("events").innerHTML +=
+                                    '<p>' + 
+                                        item.payload.commits[i].author.email + '<br>' +
+                                        item.payload.commits[i].message + '<br>' +
+                                    '</p>';
+                                }
                             }
                     '</div>' + 
                 '</div>';

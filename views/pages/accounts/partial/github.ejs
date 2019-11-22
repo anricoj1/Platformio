@@ -1,11 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/github"><span class="fa fa-github fa-lg"></span></a>
+    <a class="navbar-brand" href="/github/<%= account.id %>"><span class="fa fa-github fa-lg"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Github" aria-controls="Github" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="Github">
         <ul class="navbar-nav mr-auto">
-            <li style="width: 300px" class="nav-item"><a style="color: white" class="nav-link" href="/github"><%= account.name %>'s <span class="fa fa-github"></span> Repositories</a></li>
+            <li style="width: 300px" class="nav-item"><a style="color: white" class="nav-link" href="/github/<%= account.id %>"><%= account.name %>'s <span class="fa fa-github"></span> Repositories</a></li>
         </ul>
         <ul class="navbar-nav">
             <li></li>
@@ -66,17 +66,27 @@
 
         function loadGithub() {
             $.getJSON('/repos/' + new_url, function(data) {
-                data.forEach(getRepos);
-                gitUser(data);
+                if (data.git == 0) {
+                    nullGit();
+                } else {
+                    gitUser(data);
+                    data.forEach(getRepos);
+                }
+            });
+        }
 
-            })
+        function nullGit() {
+            document.getElementById("gitAssets").innerHTML +=
+            '<div class="container">' +
+                '<h5 style="color: white">' + <%- JSON.stringify(account.name) %> + " Hasnt Linked There Github Yet." + '</h5>' + '<br>' +
+            '</div>';
         }
 
         function gitUser(data) {
             $.getJSON('https://api.github.com/users/' + data[0].owner.login, function(stats) {
                 console.log(stats)
                 document.getElementById("gitAssets").innerHTML +=
-                '<div class="container">' +
+                '<div class="container" style="color: white">' +
                     '<img class="circleImg" src=' + stats.avatar_url + '>' + '<br>' +
                         '<b>' + stats.name + '</b>' + '<br>' +
                         '<b>' + 'Company: ' + stats.company + '</b>' + '<br>' +
@@ -85,7 +95,7 @@
                         '<b>' + 'Public Repos Count: ' + '<strong class="odometer">' + stats.public_repos + '</strong>' + '</b>' + '<br>' +
                         '<b>' + 'Following: ' + stats.following + ' Followers: ' + stats.followers + '</b>' + 
                 '</div>';
-            })
+            });
         }
 
         function getRepos(item, index) {

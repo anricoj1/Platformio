@@ -41,14 +41,25 @@
         $(document).ready(function() {
             var url = window.location.pathname;
             var new_url = (url.substring(8, url.length))
+            console.log(new_url)
             loadGithub();
 
             function loadGithub() {
                 $.getJSON('/repos/' + new_url, function(data) {
-                    data.forEach(repoToArray);
-                    gitAssets(data);
-                    console.log(data);
+                    if (data.git == 0) {
+                        nullGit()
+                    } else {
+                        data.forEach(repoToArray);
+                        gitAssets(data);
+                    }
                 });
+            }
+
+            function nullGit() {
+                document.getElementById("gitAssets").innerHTML +=
+                '<div class="container">' +
+                    '<h5 style="color: white">' + "Github Hasnt Been Linked By This User Yet." + '</h5>' + '<br>' +
+                '</div>';
             }
 
             function repoToArray(item, index) {
@@ -100,7 +111,7 @@
                     document.getElementById("gitAssets").innerHTML +=
                     '<div class="container padY60 padX0">' +
                         '<img class="circleImg" src=' + asset.avatar_url + '>' + '<br>' +
-                        '<b>' + '<a style="color: white" href=' + user_url + '>' + asset.name + '</a>' + " " + '</b>' + '<a class="btn btn-primary btn-sm" href="/git/events">' + "Events" + '</a>' + '<br>' +
+                        '<b>' + '<a style="color: white" href=' + user_url + '>' + asset.name + '</a>' + " " + '</b>' + '<a class="btn btn-primary btn-sm" href=/' + new_url + "/events" + '>' + "Events" + '</a>' + '<br>' +
                         '<b>' + 'Company: ' + asset.company + '</b>' + '<br>' +
                         '<b>' + 'Blog: ' + asset.blog + '</b>' + '<br>' +
                         '<b>' + 'Bio: ' + asset.bio + '</b>' + '<br>' +

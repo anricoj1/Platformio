@@ -45,16 +45,29 @@
                 var url = window.location.pathname;
                 var user_id = (url.substring(9, url.length));
 
-                loadTwitter();
+                loadTwitter(); 
 
                 function loadTwitter() {
                     $.getJSON('/twitterTimeline/' + user_id, function(data) {
                         var tweets = data.twitter;
-                        var assets = data.twitter[0].user;
-                        tweets.forEach(writeHtml);
-                        twitterAssets(assets);
-                    })
+
+                        if (tweets == 0) {
+                            nullTwitter();
+                        } else {
+                            var assets = data.twitter[0].user;
+                            tweets.forEach(writeHtml);
+                            twitterAssets(assets);
+                        }
+                    });
                 }
+
+                function nullTwitter() {
+                    document.getElementById("profileAbout").innerHTML +=
+                    '<div class="container padY60 padX0">' +
+                        '<h5 style="color: white">' + "Oops! User Hasnt Linked There Twitter Yet." + '</h5>' + '<br>' +
+                    '</div>';
+                }
+    
 
                 function twitterAssets(assets) {
                     document.getElementById("profileAbout").innerHTML +=

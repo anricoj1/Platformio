@@ -20,7 +20,7 @@ function getRes() {
 // session twitch timeline
 exports.twitchTimeline = function(user) {
     var res = getRes();
-    connection.query("SELECT * FROM Twitch WHERE user_id = ?",[user.id],function(err, rows) {
+    connection.query("SELECT * FROM Twitch WHERE user_id = ?",[user.id], function(err, rows) {
         if (rows.length) {
             twitch.channels.channelByID({ channelID : rows[0].twitchID}, (err, response) => {
                 res.json({
@@ -29,7 +29,7 @@ exports.twitchTimeline = function(user) {
             })
         } else {
             res.json({
-                twitchChannel : 0
+                twitch : 0
             });
         }
     });
@@ -53,6 +53,7 @@ exports.sessChannelFollowers = function(user) {
     });
 }
 
+// parameter twitch timeline function
 exports.paramTwitchTimeline = function(param) {
     var res = getRes();
     connection.query("SELECT * FROM Twitch WHERE user_id = ?",[param], function(err, rows) {
@@ -70,7 +71,7 @@ exports.paramTwitchTimeline = function(param) {
     });
 }
 
-
+// live channels session function
 exports.liveChannels = function(user) {
     var res = getRes();
     connection.query("SELECT * FROM Twitch WHERE user_id = ?",[user.id], function(err, rows) {
@@ -81,16 +82,32 @@ exports.liveChannels = function(user) {
                 });
             });
         } else {
-            twitch.streams.live({ userID : '1'}, (err, response) => {
-                res.json({
-                    streams : response
-                });
+            res.json({
+                live : 0
             });
         }
     });
 }
 
+// paramete session function
+exports.paramLiveChannels = function(param) {
+    var res = getRes();
+    connection.query("SELECT * FROM Twitch WHERE user_id = ?",[param], function(err, rows) {
+        if (rows.length) {
+            twitch.streams.live({ userID : rows[0].twitchID}, (err, response) => {
+                res.json({
+                    live : response
+                });
+            });
+        } else {
+            res.json({
+                live : 0
+            });
+        }
+    });
+}
 
+// channel videos (not used)
 exports.channelVideos = function(user) {
     var res = getRes();
     connection.query("SELECT * FROM Twitch WHERE user_id = ?",[user.id], function(err, rows) {
@@ -108,7 +125,8 @@ exports.channelVideos = function(user) {
     });
 }
 
-exports.searchChannels = function(user, body) {
+// search twitch (games, streams, channels)
+exports.searchTwitch = function(user, body) {
     var res = getRes();
     if (body.selection === "Games") {
         twitch.search.games({ query : body.type}, (err, response) => {
@@ -125,13 +143,3 @@ exports.searchChannels = function(user, body) {
     }
 }
 
-
-exports.searchGames = function(user) {
-    var res = getRes();
-    twitch.search.games({query : 'Call Of Duty'}, (err, response) => {
-        console.log(response);
-        res.json({
-            searchGames : response
-        });
-    });
-}

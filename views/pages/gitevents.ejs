@@ -27,7 +27,7 @@
         <div class='container-fluid' style="color: white; background-color:#24292E">
             <div class="container gitProfile">
                 <div class="container padY60 padX0">
-                    <h2>Only You Can See This: <small>Your Session is <%= user.name %></small></h2>
+                    <h2>This Is A View To See This Users Recent Github Events</h2>
                 </div>
             </div>
             <br>
@@ -39,12 +39,14 @@
         </div>
         <script>
             $(document).ready(function() {
+                var url = window.location.pathname;
+                var new_url = (url.substring(0, url.length - 7))
+                
                 loadEvents();
 
 
                 function loadEvents() {
-                    $.getJSON('/github/events', function(data) {
-                        console.log(data);
+                    $.getJSON('/events' + new_url, function(data) {
                         data.forEach(writeHtml);
                     });
                 }

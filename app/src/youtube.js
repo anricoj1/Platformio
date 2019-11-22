@@ -22,19 +22,5 @@ exports.youtubeRelated = function() {
     })
 }
 
-exports.youtubeData = function(user) {
-    var res = getRes();
-    connection.query("SELECT * FROM Youtube WHERE user_id = ?",[user.id], function(err, rows) {
-        if (rows.length) {
-            res.json({
-                channel : rows[0]
-            })
-        } else {
-            res.json({
-                channel : 0
-            })
-        }
-    })
-}
 
 

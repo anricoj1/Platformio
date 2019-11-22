@@ -62,32 +62,42 @@
         var new_url = (url.substring(9, url.length));
 
         loadTwitch();
-        liveChannels();
 
         function loadTwitch() {
-            $.getJSON('/twitchTimeline/' + new_url, function(data) {
-                var asset = data.twitchChannel;
-                twitchAssets(asset)
+            $.getJSON('/liveChannels/' + new_url, function(data) {
+                if (data.live == 0) {
+                    nullChannels();
+                } else {
+                    var arr = data.live.streams;
+                    arr.forEach(getStreams);
+                    twitchAssets();
+                }
             });
         }
 
-        function twitchAssets(asset) {
+        function nullChannels() {
             document.getElementById("twitchAssets").innerHTML +=
             '<div class="container">' +
-                '<img class="circleImg" src=' + asset.logo + '>' + '<br>' +
-                    '<b>' + "Twitch Name: " + '<a style="color: white" href=' + asset.url + '>' + asset.display_name + '</a>' + '</b>' + '<br>' +
-                    '<b>' + "Followers: " + asset.followers + '</b>' + '<br>' +
-                    '<b>' + "Views: " + asset.views + '</b>' + '<br>' +
-                    '<b>' + 
-                        "Last Seen Playing " + asset.game + '<br>' +
-                        "With Status " + asset.status + '</b>' + 
+                '<h5 style="color: white">' + <%- JSON.stringify(account.name) %> + " Hasnt Linked There Twitch Yet." + '</h5>' + '<br>' +
             '</div>';
         }
 
-        function liveChannels() {
-            $.getJSON('/liveChannels', function(data) {
-                var live = data.live.streams;
-                live.forEach(getStreams)
+        function twitchAssets() {
+            $.getJSON('/twitchTimeline/' + new_url, function(asset) {
+                if (asset.twitch == 0) {
+                    nullChannels();
+                } else {
+                    document.getElementById("twitchAssets").innerHTML +=
+                    '<div class="container padY60 padX0">' +
+                        '<img class="circleImg" src=' + asset.logo + '>' + '<br>' +
+                            '<b>' + "Twitch Name: " + '<a style="color: white" href=' + asset.url + '>' + asset.display_name + '</a>' + '</b>' + '<br>' +
+                            '<b>' + "Followers: " + asset.followers + '</b>' + '<br>' +
+                            '<b>' + "Views: " + asset.views + '</b>' + '<br>' +
+                            '<b>' + 
+                                "Last Seen Playing " + asset.game + '<br>' +
+                                "With Status " + asset.status + '</b>' + 
+                    '</div>';
+                }
             });
         }
 

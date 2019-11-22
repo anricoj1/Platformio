@@ -15,30 +15,92 @@ $(document).ready(function() {
   function AboutMe(user_id) {
     $.getJSON('/bios/' + user_id, function(bios) {
       var items = bios.about;
-      items.forEach(writeHtml);
+      if (items == 0) {
+        noBio(items);
+      } else {
+        colPad(items);
+      }   
     })
   }
 
-  function writeHtml(item, index) {
-    var indexs = [0, 2, 4, 6];
-    var in2 = [1, 3, 5, 7];
-    var col1Pad = '<div class="col-md-6 tilePadWide softTileBack col1Pad">' +
-                      '<h3 class="white regTitle cenX">' + item.title + '</h3>' +
-                      '<h5 class="tileDesc subPmin white">' + item.text + '</h5>' +
-                  '</div>';
-    var col2Pad = '<div class="col-md-6 tilePadWide softTileBack col2Pad">' +
-                      '<h3 class="white regTitle cenX">' + item.title + '</h3>' +
-                      '<h5 class="tileDesc subPmin white">' + item.text + '</h5>' +
-                  '</div>';
+  function noBio(items) {
+    document.getElementById("bios").innerHTML +=
+    '<div class="container">' +
+      '<h3 style="color: white">' + "Its a Ghostown You Have No Bios" + '</h3>' +
+    '</div>';
+  }
 
-    for (var i = 0; i < indexs.length; i++) {
-      if (index === indexs[i]) {
-        document.getElementById("bios").innerHTML +=
-        col1Pad;  
-      } else if (index == in2[i]) {
-        document.getElementById("bios").innerHTML +=
-        col2Pad;
-      }
+
+  function colPad(items) {
+    if (items.length == 1) {
+      document.getElementById("bios").innerHTML +=
+      '<div id="aboutThis" class="container mx-auto">' +
+        '<div class="col-md-6 tilePadWide softTileBack col1Pad">' +
+          '<h3 class="white regTitle cenX">' + items[0].title + '</h3>' +
+          '<h5 class="tileDesc subPmin white">' + items[0].text + '</h5>' +
+          '<a style="max-width: 300px" class="btn btn-outline-secondary btn-block mx-auto" href=/' + items[0].user_id + "/bio" + '>' + "Learn More" + '</a>' +
+        '</div>' +
+      '</div>';
+        
+      
+    }
+    if (items.length == 2) {
+      document.getElementById("bios").innerHTML +=
+      '<div class="row">' +
+        '<div class="col-md-6 tilePadWide softTileBack col1Pad">' +
+            '<h3 class="white regTitle cenX">' + items[0].title + '</h3>' +
+            '<h5 class="tileDesc subPmin white">' + items[0].text + '</h5>' +
+        '</div>' +
+        '<div class="col-md-6 tilePadWide softTileBack col2Pad">' +
+          '<h3 class="white regTitle cenX">' + items[1].title + '</h3>' +
+          '<h5 class="tileDesc subPmin white">' + items[1].text + '</h5>' +
+        '</div>' +
+        '<a style="max-width: 300px" class="btn btn-outline-secondary btn-block mx-auto" href=/' + items[0].user_id + "/bio" + '>' + "Learn More" + '</a>' +
+      '</div>';
+    }
+    if (items.length == 3) {
+      document.getElementById("bios").innerHTML +=
+      '<div class="row">' +
+        '<div class="col-md-6 tilePadWide softTileBack col1Pad">' +
+            '<h3 class="white regTitle cenX">' + items[0].title + '</h3>' +
+            '<h5 class="tileDesc subPmin white">' + items[0].text + '</h5>' +
+        '</div>' +
+        '<div class="col-md-6 tilePadWide softTileBack col2Pad">' +
+          '<h3 class="white regTitle cenX">' + items[1].title + '</h3>' +
+          '<h5 class="tileDesc subPmin white">' + items[1].text + '</h5>' +
+        '</div>' +
+      '</div>' +
+      '<div class="row">' +
+        '<div class="col-md-6 tilePadWide softTileBack col1Pad">' +
+          '<h3 class="white regTitle cenX">' + items[2].title + '</h3>' +
+          '<h5 class="tileDesc subPmin white">' + items[2].text + '</h5>' +
+        '</div>' +
+      '</div>' +
+      '<a style="max-width: 300px" class="btn btn-outline-secondary btn-block mx-auto" href=/' + items[0].user_id + "/bio" + '>' + "Learn More" + '</a>';
+    }
+    if (items.length == 4) {
+      document.getElementById("bios").innerHTML +=
+      '<div class="row">' +
+        '<div class="col-md-6 tilePadWide softTileBack col1Pad">' +
+          '<h3 class="white regTitle cenX">' + items[0].title + '</h3>' +
+          '<h5 class="tileDesc subPmin white">' + items[0].text + '</h5>' +
+        '</div>' +
+        '<div class="col-md-6 tilePadWide softTileBack col2Pad">' +
+          '<h3 class="white regTitle cenX">' + items[1].title + '</h3>' +
+          '<h5 class="tileDesc subPmin white">' + items[1].text + '</h5>' +
+        '</div>' +
+      '</div>' +
+      '<div class="row">' +
+        '<div class="col-md-6 tilePadWide softTileBack col1Pad">' +
+          '<h3 class="white regTitle cenX">' + items[2].title + '</h3>' +
+          '<h5 class="tileDesc subPmin white">' + items[2].text + '</h5>' +
+        '</div>' +
+        '<div class="col-md-6 tilePadWide softTileBack col2Pad">' +
+          '<h3 class="white regTitle cenX">' + items[3].title + '</h3>' +
+          '<h5 class="tileDesc subPmin white">' + items[3].text + '</h5>' +
+        '</div>' +
+        '<a style="max-width: 300px" class="btn btn-outline-secondary btn-block mx-auto" href=/' + items[0].user_id + "/bio" + '>' + "Learn More" + '</a>' +
+      '</div>';
     }
   }
 });
@@ -48,24 +110,42 @@ $(document).ready(function() {
 
   function loadTwitter() {
     $.getJSON('/twitterTimeline', function(data) {
-      console.log(data);
-      if (data.hasOwnProperty('twitter')) {
-        $('.twitter_name').html(data.twitter[0].user.name);
-        $('.screen_name').html(data.twitter[0].user.screen_name);
-        $('.location').html(data.twitter[0].user.location);
-        $('.description').html(data.twitter[0].user.description);
-        $('.followers').html(data.twitter[0].user.followers_count);
-        $('.following').html(data.twitter[0].user.friends_count);
-        $('.created_at').html(data.twitter[0].user.created_at);
-        $('.likes').html(data.twitter[0].user.favourites_count);
-        $('.tweets').html(data.twitter[0].user.statuses_count);
+      var tweets = data.twitter;
 
-        var tweets = data.twitter;
+      if (tweets === 0) {
+        nullTwitter();
+      } else {
+        var assets = data.twitter[0].user;
+        twitterAssets(assets);
         tweets.forEach(getTweets);
-        document.getElementById('twitterAvi').innerHTML += 
-        '<img src=' + tweets[0].user.profile_image_url + '>';
       }
     });
+  }
+
+  function nullTwitter() {
+    document.getElementById("profileAbout").innerHTML +=
+    '<div style="color: white" class="container padY60 padX0">' +
+        '<h5 stlye="color: white">' + "It Seems Like Your Twitter Account Isnt Linked" + '</h5>' +
+          '<b style="color: white">' +
+            "You can do it here " + '<a class="btn btn-info btn-lg" href="/auth/twitter">' + '<span class="fa fa-twitter fa-lg">' + '</span>' + '</a>' + '<br>' +
+            "Or Visit " + '<a style="color: white" href="/account_setup">' + "Account Setup" + '</a>' +
+          '</b>' +
+    '</div>';
+
+  }
+
+  function twitterAssets(assets) {
+    document.getElementById("profileAbout").innerHTML +=
+    '<div style="color: white" class="container">' +
+        '<img src=' + assets.profile_image_url + '>' + '<br>' +
+            '<b>' + assets.name + '</b>' + '<br>' +
+            '<b>' + "Following: " + assets.friends_count + '</b>' + '<br>' +
+            '<b>' + "Followers: " + assets.followers_count + '</b>' + '<br>' +
+            '<b>' + "Tweets: " + assets.statuses_count + '</b>' + '<br>' +
+            '<b>' + "Likes: " + assets.favourites_count + '</b>' + '<br>' +
+            '<b>' + "Location: " + assets.location + '</b>' + '<br>' +
+            '<b>' + "Bio: " + assets.description + '</b>' + '<br>' +
+    '</div>';
   }
 
   function getTweets(item, index) {
@@ -87,29 +167,46 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   loadGithub();
-  repoContents();
   
   function loadGithub() {
     $.getJSON('/sessionRepos', function(data) {
-      console.log(data);
-      data.forEach(getRepos);
-      var gitUrl = 'https://github.com/' + data[0].owner.login; 
-      document.getElementById("githubUser").innerHTML += 
-      '<h4 style="color:#ffffff"><a href=' + gitUrl + '>' + "Git Username: " + data[0].owner.login + '</h4>';
-      document.getElementById("gitAvi").innerHTML += '<img class="circleImg" src=' + data[0].owner.avatar_url + '>';
-      $.getJSON('https://api.github.com/users/' + data[0].owner.login, function(stats) {
-        document.getElementById("gitAssets").innerHTML += 
-        '<div class="container">' +
-        '<b>' + stats.name + '</b>' + '<br>' +
-        '<b>' + 'Company: ' + stats.company + '</b>' + '<br>' +
-        '<b>' + 'Blog: ' + stats.blog + '</b>' + '<br>' +
-        '<b>' + 'Bio: ' + stats.bio + '</b>' + '<br>' +
-        '<b>' + 'Public Repos Count: ' + '<strong class="odometer">' + stats.public_repos + '</strong>' + '</b>' + '<br>' +
-        '<b>' + 'Following: ' + stats.following + ' Followers: ' + stats.followers + '</b>' + 
-        '</div>';
-      });
+      if (data.git == 0) {
+        nullGit()
+      } else {
+        gitAssets(data);
+        data.forEach(getRepos)
+      }
     });
   }
+
+  function nullGit() {
+    document.getElementById("gitAssets").innerHTML +=
+    '<div style="color: white" class="container padY60 padX0">' +
+        '<h5 stlye="color: white">' + "It Seems Like Your Github Account Isnt Linked" + '</h5>' +
+          '<b style="color: white">' +
+            "You can do it here " + '<a class="btn btn-success btn-lg" href="/auth/github">' + '<span class="fa fa-github fa-lg">' + '</span>' + '</a>' + '<br>' +
+            "Or Visit " + '<a style="color: white" href="/account_setup">' + "Account Setup" + '</a>' +
+          '</b>' +
+    '</div>';
+  }
+
+  function gitAssets(data) {
+    var user_url = "https://github.com/" + data[0].owner.login;
+    $.getJSON('https://api.github.com/users/' + data[0].owner.login, function(asset) {
+      document.getElementById("gitAssets").innerHTML +=
+      '<div class="container">' +
+          '<img class="circleImg" src=' + asset.avatar_url + '>' + '<br>' +
+          '<b>' + '<a style="color: white" href=' + user_url + '>' + asset.name + '</a>' + '<br>' +
+          '<b>' + 'Company: ' + asset.company + '</b>' + '<br>' +
+          '<b>' + 'Blog: ' + asset.blog + '</b>' + '<br>' +
+          '<b>' + 'Bio: ' + asset.bio + '</b>' + '<br>' +
+          '<b>' + 'Public Repos Count: ' + '<strong class="odometer">' + asset.public_repos + '</strong>' + '</b>' + '<br>' +
+          '<b>' + 'Following: ' + asset.following + ' Followers: ' + asset.followers + '</b>' + '<br>' +
+          '<br>' + '<hr>' +
+      '</div>';
+    });
+  }
+
 
   function getRepos(item, index) {
     document.getElementById("repos").innerHTML +=
@@ -122,13 +219,6 @@ $(document).ready(function() {
       '</tr>';
   }
 
-  function repoContents() {
-    var url = 'https://api.github.com/repos/anricoj1/Platformio/contents';
-    $.getJSON(url, function(data) {
-      console.log(data);
-    })
-  }
-
 });
 
 $(document).ready(function() {
@@ -137,10 +227,46 @@ $(document).ready(function() {
 
   function loadTwitch() {
     $.getJSON('/liveChannels', function(data) {
-      console.log(data.live.streams);
-      var arr = data.live.streams;
-      arr.forEach(getStreams);
+      if (data.live === 0) {
+        nullChannels();
+      } else {
+        var arr = data.live.streams;
+        arr.forEach(getStreams);
+        Twitch();
+      }
     });
+  }
+
+  function Twitch() {
+    $.getJSON('/twitchUser', function(data) {
+      if (data.twitch === 0) {
+        nullChannels();
+      } else {
+        var asset = data.twitch
+        document.getElementById("twitchProfile").innerHTML +=
+        '<div class="container">' +
+          '<img class="circleImg" src=' + asset.logo + '>' + '<br>' +
+            '<b>' + "Twitch Name: " + '<a style="color: white" href=' + asset.url + '>' + asset.display_name + '</a>' + '</b>' + '<br>' +
+            '<b>' + "Followers: " + asset.followers + '</b>' + '<br>' +
+            '<b>' + "Views: " + asset.views + '</b>' + '<br>' +
+            '<b>' + 
+                "Last Seen Playing " + asset.game + '<br>' +
+                "With Status " + asset.status + '</b>' + 
+      '</div>';
+      }
+    });
+  }
+
+
+  function nullChannels() {
+    document.getElementById("twitchProfile").innerHTML +=
+    '<div style="color: white" class="container">' +
+      '<h5 stlye="color: white">' + "It Seems Like Your Twitch Account Isnt Linked" + '</h5>' +
+        '<b style="color: white">' +
+          "You can do it here " + '<a class="btn twitchBtn btn-lg" href="/auth/twitch">' + '<span class="fa fa-twitch fa-lg">' + '</span>' + '</a>' + '<br>' +
+          "Or Visit " + '<a style="color: white" href="/account_setup">' + "Account Setup" + '</a>' +
+        '</b>' +
+    '</div>';
   }
 
   
@@ -156,40 +282,5 @@ $(document).ready(function() {
           '</p>' +
         '</div>' +
       '</div>' + '<hr>';
-  }
-});
-
-
-$(document).ready(function() {
-  loadYoutube();
-
-
-  function loadYoutube() {
-    $.getJSON('/youtubeData', function(data) {
-      if (data.channel === 0) {
-        $('.odoSubs').html("Not Linked");
-        $('.odoViews').html("Not Linked");
-      } else {
-        $('.channelName').html(data.channel.title);
-        let channel = data.channel.channelID;
-        let key = 'AIzaSyBl-M5DeDu7LF5DZuNFHzp75aXoohnWEgM';
-        let totalSubs = 0, totalViews = 0, totalVideos = 0;
-        getData(channel, key)
-        
-        function getData(channel, key) {
-          var url = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + channel + '&key=' + key;
-          $.getJSON(url, function(stats) {
-            totalSubs = parseInt(stats.items[0].statistics.subscriberCount, 10);
-            totalViews = parseInt(stats.items[0].statistics.viewCount, 10);
-            totalVideos = parseInt(stats.items[0].statistics.videoCount, 10);
-            $('.odoSubs').html(totalSubs);
-            $('.odoViews').html(totalViews);
-            $('.odoVideos').html(totalVideos);
-            $('.subs').html(stats.items[0].statistics.subscriberCount);
-            $('.views').html(stats.items[0].statistics.viewCount); 
-          });
-        }
-      }
-    });
   }
 });

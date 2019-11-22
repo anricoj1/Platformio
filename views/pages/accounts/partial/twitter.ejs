@@ -63,10 +63,22 @@
     function loadTwitter() {
       $.getJSON('/twitterTimeline/' + new_url, function(data) {
         var tweets = data.twitter;
-        var assets = data.twitter[0].user;
-        tweets.forEach(writeHtml);
-        twitterAssets(assets);
+
+        if (tweets == 0) {
+          nullTwitter();
+        } else {
+          var assets = data.twitter[0].user;
+          tweets.forEach(writeHtml);
+          twitterAssets(assets);
+        }
       });
+    }
+
+    function nullTwitter() {
+      document.getElementById("profileAbout").innerHTML +=
+      '<div class="container">' +
+                '<h5 style="color: white">' + <%- JSON.stringify(account.name) %> + " Hasnt Linked There Twitter Yet." + '</h5>' + '<br>' +
+      '</div>';
     }
     
     function twitterAssets(assets) {

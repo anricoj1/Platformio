@@ -3,6 +3,7 @@ var requireRoot = '../../config/';
 var connection = require(requireRoot + 'connect');
 
 var uuidv3 = require('uuid');
+var alert = require('alert-node');
 
 
 // web-push
@@ -52,6 +53,22 @@ exports.findProfile = function(session, paramID) {
     });
 }
 
+// list parameter user attributes
+exports.paramAttributes = function(param) {
+    var res = getRes();
+    connection.query("SELECT * FROM User WHERE id = ?",[param], function(err, rows) {
+        if (rows.length) {
+            res.json({
+                param : rows
+            });
+        } else {
+            res.json({
+                param : 0
+            })
+        }
+    })
+}
+
 // session notifications (web-push / service workers)
 exports.userNotification = function(user, body) {
     var res = getRes();
@@ -75,7 +92,7 @@ exports.userNotification = function(user, body) {
     });
 }
 
-
+// add a bio 
 exports.addBio = function(user, body) {
     var res = getRes();
     var bio_id = uuidv3();
@@ -92,9 +109,10 @@ exports.addBio = function(user, body) {
     }
 }
 
+// json for bio on profile limit 4
 exports.bioUrl = function(param) {
     var res = getRes();
-    connection.query("SELECT * FROM Bio WHERE user_id = ?",[param], function(err, rows) {
+    connection.query("SELECT * FROM Bio WHERE user_id = ? LIMIT 4",[param], function(err, rows) {
         if (rows.length) {
             res.json({
                 about : rows
@@ -105,6 +123,52 @@ exports.bioUrl = function(param) {
             });
         }
     });
+}
+
+// extended bio view (show all)
+exports.bioExtended = function(param) {
+    var res = getRes();
+    connection.query("SELECT * FROM Bio WHERE user_id = ? LIMIT 4",[param], function(err, rows) {
+        if (rows.length) {
+            res.json({
+                about : rows
+            });
+        } else {
+            res.json({
+                about : 0
+            });
+        }
+    });
+}
+
+
+// callback hit if user is owner of bio
+function isOwner(user, param, next) {
+    connection.query("SELECT * FROM Bio WHERE bioID = ?",[param], function(err, rows) {
+        if (rows.length) {
+            if (rows[0].user_id === user.id) {
+                next();
+            } else {
+                res.redirect('/profile');
+            } 
+        } else {
+            res.send("404 Page Not Found")
+        }
+    });
+}
+
+// delete a bio
+exports.deleteBio = function(user, param) {
+    var res = getRes();
+    if (isOwner) {
+        connection.query("DELETE FROM Bio WHERE bioID = ?",[param], function(err, rows) {
+            alert("Deleted Item From Bio!");
+            res.redirect('/profile')
+        });
+    } else {
+        alert("Woah! Not Authorized To Do That!")
+        res.redirect('/profile');
+    }
 }
 
 
@@ -137,7 +201,13 @@ exports.sessionFollowers = function(user) {
 
 // list session following
 exports.sessionFollowing = function(user) {
-
+    connection.query("SELECT * FROM Followers WHERE userID = ? AND following = 1",[user.id], function(err, rows) {
+        if (rows.length) {
+            console.log(rows)
+        } else{
+            console.log("False");
+        }
+    })
 }
 
 
@@ -146,6 +216,13 @@ exports.paramFollowing = function(oaramID) {
 
 }
 
+exports.allUsers = function() {
+    connection.query("SELECT name, email, banner, FROM User", function(err, rows) {
+        res.json({
+            users : rows
+        });
+    });
+}
 
 // list parameter user Follows
 exports.paramFollowers = function(paramID) {

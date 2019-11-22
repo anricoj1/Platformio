@@ -44,33 +44,43 @@
                 var url = window.location.pathname;
                 var new_url = (url.substring(8, url.length))
                 loadTwitch();
-                liveChannels();
 
                 function loadTwitch() {
-                    $.getJSON('/twitchTimeline/' + new_url, function(data) {
-                        var asset = data.twitchChannel;
-                        twitchAssets(asset)
+                    $.getJSON('/liveChannels/' + new_url, function(data) {
+                        if (data.live == 0) {
+                            nullChannles();
+                        } else {
+                            var arr = data.live.streams;
+                            arr.forEach(getStreams);
+                            twitchAssets();
+                        }
                     })
                 }
 
-                function twitchAssets(asset) {
+                function nullChannles() {
                     document.getElementById("twitchAssets").innerHTML +=
-                    '<div class="container padY60 padX0">' +
-                        '<img class="circleImg" src=' + asset.logo + '>' + '<br>' +
-                            '<b>' + "Twitch Name: " + '<a style="color: white" href=' + asset.url + '>' + asset.display_name + '</a>' + '</b>' + '<br>' +
-                            '<b>' + "Followers: " + asset.followers + '</b>' + '<br>' +
-                            '<b>' + "Views: " + asset.views + '</b>' + '<br>' +
-                            '<b>' + 
-                                "Last Seen Playing " + asset.game + '<br>' +
-                                "With Status " + asset.status + '</b>' + 
+                    '<div class="container">' +
+                        '<h5 style="color: white">' + "Oops! User Hasnt Linked There Twitch Yet." + '</h5>' + '<br>' +
                     '</div>';
                 }
 
-                function liveChannels() {
-                    $.getJSON('/liveChannels', function(data) {
-                        var live = data.live.streams;
-                        live.forEach(getStreams)
-                        
+                function twitchAssets() {
+                    $.getJSON('/twitchTimeline/' + new_url, function(asset) {
+                        if (asset.twitchChannel == 0) {
+                            nullChannles();
+                        } else {
+                            var assets = asset.twitchChannel;
+                            document.getElementById("twitchAssets").innerHTML +=
+                            '<div class="container padY60 padX0">' +
+                                '<img class="circleImg" src=' + assets.logo + '>' + '<br>' +
+                                    '<b>' + "Twitch Name: " + '<a style="color: white" href=' + assets.url + '>' + assets.display_name + '</a>' + '</b>' + '<br>' +
+                                    '<b>' + "Followers: " + assets.followers + '</b>' + '<br>' +
+                                    '<b>' + "Views: " + assets.views + '</b>' + '<br>' +
+                                    '<b>' + 
+                                        "Last Seen Playing " + assets.game + '<br>' +
+                                        "With Status " + assets.status + '</b>' + 
+                            '</div>';
+                        }
                     });
                 }
 
