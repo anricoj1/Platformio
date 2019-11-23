@@ -275,6 +275,10 @@ module.exports = function(app, passport) {
     return main.userNotification(req.user, req.body);
   });
 
+  app.post('/sendStatus', isLoggedIn, function(req, res) {
+    return main.addPost(req.user);
+  });
+
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
@@ -296,6 +300,15 @@ module.exports = function(app, passport) {
       }
     });
   });
+
+  app.get('/documentation', function(req, res) {
+    res.render('../views/pages/docs.ejs', {user : req.user})
+  });
+
+  app.get('/getting_started', function(req, res) {
+    res.render('../views/pages/getstarted.ejs', {user : req.user})
+  });
+
 
   app.post('/uploadAvi', isLoggedIn, upload.single('aviUpload'), function(req, res) {
     return main.uploadAvi(req.user, req.file);

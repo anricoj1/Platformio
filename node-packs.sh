@@ -21,6 +21,7 @@ npm install node-fetch --save
 npm install twitter --save
 npm install twitch-api-v5 --save
 npm install youtube-node --save
+npm install alert-node --save
 npm install web-push --save
 npm install pusher --save
 npm install multer --save
