@@ -13,6 +13,27 @@
     </div>
 </nav>
 
+<style>
+    .gitProfile {
+        height: 300px;
+        resize : horizontal;
+    }
+
+    @media (max-width: 770px) {
+        #repos {
+            font-size: x-small;
+        }
+        #repos th td tr a {
+            font-size: x-small;
+            resize: horizontal;
+        }
+        .gitProfile {
+            resize: horizontal;
+            font-size: x-small;
+        }
+    }
+</style>
+
 <div class="container-fluid" style="background-color:#31363F">
     <div class="container gitProfile" style="color: white; background-color:#31363F">
         <div class="container padY60 padX0">
@@ -35,23 +56,3 @@
         </table>
     </div>
 </div>
-<style>
-    .gitProfile {
-        height: 300px;
-        resize : horizontal;
-    }
-
-    @media (max-width: 770px) {
-        #repos {
-            font-size: x-small;
-        }
-        #repos th td tr a {
-            font-size: x-small;
-            resize: horizontal;
-        }
-        .gitProfile {
-            resize: horizontal;
-            font-size: x-small;
-        }
-    }
-</style>

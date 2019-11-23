@@ -3,27 +3,56 @@ $(document).ready(function() {
 
   function loadUser() {
     $.getJSON('/userAtt', function(data) {
-      if (data.hasOwnProperty('username')) {
-        $('.name').html(data.username.name);
-        $('.email').html(data.username.email);
-        var user_id = data.username.id;
-        AboutMe(user_id);
+      AboutMe(data);
+      myPosts(data);
+      $('.name').html(data.username.name);
+    });
+  }
+
+  function myPosts(data) {
+    $.getJSON('/posts/' + data.username.id, function(data) {
+      if (data.posts == 0) {
+        noPosts();
+      } else {
+        for (var i = 0; i < data.posts.length; i++) {
+          var url = '/delete_post/' + data.posts[i].postID;
+          document.getElementById("myposts").innerHTML +=
+          '<div class="media">' +
+          '<span class="mr-3 fa fa-user fa-lg">' + '</span>' +  
+            '<div class="media-body">' + 
+              '<h5 class="mt-0">' + data.posts[i].user_name + '</h5>' +
+                '<p style="color: black">' + 
+                    data.posts[i].status + '<br>' + 
+                    data.posts[i].date_time +
+                '</p>' +
+                '<form method="post" action=' + url + '>' +
+                      '<input type="hidden" value=Delete">' +
+                      '<input type="submit" value="Delete" class="btn btn-danger btn-sm">' +
+                '</form>' +
+            '</div>' +
+        '</div>' + '<hr>';
+        }
       }
     });
+  }
+
+  function noPosts() {
+    document.getElementById("myposts").innerHTML +=
+    '<p>' + "No Posts Shared Yet" + '</p>';
   }
 
   function AboutMe(user_id) {
     $.getJSON('/bios/' + user_id, function(bios) {
       var items = bios.about;
       if (items == 0) {
-        noBio(items);
+        noBio();
       } else {
         colPad(items);
       }   
     })
   }
 
-  function noBio(items) {
+  function noBio() {
     document.getElementById("bios").innerHTML +=
     '<div class="container">' +
       '<h3 style="color: white">' + "Its a Ghostown You Have No Bios" + '</h3>' +
@@ -283,4 +312,79 @@ $(document).ready(function() {
         '</div>' +
       '</div>' + '<hr>';
   }
+});
+
+$(document).ready(function() {
+  var friends_url = '/friends';
+  loadPosts();
+  Followers();
+
+  function loadPosts() {
+    $.getJSON('/following', function(data) {
+      if (data.following == 0) {
+        noActivity();
+        zeroFollowing();
+      } else {
+        data.following.forEach(getPosts)
+        followingCount(data);
+
+      }
+    });
+  }
+
+  function getPosts(item, index) {
+    $.getJSON('/posts/' + item.paramID, function(posts) {
+      for (var i = 0; i < posts.posts.length; i++) {
+        document.getElementById("posts").innerHTML +=
+        '<div class="media">' +
+          '<span class="mr-3 fa fa-user fa-lg">' + '</span>' +  
+            '<div class="media-body">' + 
+              '<h5 class="mt-0">' + posts.posts[i].user_name + '</h5>' +
+                '<p style="color: black">' + 
+                    posts.posts[i].status + '<br>' + 
+                    posts.posts[i].date_time + 
+                '</p>' +
+            '</div>' +
+        '</div>' + '<hr>';
+      }
+    })
+  }
+
+  function noActivity() {
+    document.getElementById("posts").innerHTML +=
+    '<p style="color: black">' + "No News Feed Activity" + '</p>';
+  }
+
+  function zeroFollowing() {
+    document.getElementById("following").innerHTML +=
+    '<p style="color: white">' + '<a style="color: white" href=' + friends_url + '>' + "Following: 0" + '</a>' + '</p>';
+  }
+
+  function followingCount(data) {
+    document.getElementById("following").innerHTML +=
+    '<p style="color: white">' + '<a style="color: white" href=' + friends_url + '>' + "Following: " + '</a>' + '<b class="odometer">' + data.following.length + '</b>' + '</p>';
+  }
+
+ 
+
+  function Followers() {
+    $.getJSON('/followers', function(data) {
+      if (data.followers == 0) {
+        zeroFollowers();
+      } else {
+        followerCount(data);
+      }
+    });
+  }
+
+  function followerCount(data) {
+    document.getElementById("followers").innerHTML +=
+    '<p style="color: white">' + '<a style="color: white" href=' + friends_url + '>' + "Followers: " + '</a>' + '<b class="odometer">' + data.followers.length + '</b>' + '</p>';
+  }
+
+  function zeroFollowers() {
+    document.getElementById("followers").innerHTML +=
+    '<p style="color: white">' + '<a style="color: white" href=' + friends_url + '>' + "Followers: 0" + '</a>' + '</p>';
+  }
+
 });

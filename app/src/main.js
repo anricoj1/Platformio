@@ -97,7 +97,7 @@ exports.addBio = function(user, body) {
     var res = getRes();
     var bio_id = uuidv3();
 
-    if (!body) {
+    if (!body.title && !body.bio) {
         alert("Must Fill Fields!")
         res.redirect('/add_bio')
     } else {
@@ -196,25 +196,88 @@ exports.followUser = function(user, paramID) {
 
 // list session user followers
 exports.sessionFollowers = function(user) {
+    var res = getRes();
+    connection.query("SELECT * FROM Followers WHERE paramID = ? AND following = 1",[user.id], function(err, rows) {
+        if (rows.length) {
+            res.json({
+                followers : rows
+            })
+        } else {
+            res.json({
+                followers : 0
+            });
+        }
+    });
 
 }
 
 // list session following
 exports.sessionFollowing = function(user) {
+    var res = getRes();
     connection.query("SELECT * FROM Followers WHERE userID = ? AND following = 1",[user.id], function(err, rows) {
         if (rows.length) {
-            console.log(rows)
-        } else{
-            console.log("False");
+            res.json({
+                following : rows
+            })
+        } else {
+            res.json({
+                following : 0
+            });
+        }
+    });
+}
+
+// list parameter user Follows
+exports.paramFollowers = function(param) {
+    var res = getRes();
+    connection.query("SELECT * FROM Followers WHERE paramID = ? AND following = 1",[param], function(err, rows) {
+        if (rows.length) {
+            res.json({
+                followers : rows
+            })
+        } else {
+            res.json({
+                followers : 0
+            });
+        }
+    });
+}
+
+
+
+// list parameter user following
+exports.paramFollowing = function(param) {
+    var res = getRes();
+    connection.query("SELECT * FROM Followers WHERE userID = ? AND following = 1",[param], function(err, rows) {
+        if (rows.length) {
+            res.json({
+                following : rows
+            })
+        } else {
+            res.json({
+                following : 0
+            });
+        }
+    });
+}
+
+exports.getPosts = function(param) {
+    var res = getRes();
+    connection.query("SELECT * FROM Posts WHERE user_id = ?",[param], function(err, rows) {
+        if (rows.length) {
+            res.json({
+                posts : rows
+            })
+        } else {
+            res.json({
+                posts : 0
+            })
         }
     })
 }
 
 
-// list parameter user following
-exports.paramFollowing = function(oaramID) {
 
-}
 
 exports.allUsers = function() {
     connection.query("SELECT name, email, banner, FROM User", function(err, rows) {
@@ -224,23 +287,60 @@ exports.allUsers = function() {
     });
 }
 
-// list parameter user Follows
-exports.paramFollowers = function(paramID) {
+
+exports.addPost = function(user, body) {
     var res = getRes();
-    connection.query("SELECT * FROM Followers WHERE paramID = ? AND following = 1",[paramID], function(err, rows) {
+    var post_id = uuidv3();
+    if (!body.status) {
+        alert("Oops! Fill Textbox First!");
+        res.redirect('/profile');
+    } else {
+        connection.query("INSERT INTO Posts (postID, user_id, user_name, status, date_time) VALUES(?,?,?,?,?)",[post_id, user.id, user.name, body.status, Date(Date.now())], function(err, rows) {
+            post_id = rows.insertId;
+    
+            alert("Status Sent!")
+            res.redirect('/profile');
+        });
+    }
+   
+}
+
+// delete post
+exports.deletePost = function(user, param, next) {
+    var res = getRes();
+    if (postOwner) {
+        connection.query("DELETE FROM Posts WHERE postID = ?",[param], function(err, rows) {
+            if (err) {
+                alert("There Was An Error. Try Again!")
+            } else {
+                alert("Post Deleted!");
+                res.redirect("/profile")
+            }
+        });
+    } else {
+        alert("Unauthorized")
+        res.redirect('/profile')
+    }
+    
+}
+
+// callback hit if user is owner of bio
+function postOwner(user, param, next) {
+    var res = getRes();
+    connection.query("SELECT * FROM Posts WHERE postID = ?",[param], function(err, rows) {
+        console.log(rows);
         if (rows.length) {
-            connection.query("SELECT name FROM User WHERE id = ?",[rows[0].userID], function(err, result) {
-                res.json({
-                    followers : result[0]
-                });
-            });
+            if (rows[0].user_id === user.id) {
+                next();
+            } else {
+                alert("You Are Not The Owner!");
+            } 
         } else {
-            res.json({
-                followers : 0
-            });
+            res.redirect('/profile');
         }
     });
 }
+
 
 
 // local login function

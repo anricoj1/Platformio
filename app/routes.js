@@ -118,7 +118,7 @@ module.exports = function(app, passport) {
     failureRedirect : '/'
   }));
   
-  // link these !! (not serializing a user )
+  // link these !! (not serializing a user)
   app.get('/auth/twitter', isLoggedIn, passport.authenticate('twitter'));
   
   app.get('/auth/twitter/callback', passport.authenticate('twitter'));
@@ -182,10 +182,6 @@ module.exports = function(app, passport) {
     return twitch.twitchTimeline(req.user);
   });
 
-  // session twitch followers (not used currently)
-  app.get('/twitchFollowers', isLoggedIn, function(req, res) {
-    return twitch.sessChannelFollowers(req.user);
-  });
 
   // live channels relates to session
   app.get('/liveChannels', isLoggedIn, function(req, res) {
@@ -197,10 +193,6 @@ module.exports = function(app, passport) {
     return twitch.paramLiveChannels(req.params.id);
   });
 
-  // channel videos twitch (not current but soon!!)
-  app.get('/twitchChannelVideos', isLoggedIn, function(req, res) {
-    return twitch.channelVideos(req.user);
-  });
 
   // search twitch channels
   app.post('/searchChannels', isLoggedIn, function(req, res) {
@@ -248,12 +240,32 @@ module.exports = function(app, passport) {
   });
   
   // get parameter followers
-  app.get('/userFollowers/:id', isLoggedIn, function(req, res) {
+  app.get('/followers/:id', isLoggedIn, function(req, res) {
     return main.paramFollowers(req.params.id);
+  });
+
+  app.get('/following/:id', isLoggedIn, function(req,res) {
+    return main.paramFollowing(req.params.id)
   });
 
   app.get('/following', isLoggedIn, function(req, res) {
     return main.sessionFollowing(req.user)
+  });
+
+  app.get('/followers', isLoggedIn, function(req, res) {
+    return main.sessionFollowers(req.user)
+  });
+
+  app.get('/friends', isLoggedIn, function(req, res) {
+    res.render('../views/pages/friends.ejs', {user : req.user})
+  });
+
+  app.get('/friends/:id', isLoggedIn, function(req, res) {
+    res.render('../views/pages/acc_friends.ejs', {user : req.user})
+  });
+
+  app.get('/posts/:id', isLoggedIn, function(req, res) {
+    return main.getPosts(req.params.id)
   });
 
   app.get('/user_list', isLoggedIn, function(req, res) {
@@ -276,7 +288,15 @@ module.exports = function(app, passport) {
   });
 
   app.post('/sendStatus', isLoggedIn, function(req, res) {
-    return main.addPost(req.user);
+    return main.addPost(req.user, req.body);
+  });
+
+  app.post('/delete_post/:id', isLoggedIn, function(req, res, next) {
+    return main.deletePost(req.user, req.params.id, next)
+  });
+
+  app.get('/timeline', isLoggedIn, function(req, res) {
+    return main.getFeed(req.user);
   });
 
   app.get('/logout', function(req, res) {

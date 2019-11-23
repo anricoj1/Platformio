@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Friends</title>
+		<link rel="stylesheet" type="text/css" href="/css/page.css">
+			<% include ../partials/includes %>
+	</head>
+	<body>
+		<% include ../partials/lnav %>
+		<div class="container-fluid softwareImg">
+			<div class="container softwareDiv">
+				<h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b><%= user.name %>'s Friends</b></h1>
+				<div class="row">
+					<div class="col-sm-6"></div>
+                </div>
+                <h2 id="following"></h2>
+                <p id="listfollowing"></p>
+                <br>
+                <hr>
+                <h2 id="followers"></h2>
+                <p id="listfollower"></p>
+            </div>
+        </div>
+            <% include ../partials/footer %>
+            <script>
+            $(document).ready(function() {
+                loadFollows()
+                loadFollowing()
+                
+                function loadFollows() {
+                    $.getJSON('/followers', function(data) {
+                        if (data.followers == 0) {
+                            zeroFollowers();
+                        } else {
+                            data.followers.forEach(followerAsset)
+                            followerCount(data)
+                        }
+                    });
+                }
+
+                function followerAsset(item, index) {
+                    $.getJSON('/userAtt/' + item.userID, function(asset) {
+                        var profile_url = "/profile/" + asset.param[0].id;
+                        console.log(asset);
+                        document.getElementById("listfollower").innerHTML +=
+                        '<div style="color: white" class="media">' +
+                            '<img style="height: 80px" class="mr-3" src="public/' + asset.param[0].banner + '">' +  
+                                '<div class="media-body">' + 
+                                    '<h5 class="mt-0">' + '<a style="color: white" href=' + profile_url + '>' + asset.param[0].name + '</a>' + '</h5>' +
+                                '</div>' +
+                        '</div>' + '<hr>';
+                    });
+                }
+                
+                function loadFollowing() {
+                    $.getJSON('/following', function(data) {
+                        if (data.following == 0) {
+                            zeroFollowing();
+                        } else {
+                            data.following.forEach(followAsset);
+                            followingCount(data)
+                        }
+                    });
+                }
+
+                function followAsset(item, index) {
+                    $.getJSON('/userAtt/' + item.userID, function(asset) {
+                        var profile_url = "/profile/" + asset.param[0].id;
+                        document.getElementById("listfollowing").innerHTML +=
+                        '<div style="color: white" class="media">' +
+                            '<img style="height: 80px" class="mr-3" src="public/' + asset.param[0].banner + '">' +  
+                                '<div class="media-body">' + 
+                                    '<h5 class="mt-0">' + '<a style="color: white" href=' + profile_url + '>' + asset.param[0].name + '</a>' + '</h5>' +
+                                '</div>' +
+                        '</div>' + '<hr>';
+                    });
+                }
+
+                
+                function followerCount(data) {
+                    document.getElementById("followers").innerHTML +=
+                    '<p style="color: white">' + "Followers: " + '<b class="odometer">' + data.followers.length + '</b>' + '</p>';
+                }
+                
+                function zeroFollowers() {
+                    document.getElementById("followers").innerHTML +=
+                    '<p style="color: white">' + "Followers: 0" + '</p>';
+                }
+                
+                function zeroFollowing() {
+                    document.getElementById("following").innerHTML +=
+                    '<p style="color: white">' + "Following: 0" + '</p>';
+                }
+                
+                function followingCount(data) {
+                    document.getElementById("following").innerHTML +=
+                    '<p style="color: white">' + "Following: " + '<b class="odometer">' + data.following.length + '</b>' + '</p>';
+                } 
+            })
+            </script>
+	</body>
+</html>

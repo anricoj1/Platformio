@@ -84,16 +84,15 @@
 
         function gitUser(data) {
             $.getJSON('https://api.github.com/users/' + data[0].owner.login, function(stats) {
-                console.log(stats)
                 document.getElementById("gitAssets").innerHTML +=
                 '<div class="container" style="color: white">' +
                     '<img class="circleImg" src=' + stats.avatar_url + '>' + '<br>' +
                         '<b>' + stats.name + '</b>' + '<br>' +
-                        '<b>' + 'Company: ' + stats.company + '</b>' + '<br>' +
-                        '<b>' + 'Blog: ' + stats.blog + '</b>' + '<br>' +
-                        '<b>' + 'Bio: ' + stats.bio + '</b>' + '<br>' +
-                        '<b>' + 'Public Repos Count: ' + '<strong class="odometer">' + stats.public_repos + '</strong>' + '</b>' + '<br>' +
-                        '<b>' + 'Following: ' + stats.following + ' Followers: ' + stats.followers + '</b>' + 
+                        '<b>' + "Company: " + stats.company + '</b>' + '<br>' +
+                        '<b>' + "Blog: " + stats.blog + '</b>' + '<br>' +
+                        '<b>' + "Bio: " + stats.bio + '</b>' + '<br>' +
+                        '<b>' + "Public Repos Count: " + '<strong class="odometer">' + stats.public_repos + '</strong>' + '</b>' + '<br>' +
+                        '<b>' + "Following: " + stats.following + " Followers: " + stats.followers + '</b>' + 
                 '</div>';
             });
         }

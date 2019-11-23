@@ -4,6 +4,8 @@
   <nav id="sidebar">
     <div class="sidebar-header">
       <h3><%= user.name %></h3>
+      <p id="following"></p>
+      <p id="followers"></p>
     </div>
 
     <ul class="list-unstyled components">
@@ -79,7 +81,7 @@
       </div>
     </nav>
 
-    <form id="postForm" action="pusherTest" method="post">
+    <form id="postForm" action="sendStatus" method="post">
       <h3 class="text">Status Update</h3>
       <div class="form-group">
         <textarea type="text" class="form-control" name="status"></textarea>
@@ -105,17 +107,15 @@
     
 
     <h2>Feed</h2>
-    <p></p>
+    <p style="color: black" id="posts"></p>
 
     <div class="line"></div>
 
-    <h2>More Content</h2>
-    <p></p>
+    <h2>My Posts</h2>
+    <p style="color: black" id="myposts"></p>
 
     <div class="line"></div>
 
-    <h3>More Content</h3>
-    <p></p>
   </div>
 </div>
 <script src="https://js.pusher.com/5.0/pusher.min.js"></script>

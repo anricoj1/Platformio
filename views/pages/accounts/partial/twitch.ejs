@@ -83,12 +83,13 @@
         }
 
         function twitchAssets() {
-            $.getJSON('/twitchTimeline/' + new_url, function(asset) {
-                if (asset.twitch == 0) {
+            $.getJSON('/twitchTimeline/' + new_url, function(assets) {
+                if (assets.twitchChannel == 0) {
                     nullChannels();
                 } else {
+                    var asset = assets.twitchChannel;
                     document.getElementById("twitchAssets").innerHTML +=
-                    '<div class="container padY60 padX0">' +
+                    '<div style="color: white" class="container">' +
                         '<img class="circleImg" src=' + asset.logo + '>' + '<br>' +
                             '<b>' + "Twitch Name: " + '<a style="color: white" href=' + asset.url + '>' + asset.display_name + '</a>' + '</b>' + '<br>' +
                             '<b>' + "Followers: " + asset.followers + '</b>' + '<br>' +
