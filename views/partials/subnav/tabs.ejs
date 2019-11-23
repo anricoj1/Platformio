@@ -9,22 +9,8 @@
     </div>
 
     <ul class="list-unstyled components">
-      <li class="active">
-        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-        <ul class="collapse list-unstyled" id="homeSubmenu">
-          <li>
-            <a href="#">Home 1</a>
-          </li>
-          <li>
-            <a href="#">Home 2</a>
-          </li>
-          <li>
-            <a href="#">Home 3</a>
-          </li>
-        </ul>
-      </li>
       <li>
-        <a class="smoothScrollBtn" href="#aboutME">About Me</a>
+        <a class="smoothScrollBtn" href="/<%= user.id %>/bio">About Me</a>
       </li>
       <li>
         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Accounts</a>
@@ -41,7 +27,7 @@
         </ul>
       </li>
       <li>
-        <a href="#">Portfolio</a>
+        <a href="/users_all">Lookup <span class="fa fa-search"></span></a>
       </li>
       <li>
         <a href="/documentation">Docs</a>

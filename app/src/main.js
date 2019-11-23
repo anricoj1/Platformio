@@ -99,7 +99,13 @@ exports.addBio = function(user, body) {
 
     if (!body.title && !body.bio) {
         alert("Must Fill Fields!")
+        res.redirect('/add_bio');
+    } else if (!body.title) {
+        alert("Give This A Title!");
         res.redirect('/add_bio')
+    } else if (!body.bio) {
+        alert("Bios Must Have A Body!");
+        res.redirect('/add_bio');
     } else {
         connection.query("INSERT INTO Bio (bioID, title, text, user_id) VALUES (?,?,?,?)",[bio_id, body.title, body.bio, user.id], function(err, rows) {
             bio_id = rows.insertId;
@@ -179,17 +185,25 @@ exports.followUser = function(user, paramID) {
         if (rows.length) {
             if (rows[0].following === 1) {
                 connection.query("UPDATE Followers SET following = 0 WHERE paramID = ? AND userID = ?",[paramID, user.id], function(err, rows) {
+                    alert("Unfollowed User");
                     res.redirect('/profile/' + paramID)
                 });
             } else {
                 connection.query("UPDATE Followers SET following = 1 WHERE paramID = ? AND userID = ?",[paramID, user.id], function(err, rows) {
+                    alert("Followed User!");
                     res.redirect('/profile/' + paramID);
                 });
             }
         } else {
-            connection.query("INSERT INTO Followers (userID, paramID, following) VALUES (?,?,?)",[user.id, paramID, 1], function(err, rows) {
+            if (paramID === user.id) {
+                alert("You Cannot Follow Yourself!");
                 res.redirect('/profile/' + paramID);
-            });
+            } else {
+                alert("You Followed A User!");
+                connection.query("INSERT INTO Followers (userID, paramID, following) VALUES (?,?,?)",[user.id, paramID, 1], function(err, rows) {
+                    res.redirect('/profile/' + paramID);
+                });
+            }       
         }
     });
 }
@@ -280,7 +294,8 @@ exports.getPosts = function(param) {
 
 
 exports.allUsers = function() {
-    connection.query("SELECT name, email, banner, FROM User", function(err, rows) {
+    var res = getRes();
+    connection.query("SELECT * FROM User", function(err, rows) {
         res.json({
             users : rows
         });
