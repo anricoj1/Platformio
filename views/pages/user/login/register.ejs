@@ -16,10 +16,13 @@
 						<div class="login-row">
 							<div class="login-column">
 								<div class="login-box container center-block">
+									<% if (message.length > 0) { %>
+										<div class="alert alert-danger"><%= message %></div>
+									<% } %>
 									<form class="login-form" action="/signup" method="post">
 										<h3 class="text-center"><b>Register</b></h3>
 										<div class="form-group">
-											<label class="text"><b>Email</b></label><br>
+											<label class="text"><b>Username</b></label><br>
 											<input type="text" class="form-control" name="username">
 										</div>
 										<div class="form-group">

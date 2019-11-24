@@ -9,6 +9,7 @@ var youtubeStrategy =  require('passport-youtube-v3').Strategy;
 var configAuth = require('./auth');
 var bcrypt = require('bcrypt');
 var uuidv3 = require('uuid')
+var alert = require('alert-node');
 var connection = require('./connect');
 
 var back = ['blue.png', 'color.jpeg', 'mix.jpeg', 'pink.jpeg'];
@@ -140,6 +141,7 @@ module.exports = function(passport) {
           return done(err);
         if (rows.length) {
           connection.query("SELECT * FROM User WHERE email = ?",[session.email], function(err, rows) {
+            alert("Response Found. This Account Is Already Linked!");
             res.redirect('/profile');
           });
         } else {
@@ -152,7 +154,8 @@ module.exports = function(passport) {
           var insertTwitter = "INSERT INTO Twitter (user_id, twitterID, screen_name) VALUES(?,?,?)";
           connection.query(insertTwitter,[twitterUser.user_id,twitterUser.twitterID,twitterUser.screen_name], function(err, rows) {
             twitterUser.user_id = rows.insertId;
-              
+
+            alert("Twitter Account Is Now Linked!");
             res.redirect('/profile');
           });
         }
@@ -177,6 +180,7 @@ module.exports = function(passport) {
           return done(err);
         if (rows.length) {
           connection.query("SELECT * FROM User WHERE email = ?",[session.email], function(err, rows) {
+            alert("Response Found. This Account Is Already Linked!");
             res.redirect('/profile');
           })
         } else {
@@ -189,7 +193,8 @@ module.exports = function(passport) {
           var insertTwitch = "INSERT INTO Twitch (user_id, twitchID, display_name) VALUES(?,?,?)";
           connection.query(insertTwitch,[twitchUser.user_id, twitchUser.twitchID, twitchUser.display_name], function(err, rows) {
             twitchUser.user_id = rows.insertId;
-
+            
+            alert("Twitch Account Is Now Linked!");
             res.redirect('/profile');
           });
         }
@@ -210,6 +215,7 @@ module.exports = function(passport) {
       connection.query("SELECT * FROM Github WHERE gitID = ?",[profile.id], function(err, rows) {
         if (rows.length) {
           connection.query("SELECT * FROM User WHERE id = ?",[session.id], function(err, rows) {
+            alert("Response Found. This Account Is Already Linked!");
             res.redirect('/profile');
           })
         } else {
@@ -219,6 +225,7 @@ module.exports = function(passport) {
           connection.query(insertGit,[profile.id, session.id, profile.username, urls[0], urls[1], urls[2]], function(err, rows) {
             profile.id = rows.insertId;
 
+            alert("Github Account Is Now Linked!")
             res.redirect('/profile');
           })
         }

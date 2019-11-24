@@ -29,7 +29,7 @@
         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Accounts</a>
         <ul class="collapse list-unstyled" id="pageSubmenu">
           <li>
-            <a data-toggle="tab" href="#myposts">Posts</a>
+            <a data-toggle="tab" href="#posts">Posts</a>
           </li>
           <li>
             <a style="color:#00ffff" data-toggle="tab" href="#twitter"><span class="fa fa-twitter fa-lg"></span></a>
@@ -84,22 +84,20 @@
 
     <div class="line"></div>
     <div class="tab-content">
-      <div id="myposts" class="tab">
-      </div>
       <div id="twitter" class="tab-pane fade in">
         <%- include(sidePath + 'twitter') %>
+      </div>
+      <div id="github" class="tab-pane fade in">
+        <%- include(sidePath + 'github') %>
       </div>
       <div id="twitch" class="tab-pane fade in">
         <%- include(sidePath + 'twitch') %>
       </div>
-      <div id="github" class="tabe-pane fade in">
-        <%- include(sidePath + 'github') %>
+      <div id="posts" class="tabe-pane fade in active">
+        <%- include(sidePath + 'posts') %>
       </div>
     </div>
     
-
-    <h2><a href="/userposts/<%= account.id %>"><%= account.name %>'s Posts</a></h2>
-    <p id="myposts"></p>
 
     <div class="line"></div>
   </div>

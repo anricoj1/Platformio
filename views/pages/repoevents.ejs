@@ -52,7 +52,6 @@
             
             function loadEvents () {
                 $.getJSON(new_url, function(data) {
-                    console.log(data);
                     if (data.length == []) {
                         document.getElementById("events").innerHTML +=
                         '<h5>' + "This Repository Has No Recent Events" + '</h5>';
@@ -120,7 +119,6 @@
 
             function repoData() {
                 $.getJSON('https://api.github.com/repos' + repo_url, function(data) {
-                    console.log(data);
                     var clone_url = 'https://github.com/';
                     $('.forks').html(data.forks_count);
                     $('.language').html(data.language);

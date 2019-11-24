@@ -10,6 +10,13 @@
             .line {
                 background-color : white;
             }
+
+            @media (max-width: 900) {
+                img.responsive {
+                    height : auto;
+                    width : 300px
+                }
+            }
         </style>
         <% include ../partials/includes %>
     </head>
@@ -18,41 +25,153 @@
         <div class="container-fluid softwareImg">
             <div class="container softwareDiv">
                 <h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b>Documentation</b></h1>
-                <h2>Project Overview and Objectives</h2>
+                <h2>1. Project Overview and Objectives</h2><br>
+                <p>
+                    Platform.io is a website that provides entertainment for anyone. 
+                    Regardless if your looking for entertainment, growing a brand, searching for jobs or employees. 
+                    Platform.io allows you to view all of your media in one place along with others.
+                    The purpose of this project is to provide a way for a user to track all their social media in one place 
+                    i.e (Twitter, Twitch and Github). These are the only ones for now. Unfortunately, 
+                    My Youtube OAuth Tokens havent been approved yet and ever since Facebook took ownership of Instagram
+                    you cant fetch much data from Facebook or Instagram which is why they were left out. 
+                </p>
+                <p>
+                        Platformio acts as a live Portfolio, many jobs look at your social media before employment.
+                    Let them see it all in one place! Github makes for a great place to store your projects. Display your
+                    projects on your profile!
+                </p><br>
+                <div class="line"></div>
+                <h2>2. Requirements</h2><br>
+                <h4>2.1 User Managment Requirements</h4>
+                <p>
+                    This category of requirements is related to user authentication. 
+                    Each user will have their own credentials to log in and use on Platform. A user
+                    may log in with Google+ or by a local username and password.
+                    Users will perform all of their actions on Platformio under these credentials.
+                </p><br>
+                <h4>2.2 User Interface Requirements</h4>
+                <p>
+                    This group of requirements is related to what the Platformio will look 
+                    like and how the user will interact with it. Platformio aims to be a responsive as possible
+                    I really tried to take into consideration device sizes for pages to resize accordingly. jquery makes
+                    this useful with $(window).width() and using this for @media queries.
+                    The interface is fairly minimal and clean. I think it is straight forward to ease confusion. 
+                </p><br>
+                <h4>2.3 API's Requirements</h4>
+                <p>
+                    As an important part of this project, api’s will be used and called a lot. 
+                    This is my main focus and priority to this project. API’s will only be active for a user if they choose to link them. 
+                    Using passport, I can authenticate users and ask for their consent to link their accounts, no passwords will be stored only id's and usernames.
+                    This means you are still only serialized under your Platformio or Google+ account. The purpose of using passport is to verify you are the owner
+                    of the account. Each api account that is linked to a user will appear on their profile along with their activity on their accounts.
+                </p>
+                <p>
+                    User data is handled by getting the information on the backend and sending it to a view, 
+                    using scripts to bring that data to html tags. API responses are typically all .JSON objects
+                </p><br>
+                <h4>2.4 Background Tasks Requirements</h4>
+                <p>
+                    Platformio uses Webpush. Also known as a Service Worker. Upon login you will be prompted to recieve 
+                    Push Notifications from Platformio. If you allow them you will be notified when a user follows you.
+                </p><br>
+                <h4>2.5 Non-Functional Requirements</h4>
+                <p>2.5.1 Hardware Requirements</p>
+                <p>
+                    Platformio runs on a moderately powerful CPU. It is the second standard on GCP. (1 vCPU, 3.75 GB memory).
+                    Platformio is developed to work on the most common devices today (i.e Phones, Tablets, Laptops, Desktop (PC's)).
+                </p>
+                <p>2.5.2 User Counts</p>
+                    My expected number of simultaneous users should be around 100.
+                    System should be able to deal with 100 users at the same time. 
+                    Database holds a fair amount of data and performs correct queries accordingly.
+                </p>
+                <p>2.5.3 Security Requirements</p>
+                <p>
+                    Accounts can only be accessed with correct credentials. Platformio stores the least amount of information as
+                    possible. Passwords of API's are not stored nor are they accessable. The only password used is for local username accounts
+                    which is in fact encrypted.
+                </p>
+                <h4>Structured Requirements</h4>
+                <p>
+                    Platformio aims to act like a live Portfolio while allowing you to look over your media all at once.
+                    Show your stats on your profile.
+                </p><br>
+                <div class="line"></div>
+                <h2>3. Design</h2>
+                <h4>3.1 Design Rationale and Decisons</h4>
+                <p>
+                    I choose to make Platformio to make give everyone an option to deploy themselves. 
+                    What I mean by "deploy" is show what you're about, your interests, and your education.
+                </p>
+                <h4>3.2 Diagrams</h4>
+                <p>3.2.1 Class Diagram</p>
+                <p>
+                    <img style="height: 500px; width: 100%; background-repeat: no-repeat; background-size: contain" src="images/class.png">
+                </p><br>
+                <p>3.2.2 Use Case Diagram</p>
+                <p>
+                    <img style="height: 500px; width: 100%; background-repeat: no-repeat; background-size: contain" src="images/usecase.png">
+                </p>
+                <p>3.2.3 Sequence Diagram</p>
+                <p>
+                    <img style="height: 500px; width: 100%; background-repeat: no-repeat; background-size: contain" src="images/sequence.png">
+                </p>
+                <div class="line"></div>
+                <h2>4. Implemenation</h2>
+                <h5>4.1 Languages</h5>
+                <ul>
+                    <li>Backend: Nodejs</li>
+                    <li>Framework: Express</li>
+                    <li>View Engine: Ejs</li>
+                    <li>Javascript</li>
+                    <li>Jquery</li>
+                    <li>Bootstrap 4</li>
+                </ul>
+                <h5>4.2 Environment</h5>
+                <ul>
+                    <li>Ubuntu 18.04 LTS</li>
+                    <li>MySQL 5.7</li>
+                    <li>Google Cloud (1 vCPU, 3.75 GB Memory)</li>
+                </ul>
+                <div class="line"></div>
+                <h2>5. Testing Activities</h2>
+                <p>
+                    Testing involved me asking a bunch of friends to give me insight and opinions on design
+                    and functionality. What components should take priority over others. This was accomplished by me 
+                    sending them the IP of an old instance I had running while I ran the server on the instance itself. Discord was very
+                    helpful in this situation since this subset of people were over the internet.
+                </p>
+                <div class="line"></div>
+
+                <h2>6. Appendices</h2>
+                <h5>6.1 Major Code Components</h5>
+                <p>
+                    The biggest code component I used was Continuation Local Storage. With Express Session and Passport, users are serialized under 
+                    a object called req.user. In other words in Nodejs code upon every route you send req = request and res = response.
+                    When requesting passport.authenticate('apiname') you do not send a request or response.<br>
+                    Standard Route Example: app.get('/', function(req, res) { <br>
+                        res.render('index.ejs') <br>
+                    });
+                    <br>
+                    Passport Route: app.get('/auth/apiname', passport.authenticate('apiname')); <br>
+                    As you can see we are not sending request or response. With Continuation Local Storage
+                    you can access these variable by setting namespaces.
+                </p>
+                <h5>6.2 <a href="/usermanual">User Manual</a></h5>
+                <br>
+                <h5>6.3 Known Issues and Bugs</h5>
                 <p>
 
                 </p>
-                <div class="line"></div>
-                <h2>Requirements</h2>
+                <h5>6.4 Future Work</h5>
                 <ul>
-                    <li>Description</li>
-                    <li>Functional vs. Non-Functional</li>
-                    <li>Structured Requirements</li>
+                    <li>Converting Posts to Realtime using Getstream</li>
+                    <li>Expanding Notifications</li>
+                    <li>Likes and Comments</li>
+                    <li>Private and Public Accounts</li>
+                    <li>Messaging</li>
                 </ul>
-                <div class="line"></div>
-                <h2>Design</h2>
-                <ul>
-                    <li>Design Rationale and Decisions</li>
-                    <li>Design Diagrams (Class, Use Case, Sequences)</li>
-                </ul>
-                <p>Use SRS!!</p>
-                <div class="line"></div>
-                <h2>Implemenation</h2>
-                <ul>
-                    <li>Detais (languages used, env)</li>
-                </ul>
-                <div class="line"></div>
-                <h2>Testing Activities</h2>
-                <div class="line"></div>
-
-                <h2>Appendices</h2>
-                <ul>
-                    <li>Meeting Minutes</li>
-                    <li>Major Code Components</li>
-                    <li>User Manual make href</li>
-                    <li>Issues / Bugs</li>
-                    <li>Future Work!!</li>
-                </ul>
+                <h5>If anyone wants to become a contributor please contact me! view footer</h5>
             </div>
         </div>
         <% include ../partials/footer %>
