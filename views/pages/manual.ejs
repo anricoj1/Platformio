@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/page.css">
+        <style>
+            .softwareDiv {
+                color : white !important;
+            }
+
+            .line {
+                background-color : white;
+            }
+
+            @media (max-width: 900) {
+                img.responsive {
+                    height : auto;
+                    width : 300px
+                }
+            }
+        </style>
+        <% include ../partials/includes %>
+    </head>
+    <body>
+        <% include ../partials/lnav %>
+        <div class="container-fluid softwareImg">
+            <div class="container softwareDiv">
+                <h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b>User Manual</b></h1>
+                <h2>Register</h2>
+                <p>
+                    On arrival a user can only access this page, the <a href="/">Home Page</a>, <a href="/documentation">Documentation Page</a>
+                    and this User Manual Page. Here you must decide to register by local username or with Google+
+                </p>
+                <br>
+                <h2>Login</h2>
+                <p>
+                    Login via index page navbar form or click Login on nav. Fill the form
+                    with correct credentials. or Login with Google+. Logging in with Google+ is 
+                    much easier. You will be given a default header photo.
+                </p><br>
+                <h2>Profile</h2>
+                <p>
+                    A user profile is a pretty simple yet busy area. Scrolling down from header photo
+                    or clicking about me to arrive in middle of page. The Sidebar is toggleable.
+                </p>
+                <br>
+                <h2>Sidebar</h2>
+                <p>
+                    <ul>
+                        <li>About Me: View All your biographies</li>
+                        <li>Accounts: Dropdown, toggle partial view fade in for account stats</li>
+                        <li>Lookup: Find other users on Platformio</li>
+                        <li>Feed: Full View of your feed</li>
+                        <li>My Posts: Full view of all your posts</li>
+                        <li>Docs: Documentation</li>
+                        <li>Setup: Link Accounts Upload Header Photo</li>
+                    </ul>
+                </p><br>
+                <h2>Feed</h2>
+                <p>
+                    Your feed consists of posts from users that you follow.
+                </p><br>
+                <h2>My Posts</h2>
+                <p>
+                    Lists all the posts that you posted in a full view.
+                </p><br>
+                <h2>Status</h2>
+                <p>
+                    A status is the same thing as post, a status is just the last 
+                    post you have sent.
+                </p><br>
+                <h2>Setup</h2>
+                <p>
+                    Account Setup acts like a user dashboard. Here you can link whatever accounts
+                    that you want. You are not limited. You can link Twitter Twitch and Github all at
+                    the same time!
+                </p>
+                <p>
+                    You may also submit a new header photo here.
+                </p><br>
+                <h2>Github</h2>
+                <p>
+                    If you have the github partial toggled and you click on the github logo
+                    in the navbar you will be brought to a full view.
+                    <ul>
+                        <li>Lists All Repositories and there contents</li>
+                        <li>Each File is clickable</li>
+                        <li>Show Recent Events of Repository</li>
+                        <li>Show Recent Events of User</li>
+                    </ul>
+                </p><br>
+                <h2>Twitter</h2>
+                <p>
+                    If the Twitter partial is toggled and you click twitter logo in navbar
+                    you will be brought to a full view. This page lists 20 recent tweets from that user
+                </p><br>
+                <h2>Twitch</h2>
+                <p>
+                    The Twitch page allows you to do a few things
+                    <ul>
+                        <li>Show Linked Twitch Stats</li>
+                        <li>Top live channels</li>
+                        <li>Search Games</li>
+                        <li>Search Channels</li>
+                        <li>Search Streams</li>
+                    </ul>
+                </p><br>
+                <h2>Brief Overview</h2>
+                <video width="400" controls>
+                    <source src="images/brief.mp4" type="video/mp4">
+                </video>
+                <br>
+                <br>
+                <h2>Known Bugs</h2>
+                <p>
+                    partial views on profile stay active once clicked. in order to see a previous
+                    partial then you must reload the page.
+                </p>
+                <p>
+                    im sure there will be many more that I am missing.
+                    if you would like to report an issue go to
+                    <a class="btn btn-success" href="https://github.com/anricoj1/Platformio/issues"><span class="fa fa-github"> Issues</span></a>
+                </p>
+                </div>
+            </div>
+        </div>
+        <% include ../partials/footer %>
+    </body>
+</html>

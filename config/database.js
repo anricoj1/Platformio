@@ -1,8 +1,8 @@
 module.exports = {
     'connection': {
-      'host' : 'localhost',
+      'host' : '35.231.104.94',
       'user' : 'root',
-      'password' : 'password'
+      'password' : 'Shelton6'
     },
-    'database' : 'Test'
+    'database' : 'Platformio'
   }

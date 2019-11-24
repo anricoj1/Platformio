@@ -112,7 +112,7 @@ module.exports = function(passport) {
             name : profile.displayName,
             email : profile.emails[0].value,
             password : profile.password,
-            banner : profile.photos[0].value
+            banner : random_item(back)
           };
           
           var insertGoogle = "INSERT INTO User (id, token, name, email, password, banner) VALUES (?,?,?,?,?,?)";

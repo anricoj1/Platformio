@@ -37,7 +37,7 @@ $(document).ready(function() {
   }
 
   function noPosts() {
-    document.getElementById("myposts").innerHTML +=
+    document.getElementById("mystatus").innerHTML +=
     '<p>' + "No Posts Shared Yet" + '</p>';
   }
 

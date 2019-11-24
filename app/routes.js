@@ -338,8 +338,8 @@ module.exports = function(app, passport) {
     res.render('../views/pages/docs.ejs', {user : req.user})
   });
 
-  app.get('/getting_started', function(req, res) {
-    res.render('../views/pages/getstarted.ejs', {user : req.user})
+  app.get('/usermanual', function(req, res) {
+    res.render('../views/pages/manual.ejs', {user : req.user})
   });
 
 
