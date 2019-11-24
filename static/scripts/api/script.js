@@ -90,7 +90,6 @@ $(document).ready(function() {
 
   function AboutMe(data) {
     $.getJSON('/bios/' + data.param[0].id, function(bios) {
-      console.log(bios);
       var items = bios.about;
       if (items == 0) {
         noBio(items);

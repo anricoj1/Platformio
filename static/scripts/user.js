@@ -4,19 +4,19 @@ $(document).ready(function() {
   function loadUser() {
     $.getJSON('/userAtt', function(data) {
       AboutMe(data);
-      myPosts(data);
+      myStatus(data);
       $('.name').html(data.username.name);
     });
   }
 
-  function myPosts(data) {
-    $.getJSON('/posts/' + data.username.id, function(data) {
+  function myStatus(data) {
+    $.getJSON('/recentStatus/' + data.username.id, function(data) {
       if (data.posts == 0) {
         noPosts();
       } else {
         for (var i = 0; i < data.posts.length; i++) {
           var url = '/delete_post/' + data.posts[i].postID;
-          document.getElementById("myposts").innerHTML +=
+          document.getElementById("mystatus").innerHTML +=
           '<div class="media">' +
           '<span class="mr-3 fa fa-user fa-lg">' + '</span>' +  
             '<div class="media-body">' + 
@@ -333,13 +333,14 @@ $(document).ready(function() {
   }
 
   function getPosts(item, index) {
-    $.getJSON('/posts/' + item.paramID, function(posts) {
+    $.getJSON('/recentStatus/' + item.paramID, function(posts) {
       for (var i = 0; i < posts.posts.length; i++) {
+        var user_url = '/profile/' + posts.posts[i].user_id;
         document.getElementById("posts").innerHTML +=
         '<div class="media">' +
           '<span class="mr-3 fa fa-user fa-lg">' + '</span>' +  
             '<div class="media-body">' + 
-              '<h5 class="mt-0">' + posts.posts[i].user_name + '</h5>' +
+              '<h5 class="mt-0">' + '<a href=' + user_url + '>' + posts.posts[i].user_name + '</a>' + '</h5>' +
                 '<p style="color: black">' + 
                     posts.posts[i].status + '<br>' + 
                     posts.posts[i].date_time + 

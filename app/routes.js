@@ -296,7 +296,20 @@ module.exports = function(app, passport) {
   });
 
   app.get('/timeline', isLoggedIn, function(req, res) {
-    return main.getFeed(req.user);
+    res.render('../views/pages/feed.ejs', {user : req.user})
+  });
+
+
+  app.get('/recentStatus/:id', isLoggedIn, function(req, res) {
+    return main.limitOne(req.params.id)
+  });
+
+  app.get('/userposts/:id', isLoggedIn, function(req, res) {
+    res.render('../views/pages/userposts.ejs', {user : req.user})
+  });
+
+  app.get('/myposts', isLoggedIn, function(req, res) {
+    res.render('../views/pages/myposts.ejs', {user : req.user})
   });
 
   app.get('/logout', function(req, res) {

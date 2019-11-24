@@ -292,6 +292,23 @@ exports.getPosts = function(param) {
 
 
 
+exports.limitOne = function(user) {
+    var res = getRes();
+    connection.query("SELECT * FROM Posts WHERE user_id = ? LIMIT 1",[user], function(err, rows) {
+        if (rows.length) {
+            res.json({
+                posts : rows
+            })
+        } else {
+            res.json({
+                posts : 0
+            })
+        }
+    });
+}
+
+
+
 
 exports.allUsers = function() {
     var res = getRes();
@@ -343,7 +360,6 @@ exports.deletePost = function(user, param, next) {
 function postOwner(user, param, next) {
     var res = getRes();
     connection.query("SELECT * FROM Posts WHERE postID = ?",[param], function(err, rows) {
-        console.log(rows);
         if (rows.length) {
             if (rows[0].user_id === user.id) {
                 next();

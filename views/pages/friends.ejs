@@ -41,7 +41,6 @@
                 function followerAsset(item, index) {
                     $.getJSON('/userAtt/' + item.userID, function(asset) {
                         var profile_url = "/profile/" + asset.param[0].id;
-                        console.log(asset);
                         document.getElementById("listfollower").innerHTML +=
                         '<div style="color: white" class="media">' +
                             '<img style="height: 80px" class="mr-3" src="public/' + asset.param[0].banner + '">' +  
@@ -64,7 +63,7 @@
                 }
 
                 function followAsset(item, index) {
-                    $.getJSON('/userAtt/' + item.userID, function(asset) {
+                    $.getJSON('/userAtt/' + item.paramID, function(asset) {
                         var profile_url = "/profile/" + asset.param[0].id;
                         document.getElementById("listfollowing").innerHTML +=
                         '<div style="color: white" class="media">' +

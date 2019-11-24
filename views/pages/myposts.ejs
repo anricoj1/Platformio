@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/page.css">
+        <style>
+            .platformProfile {
+                height: 300px;
+            }
+        </style>
+        <% include ../partials/includes %>
+    </head>
+    <body>
+        <% include ../partials/gitnav %>
+        <div class="container-fluid" style="color: white; background-color: #24292E">
+            <div class="container platformProfile" style="background-color: #24292E">
+                <div class="container padY60 padX0">
+                    <img src="../public/<%= user.banner %>" style="height: 100px"><br>
+                    <strong style="color: white"><%= user.name %></strong><br>
+                    <p id="followers"></p>
+                    <p id="following"></p><br>
+                    <br>
+                    <hr>
+                </div>
+            </div> 
+            <br>
+            <div style="height: 100px"></div>
+            <div class="container-fluid">
+                <h2>My Posts</h2>
+                <p id="myposts"></p>
+            </div>
+            <% include ../partials/footer %>
+        </div>
+        <script>
+            $(document).ready(function() {
+                var friends_url = '/friends';
+                loadUser();
+                Followers()
+                Following();
+
+                function loadUser() {
+                    $.getJSON('/userAtt', function(data) {
+                        myPosts(data);
+                    })
+                }
+
+                function myPosts(data) {
+                    $.getJSON('/posts/' + data.username.id, function(data) {
+                        if (data.posts == 0) {
+                            noPosts();
+                        } else {
+                            for (var i = 0; i < data.posts.length; i++) {
+                                var url = '/delete_post/' + data.posts[i].postID;
+                                document.getElementById("myposts").innerHTML +=
+                                '<div class="media">' +
+                                    '<span class="mr-3 fa fa-user fa-lg">' + '</span>' +  
+                                    '<div class="media-body">' + 
+                                        '<h5 class="mt-0">' + data.posts[i].user_name + '</h5>' +
+                                        '<p style="color: white">' + 
+                                            data.posts[i].status + '<br>' + 
+                                            data.posts[i].date_time +
+                                        '</p>' +
+                                        '<form method="post" action=' + url + '>' +
+                                            '<input type="hidden" value=Delete">' +
+                                            '<input type="submit" value="Delete" class="btn btn-danger btn-sm">' +
+                                        '</form>' +
+                                    '</div>' +
+                                '</div>' + '<hr>';
+                            }
+                        }
+                    });
+                }
+
+                function noPosts() {
+                    document.getElementById("myposts").innerHTML +=
+                    '<p>' + "No Posts Shared Yet" + '</p>';
+                }
+
+                function Following() {
+                    $.getJSON('/following', function(data) {
+                        if (data.following == 0) {
+                            zeroFollowing();
+                        } else {
+                            followingCount(data)
+                        }
+                    });
+                }
+                
+                function zeroFollowing() {
+                    document.getElementById("following").innerHTML +=
+                    '<p style="color: white">' + '<a style="color: white" href=' + friends_url + '>' + "Following: 0" + '</a>' + '</p>';
+                }
+                
+                function followingCount(data) {
+                    document.getElementById("following").innerHTML +=
+                    '<p style="color: white">' + '<a style="color: white" href=' + friends_url + '>' + "Following: " + '</a>' + '<b class="odometer">' + data.following.length + '</b>' + '</p>';
+                }
+
+
+                function Followers() {
+                    $.getJSON('/followers', function(data) {
+                        if (data.followers == 0) {
+                            zeroFollowers();
+                        } else {
+                            followerCount(data);
+                        }
+                    });
+                }
+                
+                function followerCount(data) {
+                    document.getElementById("followers").innerHTML +=
+                    '<p style="color: white">' + '<a style="color: white" href=' + friends_url + '>' + "Followers: " + '</a>' + '<b class="odometer">' + data.followers.length + '</b>' + '</p>';
+                }
+                
+                function zeroFollowers() {
+                    document.getElementById("followers").innerHTML +=
+                    '<p style="color: white">' + '<a style="color: white" href=' + friends_url + '>' + "Followers: 0" + '</a>' + '</p>';
+                }
+                
+            });
+        </script>
+    </body>
+</html>
