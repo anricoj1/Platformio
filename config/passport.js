@@ -94,7 +94,7 @@ module.exports = function(passport) {
   passport.use(new GoogleStrategy({
     clientID : configAuth.googleAuth.clientID,
     clientSecret : configAuth.googleAuth.clientSecret,
-    callbackURL : configAuth.googleAuth.callbackURL
+    callbackURL : "https://csc400-246406.appspot.com/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function() {
@@ -129,7 +129,7 @@ module.exports = function(passport) {
   passport.use(new twitterStrategy({
     consumerKey: configAuth.twitterAuth.consumer_key,
     consumerSecret: configAuth.twitterAuth.consumer_secret,
-    callbackURL: configAuth.twitterAuth.callbackURL
+    callbackURL: "https://csc400-246406.appspot.com/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
     process.nextTick(function() {
@@ -167,7 +167,7 @@ module.exports = function(passport) {
   passport.use(new twitchStrategy({
     clientID: configAuth.twitchAuth.clientID,
     clientSecret: configAuth.twitchAuth.clientSecret,
-    callbackURL: configAuth.twitchAuth.redirectURL,
+    callbackURL: "https://csc400-246406.appspot.com/auth/twitch/callback",
     scope: "user_read"
   },
   function(accessToken, refreshToken, profile, done) {
@@ -205,7 +205,7 @@ module.exports = function(passport) {
   passport.use(new githubStrategy({
     clientID : configAuth.githubAuth.clientID,
     clientSecret : configAuth.githubAuth.clientSecret,
-    callbackURL : configAuth.githubAuth.callbackURL
+    callbackURL : "https://csc400-246406.appspot.com/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     process.nextTick(function() {

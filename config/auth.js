@@ -2,7 +2,7 @@ module.exports = {
     'googleAuth' : {
       'clientID': '265306583113-29pfbqhr4a15j2dg8ranrrajemh49jsj.apps.googleusercontent.com',
       'clientSecret': 'ER18zDZRtZS8yVy2kijBQ1nI',
-      'callbackURL': 'https://csc400-246406.appspot.com/auth/google/callback'
+      'callbackURL': "https://csc400-246406.appspot.com/auth/google/callback"
     },
     'twitterAuth' : {
       'consumer_key' : 'Id8tNru4kaWr9NjB0H0hPFKED',

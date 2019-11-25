@@ -27,13 +27,13 @@
                 <h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b>Documentation</b></h1>
                 <h2>1. Project Overview and Objectives</h2><br>
                 <p>
-                    Platform.io is a website that provides entertainment for anyone. 
-                    Regardless if your looking for entertainment, growing a brand, searching for jobs or employees. 
+                    Platform.io is a website that provides entertainment for anyone.
+                    Regardless if your looking for entertainment, growing a brand, searching for jobs or employees.
                     Platform.io allows you to view all of your media in one place along with others.
-                    The purpose of this project is to provide a way for a user to track all their social media in one place 
-                    i.e (Twitter, Twitch and Github). These are the only ones for now. Unfortunately, 
+                    The purpose of this project is to provide a way for a user to track all their social media in one place
+                    i.e (Twitter, Twitch and Github). These are the only ones for now. Unfortunately,
                     My Youtube OAuth Tokens havent been approved yet and ever since Facebook took ownership of Instagram
-                    you cant fetch much data from Facebook or Instagram which is why they were left out. 
+                    you cant fetch much data from Facebook or Instagram which is why they were left out.
                 </p>
                 <p>
                         Platformio acts as a live Portfolio, many jobs look at your social media before employment.
@@ -44,34 +44,34 @@
                 <h2>2. Requirements</h2><br>
                 <h4>2.1 User Managment Requirements</h4>
                 <p>
-                    This category of requirements is related to user authentication. 
+                    This category of requirements is related to user authentication.
                     Each user will have their own credentials to log in and use on Platform. A user
                     may log in with Google+ or by a local username and password.
                     Users will perform all of their actions on Platformio under these credentials.
                 </p><br>
                 <h4>2.2 User Interface Requirements</h4>
                 <p>
-                    This group of requirements is related to what the Platformio will look 
+                    This group of requirements is related to what the Platformio will look
                     like and how the user will interact with it. Platformio aims to be a responsive as possible
                     I really tried to take into consideration device sizes for pages to resize accordingly. jquery makes
                     this useful with $(window).width() and using this for @media queries.
-                    The interface is fairly minimal and clean. I think it is straight forward to ease confusion. 
+                    The interface is fairly minimal and clean. I think it is straight forward to ease confusion.
                 </p><br>
                 <h4>2.3 API's Requirements</h4>
                 <p>
-                    As an important part of this project, api’s will be used and called a lot. 
-                    This is my main focus and priority to this project. API’s will only be active for a user if they choose to link them. 
+                    As an important part of this project, api’s will be used and called a lot.
+                    This is my main focus and priority to this project. API’s will only be active for a user if they choose to link them.
                     Using passport, I can authenticate users and ask for their consent to link their accounts, no passwords will be stored only id's and usernames.
                     This means you are still only serialized under your Platformio or Google+ account. The purpose of using passport is to verify you are the owner
                     of the account. Each api account that is linked to a user will appear on their profile along with their activity on their accounts.
                 </p>
                 <p>
-                    User data is handled by getting the information on the backend and sending it to a view, 
+                    User data is handled by getting the information on the backend and sending it to a view,
                     using scripts to bring that data to html tags. API responses are typically all .JSON objects
                 </p><br>
                 <h4>2.4 Background Tasks Requirements</h4>
                 <p>
-                    Platformio uses Webpush. Also known as a Service Worker. Upon login you will be prompted to recieve 
+                    Platformio uses Webpush. Also known as a Service Worker. Upon login you will be prompted to recieve
                     Push Notifications from Platformio. If you allow them you will be notified when a user follows you.
                 </p><br>
                 <h4>2.5 Non-Functional Requirements</h4>
@@ -82,7 +82,7 @@
                 </p>
                 <p>2.5.2 User Counts</p>
                     My expected number of simultaneous users should be around 100.
-                    System should be able to deal with 100 users at the same time. 
+                    System should be able to deal with 100 users at the same time.
                     Database holds a fair amount of data and performs correct queries accordingly.
                 </p>
                 <p>2.5.3 Security Requirements</p>
@@ -100,7 +100,7 @@
                 <h2>3. Design</h2>
                 <h4>3.1 Design Rationale and Decisons</h4>
                 <p>
-                    I choose to make Platformio to make give everyone an option to deploy themselves. 
+                    I choose to make Platformio to make give everyone an option to deploy themselves.
                     What I mean by "deploy" is show what you're about, your interests, and your education.
                 </p>
                 <h4>3.2 Diagrams</h4>
@@ -137,7 +137,7 @@
                 <h2>5. Testing Activities</h2>
                 <p>
                     Testing involved me asking a bunch of friends to give me insight and opinions on design
-                    and functionality. What components should take priority over others. This was accomplished by me 
+                    and functionality. What components should take priority over others. This was accomplished by me
                     sending them the IP of an old instance I had running while I ran the server on the instance itself. Discord was very
                     helpful in this situation since this subset of people were over the internet.
                 </p>
@@ -146,7 +146,7 @@
                 <h2>6. Appendices</h2>
                 <h5>6.1 Major Code Components</h5>
                 <p>
-                    The biggest code component I used was Continuation Local Storage. With Express Session and Passport, users are serialized under 
+                    The biggest code component I used was Continuation Local Storage. With Express Session and Passport, users are serialized under
                     a object called req.user. In other words in Nodejs code upon every route you send req = request and res = response.
                     When requesting passport.authenticate('apiname') you do not send a request or response.<br>
                     Standard Route Example: app.get('/', function(req, res) { <br>
