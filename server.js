@@ -5,6 +5,7 @@ var port = process.env.PORT || 8080;
 
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var mysqlStore = require('express-mysql-session')(session);
 var morgan = require('morgan');
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
@@ -18,19 +19,35 @@ var url = require('url');
 var http = require('http');
 var passport = require('passport');
 
+var options = {
+	host: process.env.DB_INSTANCE_NAME,
+	user: process.env.DB_USER,
+	database: process.env.DB_DATABASE,
+	password: process.env.DB_PASSWORD
+};
 
+var sessionStorage = new mysqlStore(options)
 require('./config/passport')(passport);
 
-app.use(morgan('dev'));
+
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
 app.use(bodyParser.json());
 
-app.use(session({secret: 'anystringoftext',
-				 saveUninitialized: true,
-				 resave: true}));
+app.set('trust proxy', 1)
+app.use(session({
+	secret: 's#cure',
+	store : sessionStorage,
+	saveUninitialized: false,
+	resave: false,
+	cookie: {
+		secure: true,
+		domain: 'csc400-246406.appspot.com',
+		expires: false
+	}
+}));
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/static'));
