@@ -23,8 +23,9 @@ var options = {
 	host: process.env.DB_INSTANCE_NAME,
 	user: process.env.DB_USER,
 	database: process.env.DB_DATABASE,
-	password: process.env.DB_PASSWORD
+	password: process.env.DB_PASS
 };
+
 
 var sessionStorage = new mysqlStore(options)
 require('./config/passport')(passport);

@@ -4,7 +4,7 @@ var mysql = require('mysql');
 let config = {
     user : process.env.DB_USER,
     database : process.env.DB_DATABASE,
-    password : process.env.DB_PASSWORD
+    password : process.env.DB_PASS
 }
 
 if (process.env.DB_INSTANCE_NAME && process.env.NODE_ENV === 'production') {
