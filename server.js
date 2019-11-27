@@ -5,12 +5,13 @@ var port = process.env.PORT || 8080;
 
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var mysqlStore = require('express-mysql-session')(session);
 var morgan = require('morgan');
 var mysql = require('mysql');
+var mysqlStore = require('express-mysql-session')(session)
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var flash = require('connect-flash');
+
 
 
 // passport call
@@ -24,10 +25,11 @@ var options = {
 	user: process.env.DB_USER,
 	database: process.env.DB_DATABASE,
 	password: process.env.DB_PASS
-};
-
+}
 
 var sessionStorage = new mysqlStore(options)
+
+
 require('./config/passport')(passport);
 
 
@@ -37,7 +39,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.set('trust proxy', 1)
+
 app.use(session({
 	secret: 's#cure',
 	store : sessionStorage,
