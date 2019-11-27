@@ -21,10 +21,10 @@
             }
 
         </style>
-        <% include ../partials/includes %>
+        <%- include ('../partials/includes') %>
     </head>
     <body>
-        <% include ../partials/twitternav %>
+        <%- include ('../partials/twitternav') %>
         <div class="container-fluid" style="background-color:#15202B; color: white">
             <div class="container twitterProfile" style="background-color: #15202B">
                 <div class="container padY60 padX0">
@@ -38,7 +38,7 @@
                     <h4>20 Recent tweets from </h4>
                     <p id="tweets"></p>
                 </div>
-                <% include ../partials/footer %>
+                <%- include ('../partials/footer') %>
         </div>
         <script>
             $(document).ready(function() {

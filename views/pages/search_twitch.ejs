@@ -20,10 +20,10 @@
                 }
             }
         </style>
-        <% include ../partials/includes %>
+        <%- include ('../partials/includes') %>
     </head>
     <body>
-        <% include ../partials/twitchnav %>
+        <%- include ('../partials/twitchnav') %>
         <div class="container-fluid" style="background-color:#24292E">
             <div class="container extraPaddingTop" style="background-color: #24292E">
                 <div class="container padY60 padX0">
@@ -38,7 +38,7 @@
                 <p id="streams"></p>
                 <p id="games"></p>
             </div>
-            <% include ../partials/footer %>
+            <% include ('../partials/footer') %>
         </div>
         <script>
             $(document).ready(function() {

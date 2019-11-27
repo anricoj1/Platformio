@@ -4,15 +4,6 @@ body, html {
     font-family: "Avenir Next" !important;
 }
 
-.homeImg {
-    background-image: url(public/<%= user.banner %>);
-
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
 .indexImg {
   background-image: url("../images/images.jpg");
   background-image: url("../images/images.jpg");
@@ -24,7 +15,7 @@ body, html {
   background-repeat: no-repeat;
   background-size: cover;
 }
-}
+
 
 .text-group {
   padding-top: 10px;

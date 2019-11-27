@@ -19,10 +19,10 @@
                 }
             }
         </style>
-        <% include ../partials/includes %>
+        <%- include ('../partials/includes') %>
     </head>
     <body>
-        <% include ../partials/gitnav %>
+        <%- include ('../partials/gitnav') %>
         <div class="container-fluid" style="color: white; background-color:#24292E">
             <div class="container gitProfile" style="background-color: #24292E">
                 <div class="container padY60 padX0">
@@ -34,7 +34,7 @@
             <div class="container-fluid">
                 <p id="repoContents"></p>
             </div>
-            <% include ../partials/footer %>
+            <%- include ('../partials/footer') %>
         </div>
        
         <script>

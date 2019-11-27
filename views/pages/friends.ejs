@@ -3,10 +3,10 @@
 	<head>
 		<title>Friends</title>
 		<link rel="stylesheet" type="text/css" href="/css/page.css">
-			<% include ../partials/includes %>
+			<%- include ('../partials/includes') %>
 	</head>
 	<body>
-		<% include ../partials/lnav %>
+		<%- include ('../partials/lnav') %>
 		<div class="container-fluid softwareImg">
 			<div class="container softwareDiv">
 				<h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b><%= user.name %>'s Friends</b></h1>
@@ -21,7 +21,7 @@
                 <p id="listfollower"></p>
             </div>
         </div>
-            <% include ../partials/footer %>
+            <%- include ('../partials/footer') %>
             <script>
             $(document).ready(function() {
                 loadFollows()

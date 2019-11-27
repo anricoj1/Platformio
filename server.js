@@ -47,7 +47,6 @@ app.use(session({
 	resave: false,
 	cookie: {
 		secure: true,
-		domain: 'csc400-246406.appspot.com',
 		expires: false
 	}
 }));

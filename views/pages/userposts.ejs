@@ -7,10 +7,10 @@
                 height: 300px;
             }
         </style>
-        <% include ../partials/includes %>
+        <%- include ('../partials/includes') %>
     </head>
     <body>
-        <% include ../partials/darknav %>
+        <%- include ('../partials/darknav') %>
         <div class="container-fluid" style="color: white; background-color: #24292E">
             <div class="container platformProfile" style="background-color: #24292E">
                 <div class="container padY60 padX0">
@@ -28,7 +28,7 @@
                 <h2 id="usernameh1"></h2><br>
                 <p id="myposts"></p>
             </div>
-            <% include ../partials/footer %>
+            <%- include ('../partials/footer') %>
         </div>
         <script>
             $(document).ready(function() {

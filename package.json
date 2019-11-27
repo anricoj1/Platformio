@@ -1,22 +1,8 @@
 {
   "name": "platformio",
   "version": "1.0.0",
-  "description": "csc400 capstone seminar",
+  "description": "csc400",
   "main": "server.js",
-  "scripts": {
-    "test": "nodemon server",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/anricoj1/Platformio.git"
-  },
-  "author": "Jason Anrico",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/anricoj1/Platformio/issues"
-  },
-  "homepage": "https://github.com/anricoj1/Platformio#readme",
   "dependencies": {
     "alert-node": "^2.0.3",
     "bcrypt": "^3.0.7",
@@ -51,8 +37,19 @@
     "web-push": "^3.4.1",
     "youtube-node": "^1.3.3"
   },
-  "engines": {
-    "node": "^12.13.0",
-    "npm": "6.12.1"
-  }
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodemon server",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anricoj1/Platformio.git"
+  },
+  "author": "Jason",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anricoj1/Platformio/issues"
+  },
+  "homepage": "https://github.com/anricoj1/Platformio#readme"
 }
