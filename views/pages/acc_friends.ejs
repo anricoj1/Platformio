@@ -9,7 +9,7 @@
 		<%- include ('../partials/lnav') %>
 		<div class="container-fluid softwareImg">
 			<div class="container softwareDiv">
-				<h1 class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"><b><%= user.name %>'s Friends</b></h1>
+				<h1 id="username" class="leftTitle subTitle white" style="padding-top: 50px; padding-left: 0px"></h1>
 				<div class="row">
 					<div class="col-sm-6"></div>
                 </div>
@@ -26,8 +26,9 @@
             $(document).ready(function() {
                 var url = window.location.pathname;
                 var new_url = (url.substring(9, url.length));
-                loadFollows()
-                loadFollowing()
+                user();
+                loadFollows();
+                loadFollowing();
                 
                 function loadFollows() {
                     $.getJSON('/followers/' + new_url, function(data) {
@@ -37,6 +38,13 @@
                             data.followers.forEach(followerAsset)
                             followerCount(data)
                         }
+                    });
+                }
+
+                function user() {
+                    $.getJSON('/userAtt/' + new_url, function(data) {
+                        document.getElementById("username").innerHTML +=
+                        '<p>' + data.param[0].name + "'s Friends" + '</p>'
                     });
                 }
 
@@ -65,7 +73,7 @@
                 }
 
                 function followAsset(item, index) {
-                    $.getJSON('/userAtt/' + item.userID, function(asset) {
+                    $.getJSON('/userAtt/' + item.paramID, function(asset) {
                         var profile_url = "/profile/" + asset.param[0].id;
                         document.getElementById("listfollowing").innerHTML +=
                         '<div style="color: white" class="media">' +

@@ -131,6 +131,23 @@ exports.bioUrl = function(param) {
     });
 }
 
+// session bio limit 4
+exports.bioLimit = function(user) {
+    var res = getRes();
+    connection.query("SELECT * FROM Bio WHERE user_id = ? LIMIT 4",[user], function(err, rows) {
+        if (rows.length) {
+            res.json({
+                about : rows
+            });
+        } else {
+            res.json({
+                about : 0
+            });
+        }
+    });
+}
+
+
 // extended bio view (show all)
 exports.bioExtended = function(param) {
     var res = getRes();
@@ -275,6 +292,7 @@ exports.paramFollowing = function(param) {
     });
 }
 
+// all posts from this user
 exports.getPosts = function(param) {
     var res = getRes();
     connection.query("SELECT * FROM Posts WHERE user_id = ?",[param], function(err, rows) {
@@ -291,7 +309,7 @@ exports.getPosts = function(param) {
 }
 
 
-
+// limit one post (recent status)
 exports.limitOne = function(user) {
     var res = getRes();
     connection.query("SELECT * FROM Posts WHERE user_id = ? LIMIT 1",[user], function(err, rows) {
@@ -308,8 +326,7 @@ exports.limitOne = function(user) {
 }
 
 
-
-
+// all users on platformio
 exports.allUsers = function() {
     var res = getRes();
     connection.query("SELECT * FROM User", function(err, rows) {
@@ -319,7 +336,7 @@ exports.allUsers = function() {
     });
 }
 
-
+// add a post
 exports.addPost = function(user, body) {
     var res = getRes();
     var post_id = uuidv3();

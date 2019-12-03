@@ -30,7 +30,7 @@ module.exports = {
     'githubAuth' : {
       'clientID' : 'Iv1.a0f3bc54a1f0c9f8',
       'clientSecret' : 'd0894faf1b7a4bd9aa6f67db436b8c79b6321fea',
-      'callbackURL' : 'https://https://csc400-246406.appspot.com/auth/github/callback'
+      'callbackURL' : 'https://csc400-246406.appspot.com/auth/github/callback'
     },
     'youtubeAuth' : {
       'clientID' : '265306583113-gdfjuom2agj0jfcrqb95ouajdocum8j6.apps.googleusercontent.com',

@@ -32,13 +32,13 @@ module.exports = function(passport) {
   passport.serializeUser(function(user, done) {
     done(null, user.email);
   });
-  
+
   passport.deserializeUser(function(email, done) {
     connection.query("SELECT * FROM User WHERE email = ?",[email], function(err, rows) {
       done(err, rows[0]);
     });
   });
-  
+
   passport.use('local-signup', new LocalStrategy({
     email : 'email',
     fullname : 'fullname',
@@ -71,7 +71,7 @@ module.exports = function(passport) {
       }
     });
   }));
-  
+
   passport.use('local-login', new LocalStrategy({
     email : 'email',
     password : 'password',
@@ -90,11 +90,11 @@ module.exports = function(passport) {
       return done(null, rows[0]);
     });
   }));
-  
+
   passport.use(new GoogleStrategy({
     clientID : configAuth.googleAuth.clientID,
     clientSecret : configAuth.googleAuth.clientSecret,
-    callbackURL : "https://csc400-246406.appspot.com/auth/google/callback"
+    callbackURL : configAuth.googleAuth.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function() {
@@ -112,24 +112,25 @@ module.exports = function(passport) {
             name : profile.displayName,
             email : profile.emails[0].value,
             password : profile.password,
-            banner : random_item(back)
+            banner : random_item(back),
+            avi : 'avi.png'
           };
-          
-          var insertGoogle = "INSERT INTO User (id, token, name, email, password, banner) VALUES (?,?,?,?,?,?)";
-          connection.query(insertGoogle,[newUser.id,newUser.token,newUser.name,newUser.email,newUser.password,newUser.banner], function(err, rows) {
+
+          var insertGoogle = "INSERT INTO User (id, token, name, email, password, banner, avi) VALUES (?,?,?,?,?,?,?)";
+          connection.query(insertGoogle,[newUser.id,newUser.token,newUser.name,newUser.email,newUser.password,newUser.banner,newUser.avi], function(err, rows) {
             newUser.id = rows.insertId;
-            
+
             return done(null, newUser);
           });
         }
       });
     });
   }));
-  
+
   passport.use(new twitterStrategy({
     consumerKey: configAuth.twitterAuth.consumer_key,
     consumerSecret: configAuth.twitterAuth.consumer_secret,
-    callbackURL: "https://csc400-246406.appspot.com/auth/twitter/callback"
+    callbackURL: configAuth.twitterAuth.callbackURL
   },
   function(token, tokenSecret, profile, done) {
     process.nextTick(function() {
@@ -150,7 +151,7 @@ module.exports = function(passport) {
             'twitterID' : profile.id,
             'screen_name' : profile.username
           };
-            
+
           var insertTwitter = "INSERT INTO Twitter (user_id, twitterID, screen_name) VALUES(?,?,?)";
           connection.query(insertTwitter,[twitterUser.user_id,twitterUser.twitterID,twitterUser.screen_name], function(err, rows) {
             twitterUser.user_id = rows.insertId;
@@ -162,12 +163,12 @@ module.exports = function(passport) {
       });
     });
   }));
-  
-  
+
+
   passport.use(new twitchStrategy({
     clientID: configAuth.twitchAuth.clientID,
     clientSecret: configAuth.twitchAuth.clientSecret,
-    callbackURL: "https://csc400-246406.appspot.com/auth/twitch/callback",
+    callbackURL: configAuth.twitchAuth.redirectURL,
     scope: "user_read"
   },
   function(accessToken, refreshToken, profile, done) {
@@ -193,7 +194,7 @@ module.exports = function(passport) {
           var insertTwitch = "INSERT INTO Twitch (user_id, twitchID, display_name) VALUES(?,?,?)";
           connection.query(insertTwitch,[twitchUser.user_id, twitchUser.twitchID, twitchUser.display_name], function(err, rows) {
             twitchUser.user_id = rows.insertId;
-            
+
             alert("Twitch Account Is Now Linked!");
             res.redirect('/profile');
           });
@@ -205,7 +206,7 @@ module.exports = function(passport) {
   passport.use(new githubStrategy({
     clientID : configAuth.githubAuth.clientID,
     clientSecret : configAuth.githubAuth.clientSecret,
-    callbackURL : "https://csc400-246406.appspot.com/auth/github/callback"
+    callbackURL : configAuth.githubAuth.callbackURL
   },
   function(accessToken, refreshToken, profile, cb) {
     process.nextTick(function() {
@@ -259,5 +260,5 @@ module.exports = function(passport) {
       });
     });
   }));
-  
+
 };

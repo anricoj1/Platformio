@@ -10,7 +10,7 @@ function getRes() {
     return response;
 }
 
-
+// session github repositories must be async
 exports.sessionRepos = async function(user) {
     var res = getRes();
     connection.query("SELECT user_id, reposURL FROM Github WHERE user_id = ?",[user.id], function(err, rows) {
@@ -27,6 +27,7 @@ exports.sessionRepos = async function(user) {
     });
 }
 
+// parameter repositories must be async
 exports.paramRepos = async function(param) {
     var res = getRes();
     connection.query("SELECT user_id, reposURL FROM Github WHERE user_id = ?",[param], function(err, rows) {
@@ -43,6 +44,7 @@ exports.paramRepos = async function(param) {
     });
 }
 
+// repo events (any)
 exports.repoEvents = async function(user, repo) {
     var res = getRes();
     var url = "https://api.github.com/repos/" + user + "/" + repo + "/events";
@@ -52,7 +54,7 @@ exports.repoEvents = async function(user, repo) {
     .catch(err => console.log(err))
 }
 
-
+// user events (github any) pertains to session
 exports.userEvents = async function(param) {
     var res = getRes();
     connection.query("SELECT user_id, git_name FROM Github WHERE user_id = ?",[param], function(err, rows) {

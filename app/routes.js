@@ -44,10 +44,12 @@ module.exports = function(app, passport) {
       next()
   });
   
+  // index route 
   app.get('/', function(req, res) {
     res.render(rootPath + 'index.ejs', {user : req.user})
   });
   
+  // login methods render and post 
   app.get('/login', function(req, res) {
     res.render(userRoot + 'login/login.ejs', { message: req.flash('loginMessage'), user: req.user});
   });
@@ -58,9 +60,15 @@ module.exports = function(app, passport) {
     failureFlash: true
   }),
   function(req, res) {
-    return main.localLogin(req.body, req.session)
+    if (req.body.remember) {
+      req.session.cookie.maxAge = 1000 * 60 *3;
+    } else {
+      req.session.cookie.expires = false;
+    }
+    res.redirect('/');
   });
   
+  // signup render and post
   app.get('/signup', function(req, res) {
     res.render(userRoot + 'login/register.ejs', { message: req.flash('signupMessage'), user: req.user });
   });
@@ -71,16 +79,16 @@ module.exports = function(app, passport) {
     failureFlash: true
   }));
   
+  // account setup view
   app.get('/account_setup', isLoggedIn, function(req, res) {
     res.render(userRoot + 'profile/dash.ejs', {user : req.user});
   });
   
-  // adding bio
+  // adding bio render and post request
   app.get('/add_bio', isLoggedIn, function(req, res) {
     res.render(userRoot + 'profile/add_bio.ejs', {user : req.user})
   });
   
-
   app.post('/add_bio', isLoggedIn, function(req, res) {
     return main.addBio(req.user, req.body)
   });
@@ -103,6 +111,11 @@ module.exports = function(app, passport) {
   // url for session biographies (delete them here)
   app.get('/:id/bio', isLoggedIn, function(req, res) {
     res.render(userRoot + 'profile/bio.ejs', {user : req.user})
+  });
+
+  // url for session limit 4 bios
+  app.get('/bios', isLoggedIn, function(req, res) {
+    return main.bioLimit(req.user.id)
   });
 
   // delete a bio post
@@ -244,35 +257,42 @@ module.exports = function(app, passport) {
     return main.paramFollowers(req.params.id);
   });
 
+  // parameter following
   app.get('/following/:id', isLoggedIn, function(req,res) {
     return main.paramFollowing(req.params.id)
   });
 
+  // session following
   app.get('/following', isLoggedIn, function(req, res) {
     return main.sessionFollowing(req.user)
   });
 
+  // session followers
   app.get('/followers', isLoggedIn, function(req, res) {
     return main.sessionFollowers(req.user)
   });
 
+  // session "friends" view all followers and following
   app.get('/friends', isLoggedIn, function(req, res) {
     res.render('../views/pages/friends.ejs', {user : req.user})
   });
 
+  // parameter "friends" view all followers and following
   app.get('/friends/:id', isLoggedIn, function(req, res) {
     res.render('../views/pages/acc_friends.ejs', {user : req.user})
   });
 
+  // posts from this user id (all)
   app.get('/posts/:id', isLoggedIn, function(req, res) {
     return main.getPosts(req.params.id)
   });
 
+  // listing all users on platformio json
   app.get('/user_list', isLoggedIn, function(req, res) {
     return main.allUsers();
   });
 
-
+  // listing all users on platformio render
   app.get('/users_all', isLoggedIn, function(req, res) {
     res.render('../views/pages/users.ejs', {user : req.user})
   });
@@ -287,31 +307,37 @@ module.exports = function(app, passport) {
     return main.userNotification(req.user, req.body);
   });
 
+  // send a post 
   app.post('/sendStatus', isLoggedIn, function(req, res) {
     return main.addPost(req.user, req.body);
   });
 
+  // delete a post must be owner
   app.post('/delete_post/:id', isLoggedIn, function(req, res, next) {
     return main.deletePost(req.user, req.params.id, next)
   });
 
+  // session user timeline, following posts
   app.get('/timeline', isLoggedIn, function(req, res) {
     res.render('../views/pages/feed.ejs', {user : req.user})
   });
 
-
+  // most recent status of this user
   app.get('/recentStatus/:id', isLoggedIn, function(req, res) {
     return main.limitOne(req.params.id)
   });
 
+  // view for this users posts
   app.get('/userposts/:id', isLoggedIn, function(req, res) {
     res.render('../views/pages/userposts.ejs', {user : req.user})
   });
 
+  // my posts refers to all session posts (render)
   app.get('/myposts', isLoggedIn, function(req, res) {
     res.render('../views/pages/myposts.ejs', {user : req.user})
   });
 
+  // logout
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
@@ -334,10 +360,12 @@ module.exports = function(app, passport) {
     });
   });
 
+  // documentation (brief view)
   app.get('/documentation', function(req, res) {
     res.render('../views/pages/docs.ejs', {user : req.user})
   });
 
+  // user manual route 
   app.get('/usermanual', function(req, res) {
     res.render('../views/pages/manual.ejs', {user : req.user})
   });
@@ -350,8 +378,8 @@ module.exports = function(app, passport) {
 };
 
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.redirect('/');
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/')
 }

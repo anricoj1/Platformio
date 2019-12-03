@@ -42,7 +42,7 @@ $(document).ready(function() {
   }
 
   function AboutMe(user_id) {
-    $.getJSON('/bios/' + user_id, function(bios) {
+    $.getJSON('/bios', function(bios) {
       var items = bios.about;
       if (items == 0) {
         noBio();
