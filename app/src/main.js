@@ -56,7 +56,7 @@ exports.findProfile = function(session, paramID) {
 // list parameter user attributes
 exports.paramAttributes = function(param) {
     var res = getRes();
-    connection.query("SELECT * FROM User WHERE id = ?",[param], function(err, rows) {
+    connection.query("SELECT id, email, name, banner, avi FROM User WHERE id = ?",[param], function(err, rows) {
         if (rows.length) {
             res.json({
                 param : rows
